@@ -10,11 +10,16 @@ public final class HTTPMethod {
     public static final String GET = "entity.get";
     public static final String POST = "entity.post";
 
-    public static final List<String> HTTP_METHODS = Arrays.asList(GET, POST);
+    private static final List<String> HTTP_METHODS = Arrays.asList(GET, POST);
 
     private HTTPMethod()
             throws ClassInstantiationForbiddenException
     {
         throw new ClassInstantiationForbiddenException(HTTPMethod.class);
+    }
+
+    public static List<String> getHttpMethods()
+    {
+        return HTTP_METHODS;
     }
 }

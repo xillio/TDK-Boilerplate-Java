@@ -1,10 +1,10 @@
 package nl.xillio.boilerplate.controllers;
 
 import lombok.RequiredArgsConstructor;
+import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
 import nl.xillio.boilerplate.services.RequestBodyValidationService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -14,35 +14,35 @@ public class BoilerplateController {
     private final RequestBodyValidationService validator;
 
     @PostMapping("/deliver-content-metadata/{contentId}")
-    public Map<String, Object> deliverContentMetadata(
+    public BoilerplateRequestDto deliverContentMetadata(
             @PathVariable("contentId") UUID contentId,
-            @RequestBody Map<String, Object> requestBody)
+            @RequestBody BoilerplateRequestDto requestDto)
     {
-        if (validator.isValid(requestBody)) {
-            return null
+        if (validator.isNotValid(requestDto)) {
+            return null;
         }
 
         return null;
     }
 
     @GetMapping("/download-content/{contentId}")
-    public Map<String, Object> downloadBinaryContent(@PathVariable("contentId") UUID contentId)
+    public BoilerplateRequestDto downloadBinaryContent(@PathVariable("contentId") UUID contentId)
     {
         return null;
     }
 
     @PostMapping("/upload-content/{contentId}")
-    public Map<String, Object> uploadBinaryContent(
+    public BoilerplateRequestDto uploadBinaryContent(
             @PathVariable("contentId") UUID contentId,
-            @RequestBody Map<String, Object> requestBody)
+            @RequestBody BoilerplateRequestDto requestDto)
     {
         return null;
     }
 
     @PostMapping("upload-translation/{translationId}")
-    public Map<String, Object> uploadTranslation(
+    public BoilerplateRequestDto uploadTranslation(
             @PathVariable("translationId") UUID translationId,
-            @RequestBody Map<String, Object> requestBody)
+            @RequestBody BoilerplateRequestDto requestDto)
     {
         return null;
     }

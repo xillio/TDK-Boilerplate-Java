@@ -2,19 +2,19 @@ package nl.xillio.boilerplate.services;
 
 import nl.xillio.boilerplate.http.HTTPMethod;
 import nl.xillio.boilerplate.http.Version;
+import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Service
 public class RequestBodyValidationService {
 
-    public boolean isValid(Map<String, Object> requestBody)
+    public boolean isNotValid(BoilerplateRequestDto requestDto)
     {
-        return requestBody.get("id") != null
-               && requestBody.get("jsonrpc") == Version.V2_0
-               && HTTPMethod.HTTP_METHODS.contains((String) requestBody.get("method"))
-               && requestBody.get("params").getClass() == LinkedHashMap.class;
+        return requestDto.id() == null
+               || !Version.V2_0.equals(requestDto.jsonrpc())
+               || !HTTPMethod.getHttpMethods().contains(requestDto.method())
+               || requestDto.params().getClass() != LinkedHashMap.class;
     }
 }
