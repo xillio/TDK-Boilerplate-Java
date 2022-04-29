@@ -2,48 +2,50 @@ package nl.xillio.boilerplate.controllers;
 
 import lombok.RequiredArgsConstructor;
 import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
-import nl.xillio.boilerplate.services.RequestBodyValidationService;
+import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
+import nl.xillio.boilerplate.services.ContentService;
+import nl.xillio.boilerplate.services.MetadataService;
+import nl.xillio.boilerplate.services.TranslationService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
 @RestController
+@RequestMapping(value = {})
 @RequiredArgsConstructor
 public class BoilerplateController {
 
-    private final RequestBodyValidationService validator;
+    private final MetadataService metadataService;
+    private final ContentService contentService;
+    private final TranslationService translationService;
 
     @PostMapping("/deliver-content-metadata/{contentId}")
-    public BoilerplateRequestDto deliverContentMetadata(
+    public BoilerplateResponseDto deliverContentMetadata(
             @PathVariable("contentId") UUID contentId,
             @RequestBody BoilerplateRequestDto requestDto)
     {
-        if (validator.isNotValid(requestDto)) {
-            return null;
-        }
-
-        return null;
+        return metadataService.deliver(contentId, requestDto);
     }
 
     @GetMapping("/download-content/{contentId}")
-    public BoilerplateRequestDto downloadBinaryContent(@PathVariable("contentId") UUID contentId)
+    public BoilerplateResponseDto downloadBinaryContent(@PathVariable("contentId") UUID contentId)
     {
-        return null;
+        return contentService.download(contentId);
     }
 
     @PostMapping("/upload-content/{contentId}")
-    public BoilerplateRequestDto uploadBinaryContent(
+    public BoilerplateResponseDto uploadBinaryContent(
             @PathVariable("contentId") UUID contentId,
             @RequestBody BoilerplateRequestDto requestDto)
     {
-        return null;
+        return contentService.upload(contentId, requestDto);
     }
 
     @PostMapping("upload-translation/{translationId}")
-    public BoilerplateRequestDto uploadTranslation(
+    public BoilerplateResponseDto uploadTranslation(
             @PathVariable("translationId") UUID translationId,
             @RequestBody BoilerplateRequestDto requestDto)
     {
-        return null;
+        return translationService.upload(translationId, requestDto);
     }
 }
