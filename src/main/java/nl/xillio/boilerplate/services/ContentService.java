@@ -12,7 +12,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ContentService {
 
-    private final RequestBodyValidationService validator;
     private final BoilerplateResponseDtoFactory responseFactory;
 
     public BoilerplateResponseDto download(UUID contentId)

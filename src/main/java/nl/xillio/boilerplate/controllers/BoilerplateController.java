@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = {})
+@RequestMapping(value = {})// todo add endpoint name
 @RequiredArgsConstructor
 public class BoilerplateController {
 

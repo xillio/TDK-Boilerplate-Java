@@ -8,13 +8,11 @@ import nl.xillio.boilerplate.http.response.ErrorCodes;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class MetadataService {
 
-    private final RequestBodyValidationService validator;
     private final BoilerplateResponseDtoFactory responseFactory;
 
     public BoilerplateResponseDto deliver(BoilerplateRequestDto requestDto)
