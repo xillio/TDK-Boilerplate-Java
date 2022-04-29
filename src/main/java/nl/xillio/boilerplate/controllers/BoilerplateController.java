@@ -39,7 +39,7 @@ public class BoilerplateController {
         return contentService.download(contentId);
     }
 
-    @PostMapping("/upload-content/{contentId}")
+    @PostMapping("/upload-content")
     public BoilerplateResponseDto uploadBinaryContent(@RequestBody BoilerplateRequestDto requestDto)
     {
         return validator.isNotValid(requestDto)
