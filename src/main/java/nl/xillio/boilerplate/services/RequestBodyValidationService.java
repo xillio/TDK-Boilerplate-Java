@@ -14,7 +14,7 @@ public class RequestBodyValidationService {
     {
         return requestDto.id() == null
                || !Version.V2_0.equals(requestDto.jsonrpc())
-               || !HTTPMethod.getHttpMethods().contains(requestDto.method())
+               || !HTTPMethod.HTTP_METHODS.contains(requestDto.method())
                || requestDto.params().getClass() != LinkedHashMap.class;
     }
 }
