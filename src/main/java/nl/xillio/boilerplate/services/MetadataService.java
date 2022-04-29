@@ -17,26 +17,16 @@ public class MetadataService {
     private final RequestBodyValidationService validator;
     private final BoilerplateResponseDtoFactory responseFactory;
 
-    public BoilerplateResponseDto deliver(
-            UUID contentId,
-            BoilerplateRequestDto requestDto)
+    public BoilerplateResponseDto deliver(BoilerplateRequestDto requestDto)
     {
-        if (validator.isNotValid(requestDto)) {
-            return responseFactory.createErrorResponse(
-                    contentId,
-                    ErrorCodes.INVALID_CONFIGURATION,
-                    "Invalid request body",
-                    Optional.empty());
-        }
-
         try {
             // Upload the metadata
 
             return responseFactory.createSuccessResponse(
-                    contentId);
+                    requestDto.id());
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
-                    contentId,
+                    requestDto.id(),
                     ErrorCodes.CONNECTOR_OPERATION_FAILED,
                     "Failed to deliver metadata",
                     Optional.ofNullable(e.getMessage()));

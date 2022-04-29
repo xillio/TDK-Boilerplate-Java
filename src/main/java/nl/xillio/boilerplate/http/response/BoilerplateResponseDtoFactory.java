@@ -39,4 +39,17 @@ public class BoilerplateResponseDtoFactory {
                 )
         );
     }
+
+    public BoilerplateResponseDto invalidConfigurationResponse(UUID id)
+    {
+        return new BoilerplateResponseDto(
+                id,
+                Version.V2_0,
+                new Error(
+                        ErrorCodes.INVALID_CONFIGURATION,
+                        "Invalid request body",
+                        Optional.empty()
+                )
+        );
+    }
 }

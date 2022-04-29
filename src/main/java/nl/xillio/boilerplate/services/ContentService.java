@@ -26,10 +26,9 @@ public class ContentService {
         }
     }
 
-    public BoilerplateResponseDto upload(
-            UUID contentId,
-            BoilerplateRequestDto requestDto)
+    public BoilerplateResponseDto upload(BoilerplateRequestDto requestDto)
     {
+
         try {
             return null;
         } catch (Exception e) {
