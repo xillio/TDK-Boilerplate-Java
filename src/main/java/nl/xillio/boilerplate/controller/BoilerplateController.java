@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
-import nl.xillio.boilerplate.http.request.BoilerplateRequestParser;
+import nl.xillio.boilerplate.http.request.BoilerplateRequestExecuter;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
 import nl.xillio.boilerplate.service.RequestBodyValidationService;
@@ -21,7 +21,7 @@ public class BoilerplateController {
 
     private final RequestBodyValidationService validator;
     private final BoilerplateResponseDtoFactory responseFactory;
-    private final BoilerplateRequestParser requestParser;
+    private final BoilerplateRequestExecuter requestExecutor;
 
     @PostMapping
     @ApiOperation(value = "")
@@ -32,7 +32,7 @@ public class BoilerplateController {
     public BoilerplateResponseDto handleJsonRpcRequest(@RequestBody BoilerplateRequestDto requestDto) //todo rename
     {
         return validator.isValid(requestDto)
-               ? requestParser.executeRequest(requestDto)
+               ? requestExecutor.execute(requestDto)
                : responseFactory.getInvalidConfigurationResponse(requestDto.id());
     }
 }

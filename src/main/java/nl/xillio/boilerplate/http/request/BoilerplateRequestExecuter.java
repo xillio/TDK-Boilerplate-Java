@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class BoilerplateRequestParser {
+public class BoilerplateRequestExecuter {
 
     private final BoilerplateResponseDtoFactory responseFactory;
 
@@ -19,7 +19,7 @@ public class BoilerplateRequestParser {
     private final ContentService contentService;
     private final TranslationService translationService;
 
-    public BoilerplateResponseDto executeRequest(BoilerplateRequestDto requestDto)
+    public BoilerplateResponseDto execute(BoilerplateRequestDto requestDto) //todo consider to refactor
     {
         return switch (requestDto.method()) {
             case JsonRpcMethod.ENTITY_GET -> contentService.parseProjectionScopes(requestDto).getReferences();
