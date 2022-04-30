@@ -5,6 +5,7 @@ import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
 import nl.xillio.boilerplate.http.request.scope.PathChildrenEntity;
 import nl.xillio.boilerplate.http.request.scope.PathChildrenReference;
 import nl.xillio.boilerplate.http.request.scope.ProjectionScope;
+import nl.xillio.boilerplate.http.request.scope.SupportedProjectScopes;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
 import org.springframework.stereotype.Service;
@@ -40,8 +41,8 @@ public class ContentService {
         }
 
         return switch (projectionScope[0]) {
-            case "path_children_reference" -> new PathChildrenReference();
-            case "path_children_entity" -> new PathChildrenEntity();
+            case SupportedProjectScopes.PATH_CHILDREN_REFERENCE -> new PathChildrenReference();
+            case SupportedProjectScopes.PATH_CHILDREN_ENTITY -> new PathChildrenEntity();
             default -> throw new IllegalArgumentException("Unknown projection scope"); //todo rewrite
         };
     }
