@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class BoilerplateRequestExecuter {
+public class BoilerplateRequestExecutor {
 
     private final BoilerplateResponseDtoFactory responseFactory;
 

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
-import nl.xillio.boilerplate.http.request.BoilerplateRequestExecuter;
+import nl.xillio.boilerplate.http.request.BoilerplateRequestExecutor;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
 import nl.xillio.boilerplate.service.RequestBodyValidationService;
@@ -21,7 +21,7 @@ public class BoilerplateController {
 
     private final RequestBodyValidationService validator;
     private final BoilerplateResponseDtoFactory responseFactory;
-    private final BoilerplateRequestExecuter requestExecutor;
+    private final BoilerplateRequestExecutor requestExecutor;
 
     @PostMapping
     @ApiOperation(value = "")
