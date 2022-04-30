@@ -27,7 +27,7 @@ public class ContentService {
     {
         try {
             var content = contentRepository.getOneById(requestDto.params().xdip());
-            return responseFactory.createSuccessResponse(requestDto, content);
+            return responseFactory.createSuccessResponse(requestDto.id(), content);
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
                     requestDto.id(),

@@ -23,7 +23,7 @@ public class MetadataService {
             var childrenReference = metadataRepository.getChildrenReference(
                     requestDto.params().xdip()
             );
-            return responseFactory.createSuccessResponse(requestDto, childrenReference);
+            return responseFactory.createSuccessResponse(requestDto.id(), childrenReference);
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
                     requestDto.id(),
@@ -37,7 +37,7 @@ public class MetadataService {
     {
         try {
             var childrenEntity = metadataRepository.getChildrenEntity(requestDto.params().xdip());
-            return responseFactory.createSuccessResponse(requestDto, childrenEntity);
+            return responseFactory.createSuccessResponse(requestDto.id(), childrenEntity);
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
                     requestDto.id(),

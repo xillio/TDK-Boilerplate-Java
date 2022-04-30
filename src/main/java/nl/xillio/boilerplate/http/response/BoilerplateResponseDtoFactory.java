@@ -1,7 +1,6 @@
 package nl.xillio.boilerplate.http.response;
 
 import nl.xillio.boilerplate.http.Version;
-import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
 import nl.xillio.boilerplate.http.response.components.Error;
 import nl.xillio.boilerplate.http.response.components.Result;
 import nl.xillio.boilerplate.model.ResultBodyComponent;
@@ -31,10 +30,12 @@ public class BoilerplateResponseDtoFactory {
         );
     }
 
-    public BoilerplateResponseDto createSuccessResponse(BoilerplateRequestDto requestDto, ResultBodyComponent result)
+    public BoilerplateResponseDto createSuccessResponse(
+            UUID id,
+            ResultBodyComponent result)
     {
         return new BoilerplateResponseDto(
-                requestDto.id(),
+                id,
                 Version.V2_0,
                 new Result(
                         Map.of("result", result)
