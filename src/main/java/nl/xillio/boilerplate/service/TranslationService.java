@@ -1,4 +1,4 @@
-package nl.xillio.boilerplate.services;
+package nl.xillio.boilerplate.service;
 
 import lombok.RequiredArgsConstructor;
 import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;

@@ -1,7 +1,8 @@
-package nl.xillio.boilerplate.services;
+package nl.xillio.boilerplate.service;
 
 import lombok.RequiredArgsConstructor;
 import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
+import nl.xillio.boilerplate.http.request.scope.ProjectionScope;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
 import org.springframework.stereotype.Service;
@@ -14,24 +15,20 @@ public class ContentService {
 
     private final BoilerplateResponseDtoFactory responseFactory;
 
-    public BoilerplateResponseDto download(UUID contentId)
+    public BoilerplateResponseDto downloadBinaryContent(UUID contentId)
     {
         try {
-            // download content
-            return responseFactory.createSuccessResponse(contentId);
+            // downloadBinaryContent content
+            //return responseFactory.createSuccessResponse(contentId);
+            return null;
         } catch (Exception e) {
 
             return null;
         }
     }
 
-    public BoilerplateResponseDto upload(BoilerplateRequestDto requestDto)
+    public ProjectionScope parseProjectionScopes(BoilerplateRequestDto requestDto)
     {
-
-        try {
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
+        return null;
     }
 }

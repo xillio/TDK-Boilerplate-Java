@@ -1,6 +1,7 @@
 package nl.xillio.boilerplate.http.response;
 
 import nl.xillio.boilerplate.http.Version;
+import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
 import nl.xillio.boilerplate.http.response.components.Error;
 import nl.xillio.boilerplate.http.response.components.Result;
 import org.springframework.stereotype.Component;
@@ -29,10 +30,10 @@ public class BoilerplateResponseDtoFactory {
         );
     }
 
-    public BoilerplateResponseDto createSuccessResponse(UUID contentId)
+    public BoilerplateResponseDto createSuccessResponse(BoilerplateRequestDto requestDto)
     {
         return new BoilerplateResponseDto(
-                contentId,
+                requestDto.id(),
                 Version.V2_0,
                 new Result(
                         new HashMap<>() //todo fix
@@ -40,7 +41,7 @@ public class BoilerplateResponseDtoFactory {
         );
     }
 
-    public BoilerplateResponseDto invalidConfigurationResponse(UUID id)
+    public BoilerplateResponseDto getInvalidConfigurationResponse(UUID id)
     {
         return new BoilerplateResponseDto(
                 id,
