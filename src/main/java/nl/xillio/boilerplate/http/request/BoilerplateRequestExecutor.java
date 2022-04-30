@@ -22,10 +22,13 @@ public class BoilerplateRequestExecutor {
     public BoilerplateResponseDto execute(BoilerplateRequestDto requestDto) //todo consider to refactor
     {
         return switch (requestDto.method()) {
-            case JsonRpcMethod.ENTITY_GET -> contentService.parseProjectionScopes(requestDto).getReferences();
+            case JsonRpcMethod.ENTITY_GET -> contentService.parseProjectionScopes(requestDto)
+                                                           .getReferences(
+                                                                   metadataService,
+                                                                   requestDto);
+
             case JsonRpcMethod.ENTITY_GET_BINARY -> contentService.downloadBinaryContent(requestDto);
             case JsonRpcMethod.ENTITY_CREATE -> translationService.upload(requestDto);
-            case JsonRpcMethod.METADATA_DELIVER -> metadataService.deliver(requestDto);
             default -> responseFactory.getInvalidConfigurationResponse(requestDto.id());
         };
     }
