@@ -1,17 +1,13 @@
 package nl.xillio.boilerplate.model;
 
 import lombok.Getter;
+import nl.xillio.boilerplate.model.datatypes.XDIP;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.io.Serializable;
 import java.net.URL;
 
-@Entity
 @Getter
-public class Metadata implements Serializable {
+public class Metadata {
 
-    @Id
     private URL id;
     private XDIP xdip;
     private String kind;
