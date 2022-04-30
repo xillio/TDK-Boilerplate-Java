@@ -26,7 +26,7 @@ public class ContentService {
     public BoilerplateResponseDto downloadBinaryContent(BoilerplateRequestDto requestDto)
     {
         try {
-            var content = contentRepository.getOneById(requestDto.params().xdip());
+            var content = contentRepository.getOneByXdip(requestDto.params().xdip());
             return responseFactory.createSuccessResponse(requestDto.id(), content);
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
