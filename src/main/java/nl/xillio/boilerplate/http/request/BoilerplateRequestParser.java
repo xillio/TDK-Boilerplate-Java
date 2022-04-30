@@ -3,6 +3,7 @@ package nl.xillio.boilerplate.http.request;
 import lombok.RequiredArgsConstructor;
 import nl.xillio.boilerplate.http.JsonRpcMethod;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
+import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
 import nl.xillio.boilerplate.service.ContentService;
 import nl.xillio.boilerplate.service.MetadataService;
 import nl.xillio.boilerplate.service.TranslationService;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class BoilerplateRequestParser {
+
+    private final BoilerplateResponseDtoFactory responseFactory;
 
     private final MetadataService metadataService;
     private final ContentService contentService;
@@ -23,6 +26,7 @@ public class BoilerplateRequestParser {
             case JsonRpcMethod.ENTITY_GET_BINARY -> contentService.downloadBinaryContent(requestDto.id());
             case JsonRpcMethod.ENTITY_CREATE -> translationService.upload(requestDto);
             case JsonRpcMethod.METADATA_DELIVER -> metadataService.deliver(requestDto);
+            default -> responseFactory.getInvalidConfigurationResponse(requestDto.id());
         };
     }
 }

@@ -1,7 +1,6 @@
 package nl.xillio.boilerplate.model;
 
 import lombok.Getter;
-import nl.xillio.boilerplate.model.datatypes.XDIP;
 
 import java.net.URL;
 
@@ -9,14 +8,14 @@ import java.net.URL;
 public class Metadata {
 
     private URL id;
-    private XDIP xdip;
+    private String xdip;
     private String kind;
     private Object original;
     private Object modified;
 
     private Metadata(
             URL id,
-            XDIP xdip,
+            String xdip,
             String kind,
             Object original,
             Object modified)

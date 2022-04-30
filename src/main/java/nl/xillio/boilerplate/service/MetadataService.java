@@ -5,7 +5,6 @@ import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
 import nl.xillio.boilerplate.http.response.ErrorCodes;
-import nl.xillio.boilerplate.repository.MetadataRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,13 +14,11 @@ import java.util.Optional;
 public class MetadataService {
 
     private final BoilerplateResponseDtoFactory responseFactory;
-    private final MetadataRepository metadataRepository;
 
     public BoilerplateResponseDto deliver(BoilerplateRequestDto requestDto)
     {
         try {
             // Upload the metadata
-            metadataRepository.upload(requestDto);
             return responseFactory.createSuccessResponse(
                     requestDto);
         } catch (Exception e) {
