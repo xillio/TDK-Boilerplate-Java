@@ -29,7 +29,7 @@ public class BoilerplateController {
             @ApiResponse(code = 200, message = ""), //todo rewrite
             @ApiResponse(code = 400, message = "") //todo clarify return code
     })
-    public BoilerplateResponseDto doStuff(@RequestBody BoilerplateRequestDto requestDto) //todo rename
+    public BoilerplateResponseDto handleJsonRpcRequest(@RequestBody BoilerplateRequestDto requestDto) //todo rename
     {
         return validator.isValid(requestDto)
                ? requestParser.executeRequest(requestDto)
