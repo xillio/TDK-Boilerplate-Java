@@ -7,8 +7,11 @@ import nl.xillio.boilerplate.http.request.scope.PathChildrenReference;
 import nl.xillio.boilerplate.http.request.scope.ProjectionScope;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
+import nl.xillio.boilerplate.http.response.ErrorCodes;
 import nl.xillio.boilerplate.repository.ContentRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static nl.xillio.boilerplate.http.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
 import static nl.xillio.boilerplate.http.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
@@ -23,12 +26,14 @@ public class ContentService {
     public BoilerplateResponseDto downloadBinaryContent(BoilerplateRequestDto requestDto)
     {
         try {
-            // downloadBinaryContent content
             var content = contentRepository.getOneById(requestDto.params().xdip());
             return responseFactory.createSuccessResponse(requestDto, content);
         } catch (Exception e) {
-
-            return null;
+            return responseFactory.createErrorResponse(
+                    requestDto.id(),
+                    ErrorCodes.CONNECTOR_OPERATION_FAILED,
+                    "Something went wrond during content download",
+                    Optional.empty());
         }
     }
 
