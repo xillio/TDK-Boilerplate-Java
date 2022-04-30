@@ -4,9 +4,10 @@ import nl.xillio.boilerplate.http.Version;
 import nl.xillio.boilerplate.http.request.BoilerplateRequestDto;
 import nl.xillio.boilerplate.http.response.components.Error;
 import nl.xillio.boilerplate.http.response.components.Result;
+import nl.xillio.boilerplate.model.ResultBodyComponent;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,13 +31,13 @@ public class BoilerplateResponseDtoFactory {
         );
     }
 
-    public BoilerplateResponseDto createSuccessResponse(BoilerplateRequestDto requestDto)
+    public BoilerplateResponseDto createSuccessResponse(BoilerplateRequestDto requestDto, ResultBodyComponent result)
     {
         return new BoilerplateResponseDto(
                 requestDto.id(),
                 Version.V2_0,
                 new Result(
-                        new HashMap<>() //todo fix
+                        Map.of("result", result)
                 )
         );
     }

@@ -5,10 +5,10 @@ import lombok.Getter;
 import java.net.URL;
 
 @Getter
-public class Metadata {
+public class Metadata implements ResultBodyComponent {
 
     private URL id;
-    private String xdip;
+    private String xdip; // todo change datatype to XDIP
     private String kind;
     private Object original;
     private Object modified;

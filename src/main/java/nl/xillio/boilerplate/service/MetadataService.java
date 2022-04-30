@@ -19,8 +19,8 @@ public class MetadataService {
     {
         try {
             // Upload the metadata
-            return responseFactory.createSuccessResponse(
-                    requestDto);
+            //return responseFactory.createSuccessResponse();
+            return null;
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
                     requestDto.id(),

@@ -23,7 +23,7 @@ public class BoilerplateRequestExecutor {
     {
         return switch (requestDto.method()) {
             case JsonRpcMethod.ENTITY_GET -> contentService.parseProjectionScopes(requestDto).getReferences();
-            case JsonRpcMethod.ENTITY_GET_BINARY -> contentService.downloadBinaryContent(requestDto.id());
+            case JsonRpcMethod.ENTITY_GET_BINARY -> contentService.downloadBinaryContent(requestDto);
             case JsonRpcMethod.ENTITY_CREATE -> translationService.upload(requestDto);
             case JsonRpcMethod.METADATA_DELIVER -> metadataService.deliver(requestDto);
             default -> responseFactory.getInvalidConfigurationResponse(requestDto.id());
