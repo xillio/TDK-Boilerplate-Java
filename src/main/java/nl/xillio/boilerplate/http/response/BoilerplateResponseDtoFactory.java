@@ -1,6 +1,6 @@
 package nl.xillio.boilerplate.http.response;
 
-import nl.xillio.boilerplate.http.Version;
+import nl.xillio.boilerplate.http.JsonRpcProtocolVersion;
 import nl.xillio.boilerplate.http.response.components.Error;
 import nl.xillio.boilerplate.http.response.components.Result;
 import nl.xillio.boilerplate.model.ResultBodyComponent;
@@ -21,7 +21,7 @@ public class BoilerplateResponseDtoFactory {
     {
         return new BoilerplateResponseDto(
                 contentId,
-                Version.V2_0,
+                JsonRpcProtocolVersion.V2_0,
                 new Error(
                         errorCode,
                         message,
@@ -36,7 +36,7 @@ public class BoilerplateResponseDtoFactory {
     {
         return new BoilerplateResponseDto(
                 id,
-                Version.V2_0,
+                JsonRpcProtocolVersion.V2_0,
                 new Result(
                         Map.of("result", result)
                 )
@@ -47,7 +47,7 @@ public class BoilerplateResponseDtoFactory {
     {
         return new BoilerplateResponseDto(
                 id,
-                Version.V2_0,
+                JsonRpcProtocolVersion.V2_0,
                 new Error(
                         ErrorCodes.INVALID_CONFIGURATION,
                         "Invalid request body",

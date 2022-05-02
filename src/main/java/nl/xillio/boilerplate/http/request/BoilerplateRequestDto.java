@@ -1,5 +1,6 @@
 package nl.xillio.boilerplate.http.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 
@@ -12,6 +13,7 @@ public class BoilerplateRequestDto extends BoilerplateRequestBody {
 
     private final Map<String, String> params;
 
+    @JsonCreator
     public BoilerplateRequestDto(
             String id,
             String jsonrpc,
@@ -23,6 +25,7 @@ public class BoilerplateRequestDto extends BoilerplateRequestBody {
     }
 
     @SuppressWarnings("unchecked")
+    @JsonCreator
     public BoilerplateRequestDto(Map<String, Object> requestBody)
     {
         super(
