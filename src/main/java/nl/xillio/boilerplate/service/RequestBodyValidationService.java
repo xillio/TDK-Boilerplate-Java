@@ -13,6 +13,6 @@ public class RequestBodyValidationService {
         return requestDto.id() != null
                && Version.V2_0.equals(requestDto.jsonrpc())
                && JsonRpcMethod.METHODS.contains(requestDto.method())
-               && requestDto.params() != null;
+               && requestDto.paramsDto() != null;
     }
 }

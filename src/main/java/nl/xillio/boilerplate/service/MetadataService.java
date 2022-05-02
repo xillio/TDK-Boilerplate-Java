@@ -14,14 +14,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MetadataService {
 
-    private final BoilerplateResponseDtoFactory responseFactory;
     private final MetadataRepository metadataRepository;
+    private final BoilerplateResponseDtoFactory responseFactory;
 
     public BoilerplateResponseDto deliverMetadataChildrenReference(BoilerplateRequestDto requestDto)
     {
         try {
             var childrenReference = metadataRepository.getChildrenReference(
-                    requestDto.params().xdip()
+                    requestDto.paramsDto().xdip()
             );
             return responseFactory.createSuccessResponse(requestDto.id(), childrenReference);
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class MetadataService {
     public BoilerplateResponseDto deliverMetadataChildrenEntity(BoilerplateRequestDto requestDto)
     {
         try {
-            var childrenEntity = metadataRepository.getChildrenEntity(requestDto.params().xdip());
+            var childrenEntity = metadataRepository.getChildrenEntity(requestDto.paramsDto().xdip());
             return responseFactory.createSuccessResponse(requestDto.id(), childrenEntity);
         } catch (Exception e) {
             return responseFactory.createErrorResponse(

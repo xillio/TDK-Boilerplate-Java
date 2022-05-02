@@ -26,8 +26,8 @@ public class ContentService {
     public BoilerplateResponseDto downloadBinaryContent(BoilerplateRequestDto requestDto)
     {
         try {
-            var content = contentRepository.getOneByXdip(requestDto.params().xdip());
-            return responseFactory.createSuccessResponse(requestDto.id(), content);
+            var content = contentRepository.getOneByXdip(requestDto.paramsDto().xdip());
+            return responseFactory.createSuccessResponse(requestDto.id(), );
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
                     requestDto.id(),
@@ -39,8 +39,8 @@ public class ContentService {
 
     public ProjectionScope parseProjectionScopes(BoilerplateRequestDto requestDto)
     {
-        var projectionScope = requestDto.params()
-                                        .requestParameters()
+        var projectionScope = requestDto.paramsDto()
+                                        .requestParametersDto()
                                         .projectionScopes();
 
         if (projectionScope.length != 1) {

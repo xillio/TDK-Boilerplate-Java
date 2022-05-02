@@ -1,9 +1,9 @@
-package nl.xillio.boilerplate.model.datatypes;
+package nl.xillio.boilerplate.model.dtos.datatype;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-public record RequestParameters(
+public record RequestParametersDto(
         String[] projectionScopes,
         String[] projectionIncludes,
         String[] projectionExcludes,
@@ -19,7 +19,7 @@ public record RequestParameters(
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final RequestParameters that = (RequestParameters) o;
+        final RequestParametersDto that = (RequestParametersDto) o;
         return Arrays.equals(
                 projectionScopes,
                 that.projectionScopes) && Arrays.equals(
