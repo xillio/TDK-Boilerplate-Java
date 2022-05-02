@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+import java.util.UUID;
+
+import static nl.xillio.boilerplate.http.request.fields.MandatoryRequestBodyFields.ID;
+
 @RestController
 @RequestMapping(value = {"/test"})// todo add endpoint name
 @RequiredArgsConstructor
@@ -29,10 +34,13 @@ public class BoilerplateController {
             @ApiResponse(code = 200, message = ""), //todo rewrite
             @ApiResponse(code = 400, message = "") //todo clarify return code
     })
-    public BoilerplateResponseDto handleJsonRpcRequest(@RequestBody BoilerplateRequestDto requestDto)
+    public BoilerplateResponseDto handleJsonRpcRequest(@RequestBody Map<String, Object> requestBody)
     {
-        return validator.isValid(requestDto)
-               ? requestExecutor.execute(requestDto)
-               : responseFactory.getInvalidConfigurationResponse(requestDto.id());
+        if (!validator.hasBasicAttributes(requestBody)) {
+            responseFactory.getInvalidConfigurationResponse((UUID) requestBody.get(ID));
+        }
+
+        var boilerplateRequestDto = new BoilerplateRequestDto(requestBody);
+        return requestExecutor.execute(boilerplateRequestDto);
     }
 }

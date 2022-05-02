@@ -8,10 +8,10 @@ import nl.xillio.boilerplate.http.request.scope.ProjectionScope;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDto;
 import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
 import nl.xillio.boilerplate.http.response.ErrorCodes;
-import nl.xillio.boilerplate.repository.ContentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static nl.xillio.boilerplate.http.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
 import static nl.xillio.boilerplate.http.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
@@ -21,27 +21,26 @@ import static nl.xillio.boilerplate.http.request.scope.SupportedProjectScopes.PA
 public class ContentService {
 
     private final BoilerplateResponseDtoFactory responseFactory;
-    private final ContentRepository contentRepository;
 
     public BoilerplateResponseDto downloadBinaryContent(BoilerplateRequestDto requestDto)
     {
         try {
-            var content = contentRepository.getOneByXdip(requestDto.paramsDto().xdip());
-            return responseFactory.createSuccessResponse(requestDto.id(), );
+            return null;
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
-                    requestDto.id(),
+                    UUID.fromString(requestDto.getId()),
                     ErrorCodes.CONNECTOR_OPERATION_FAILED,
-                    "Something went wrond during content download",
+                    "Something went wrong during content download",
                     Optional.empty());
         }
     }
 
     public ProjectionScope parseProjectionScopes(BoilerplateRequestDto requestDto)
     {
-        var projectionScope = requestDto.paramsDto()
+    /*    var projectionScope = requestDto.params()
                                         .requestParametersDto()
-                                        .projectionScopes();
+                                        .projectionScopes();*/
+        var projectionScope = new String[]{};
 
         if (projectionScope.length != 1) {
             throw new IllegalArgumentException("Only one projection scope is allowed"); // todo rewrite
