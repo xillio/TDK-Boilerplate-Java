@@ -11,14 +11,14 @@ import static nl.xillio.boilerplate.http.request.fields.MandatoryRequestBodyFiel
 @Getter
 public class BoilerplateRequestDto extends BoilerplateRequestBody {
 
-    private final Map<String, String> params;
+    private final Map<String, Object> params;
 
     @JsonCreator
     public BoilerplateRequestDto(
             String id,
             String jsonrpc,
             String method,
-            Map<String, String> params)
+            Map<String, Object> params)
     {
         super(id, jsonrpc, method);
         this.params = params;

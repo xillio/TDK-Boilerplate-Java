@@ -20,7 +20,7 @@ public class BoilerplateRequestExecutor {
     private final ContentService contentService;
     private final TranslationService translationService;
 
-    public BoilerplateResponseDto execute(BoilerplateRequestDto requestDto) //todo consider to refactor
+    public BoilerplateResponseDto execute(BoilerplateRequestDto requestDto)
     {
         return switch (requestDto.getMethod()) {
             case ENTITY_GET -> contentService.parseProjectionScopes(requestDto)

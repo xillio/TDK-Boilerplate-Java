@@ -10,9 +10,12 @@ import nl.xillio.boilerplate.http.response.BoilerplateResponseDtoFactory;
 import nl.xillio.boilerplate.http.response.ErrorCodes;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
-import java.util.UUID;
 
+import static nl.xillio.boilerplate.http.request.fields.OptionalRequestBodyFields.PROJECTION_SCOPES;
+import static nl.xillio.boilerplate.http.request.fields.OptionalRequestBodyFields.REQUEST_PARAMETERS;
 import static nl.xillio.boilerplate.http.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
 import static nl.xillio.boilerplate.http.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
 
@@ -35,18 +38,21 @@ public class ContentService {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public ProjectionScope parseProjectionScopes(BoilerplateRequestDto requestDto)
     {
-    /*    var projectionScope = requestDto.params()
-                                        .requestParametersDto()
-                                        .projectionScopes();*/
-        var projectionScope = new String[]{};
+        var projectionScope = (ArrayList<String>) (
+                (HashMap<String, Object>) requestDto
+                        .getParams()
+                        .get(REQUEST_PARAMETERS)
+        )
+                .get(PROJECTION_SCOPES);
 
-        if (projectionScope.length != 1) {
-            throw new IllegalArgumentException("Only one projection scope is allowed"); // todo rewrite
+        if (projectionScope.size() != 1) {
+            throw new IllegalArgumentException("Only one projection scope is allowed"); //todo rewrite
         }
 
-        return switch (projectionScope[0]) {
+        return switch (projectionScope.get(0)) {
             case PATH_CHILDREN_REFERENCE -> new PathChildrenReference();
             case PATH_CHILDREN_ENTITY -> new PathChildrenEntity();
             default -> throw new IllegalArgumentException("Unknown projection scope"); //todo rewrite
