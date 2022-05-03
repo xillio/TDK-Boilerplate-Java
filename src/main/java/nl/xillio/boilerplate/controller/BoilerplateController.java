@@ -34,7 +34,7 @@ public class BoilerplateController {
     public BoilerplateResponseDto handleJsonRpcRequest(
             @RequestBody BoilerplateRequestDto requestDto)
     {
-        return validator.hasBasicAttributes(requestDto)
+        return validator.validate(requestDto)
                ? requestExecutor.execute(requestDto)
                : responseFactory.getInvalidConfigurationResponse(UUID.fromString(requestDto.getId()));
     }
