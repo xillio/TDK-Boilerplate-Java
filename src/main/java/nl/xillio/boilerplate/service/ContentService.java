@@ -28,7 +28,7 @@ public class ContentService {
             return null;
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
-                    UUID.fromString(requestDto.getId()),
+                    requestDto.getId(),
                     ErrorCodes.CONNECTOR_OPERATION_FAILED,
                     "Something went wrong during content download",
                     Optional.empty());

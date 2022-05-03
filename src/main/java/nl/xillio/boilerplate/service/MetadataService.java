@@ -24,7 +24,7 @@ public class MetadataService {
                     requestDto.id(), new MetadataDto(childrenReference));*/
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
-                    UUID.fromString(requestDto.getId()),
+                    requestDto.getId(),
                     ErrorCodes.CONNECTOR_OPERATION_FAILED,
                     "Failed to deliver metadata",
                     Optional.ofNullable(e.getMessage()));
@@ -40,7 +40,7 @@ public class MetadataService {
             return null;
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
-                    UUID.fromString(requestDto.getId()),
+                    requestDto.getId(),
                     ErrorCodes.CONNECTOR_OPERATION_FAILED,
                     "Failed to deliver metadata",
                     Optional.ofNullable(e.getMessage()));

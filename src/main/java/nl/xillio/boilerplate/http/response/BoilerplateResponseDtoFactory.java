@@ -8,13 +8,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class BoilerplateResponseDtoFactory {
 
     public BoilerplateResponseDto createErrorResponse(
-            UUID contentId,
+            String contentId,
             int errorCode,
             String message,
             Optional<String> data)
@@ -31,7 +30,7 @@ public class BoilerplateResponseDtoFactory {
     }
 
     public BoilerplateResponseDto createSuccessResponse(
-            UUID id,
+            String id,
             ResultBodyComponent result)
     {
         return new BoilerplateResponseDto(
@@ -43,7 +42,7 @@ public class BoilerplateResponseDtoFactory {
         );
     }
 
-    public BoilerplateResponseDto getInvalidConfigurationResponse(UUID id)
+    public BoilerplateResponseDto getInvalidConfigurationResponse(String id)
     {
         return new BoilerplateResponseDto(
                 id,

@@ -8,8 +8,6 @@ import nl.xillio.boilerplate.service.MetadataService;
 import nl.xillio.boilerplate.service.TranslationService;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 import static nl.xillio.boilerplate.http.JsonRpcMethod.*;
 
 @Component
@@ -26,13 +24,13 @@ public class BoilerplateRequestExecutor {
     {
         return switch (requestDto.getMethod()) {
             case ENTITY_GET -> contentService.parseProjectionScopes(requestDto)
-                                                           .getReferences(
-                                                                   metadataService,
-                                                                   requestDto);
+                                             .getReferences(
+                                                     metadataService,
+                                                     requestDto);
 
             case ENTITY_GET_BINARY -> contentService.downloadBinaryContent(requestDto);
             case ENTITY_CREATE -> translationService.upload(requestDto);
-            default -> responseFactory.getInvalidConfigurationResponse(UUID.fromString(requestDto.getId()));
+            default -> responseFactory.getInvalidConfigurationResponse(requestDto.getId());
         };
     }
 }

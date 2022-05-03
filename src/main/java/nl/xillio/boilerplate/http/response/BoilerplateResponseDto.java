@@ -5,7 +5,7 @@ import nl.xillio.boilerplate.http.response.components.NotMandatoryBoilerplateRes
 import java.util.UUID;
 
 public record BoilerplateResponseDto(
-        UUID id,
+        String id,
         String jsonrpc,
         NotMandatoryBoilerplateResponseClassMember object) {
 

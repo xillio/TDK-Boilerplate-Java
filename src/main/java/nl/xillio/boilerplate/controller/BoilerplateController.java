@@ -36,6 +36,6 @@ public class BoilerplateController {
     {
         return validator.validate(requestDto)
                ? requestExecutor.execute(requestDto)
-               : responseFactory.getInvalidConfigurationResponse(UUID.fromString(requestDto.getId()));
+               : responseFactory.getInvalidConfigurationResponse(requestDto.getId());
     }
 }
