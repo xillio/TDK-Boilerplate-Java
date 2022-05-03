@@ -14,7 +14,6 @@ public class TranslationService {
         try {
             return null;
         } catch (Exception e) {
-
             return null;
         }
     }

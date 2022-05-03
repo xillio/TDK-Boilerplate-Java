@@ -8,7 +8,6 @@ import nl.xillio.boilerplate.http.response.ErrorCodes;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +19,6 @@ public class MetadataService {
     {
         try {
             return null;
-           /* return responseFactory.createSuccessResponse(
-                    requestDto.id(), new MetadataDto(childrenReference));*/
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
                     requestDto.getId(),
@@ -34,9 +31,6 @@ public class MetadataService {
     public BoilerplateResponseDto deliverMetadataChildrenEntity(BoilerplateRequestDto requestDto)
     {
         try {
-          /*  var childrenEntity = metadataRepository.getChildrenEntity(requestDto.paramsDto()
-                                                                                .xdip());
-            return responseFactory.createSuccessResponse(requestDto.id(), childrenEntity);*/
             return null;
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
