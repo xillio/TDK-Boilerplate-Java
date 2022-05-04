@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static nl.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
+import static nl.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.INVALID_CONFIGURATION;
 
 @Component
 public class ResponseDtoFactory {
@@ -49,7 +50,7 @@ public class ResponseDtoFactory {
                 id,
                 V2_0,
                 new Error(
-                        LocHubErrorCodes.INVALID_CONFIGURATION,
+                        INVALID_CONFIGURATION,
                         "Invalid request body",
                         Optional.empty()
                 )

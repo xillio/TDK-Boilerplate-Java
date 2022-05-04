@@ -1,18 +1,20 @@
 package nl.hellotranslate.connector.service;
 
 import lombok.RequiredArgsConstructor;
-import nl.hellotranslate.connector.jsonrpc.request.scope.PathChildrenEntity;
-import nl.hellotranslate.connector.jsonrpc.request.scope.PathChildrenReference;
-import nl.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes;
-import nl.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes;
-import nl.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import nl.hellotranslate.connector.jsonrpc.request.RequestDto;
 import nl.hellotranslate.connector.jsonrpc.request.scope.EmptyScope;
+import nl.hellotranslate.connector.jsonrpc.request.scope.PathChildrenEntity;
+import nl.hellotranslate.connector.jsonrpc.request.scope.PathChildrenReference;
 import nl.hellotranslate.connector.jsonrpc.request.scope.ProjectionScope;
+import nl.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes;
 import nl.hellotranslate.connector.jsonrpc.response.ResponseDto;
+import nl.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static nl.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
+import static nl.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +40,8 @@ public class ContentService {
         var projectionScope = requestDto.params().getRequestParameters().getProjectionScopes();
 
         return switch (projectionScope[0]) {
-            case SupportedProjectScopes.PATH_CHILDREN_REFERENCE -> new PathChildrenReference();
-            case SupportedProjectScopes.PATH_CHILDREN_ENTITY -> new PathChildrenEntity();
+            case PATH_CHILDREN_REFERENCE -> new PathChildrenReference();
+            case PATH_CHILDREN_ENTITY -> new PathChildrenEntity();
             default -> new EmptyScope(responseFactory);
         };
     }
