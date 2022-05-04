@@ -1,8 +1,8 @@
 package nl.hellotranslate.connector.jsonrpc.request;
 
 import lombok.RequiredArgsConstructor;
-import nl.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import nl.hellotranslate.connector.jsonrpc.response.ResponseDto;
+import nl.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import nl.hellotranslate.connector.service.ContentService;
 import nl.hellotranslate.connector.service.MetadataService;
 import nl.hellotranslate.connector.service.TranslationService;
@@ -26,10 +26,21 @@ public class RequestExecutor {
             case ENTITY_GET -> contentService.parseProjectionScopes(requestDto)
                                              .getReferences(
                                                      metadataService,
-                                                     requestDto);
+                                                     requestDto.params().getConfig(),
+                                                     requestDto.params().getXdip());
 
-            case ENTITY_GET_BINARY -> contentService.downloadBinaryContent(requestDto);
-            case ENTITY_CREATE -> translationService.upload(requestDto);
+            case ENTITY_GET_BINARY -> contentService.getContent(
+                    requestDto.id(),
+                    requestDto.params()
+                              .getConfig(),
+                    requestDto.params()
+                              .getXdip());
+            case ENTITY_CREATE -> translationService.upload(
+                    requestDto.params().getXdip(),
+                    requestDto.params().getConfig(),
+                    requestDto.params().getEntity(),
+                    requestDto.params()
+                              .getBinaryContents());
             default -> responseFactory.getInvalidConfigurationResponse(requestDto.id());
         };
     }

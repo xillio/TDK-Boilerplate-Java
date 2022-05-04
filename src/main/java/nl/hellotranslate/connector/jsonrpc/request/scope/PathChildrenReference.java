@@ -1,6 +1,6 @@
 package nl.hellotranslate.connector.jsonrpc.request.scope;
 
-import nl.hellotranslate.connector.jsonrpc.request.RequestDto;
+import nl.hellotranslate.connector.jsonrpc.request.dtos.ConfigDto;
 import nl.hellotranslate.connector.jsonrpc.response.ResponseDto;
 import nl.hellotranslate.connector.service.MetadataService;
 
@@ -9,8 +9,9 @@ public class PathChildrenReference implements ProjectionScope {
     @Override
     public ResponseDto getReferences(
             MetadataService metadataService,
-            RequestDto requestDto)
+            ConfigDto config,
+            String xdip)
     {
-        return metadataService.deliverMetadataChildrenReference(requestDto);
+        return metadataService.deliverMetadataChildrenReference(config, xdip);
     }
 }

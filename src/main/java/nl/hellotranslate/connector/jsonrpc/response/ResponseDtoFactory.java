@@ -2,7 +2,6 @@ package nl.hellotranslate.connector.jsonrpc.response;
 
 import nl.hellotranslate.connector.jsonrpc.response.components.Error;
 import nl.hellotranslate.connector.jsonrpc.response.components.Result;
-import nl.hellotranslate.connector.model.ResultBodyComponent;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -33,7 +32,7 @@ public class ResponseDtoFactory {
 
     public ResponseDto createSuccessResponse(
             String id,
-            ResultBodyComponent result)
+            Object result)
     {
         return new ResponseDto(
                 id,
