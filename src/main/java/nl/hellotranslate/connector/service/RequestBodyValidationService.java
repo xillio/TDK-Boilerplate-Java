@@ -13,7 +13,8 @@ public class RequestBodyValidationService {
 
     public boolean validate(RequestDto boilerplateRequestDto)
     {
-        return hasBasicAttributes(boilerplateRequestDto);
+        return hasBasicAttributes(boilerplateRequestDto)
+               && hasMethodAttributes(boilerplateRequestDto);
     }
 
     private boolean hasBasicAttributes(RequestDto boilerplateRequestDto)
@@ -22,5 +23,11 @@ public class RequestBodyValidationService {
                && V2_0.equals(boilerplateRequestDto.jsonrpc())
                && METHODS.contains(boilerplateRequestDto.method())
                && boilerplateRequestDto.params() != null;
+    }
+
+    private boolean hasMethodAttributes(RequestDto boilerplateRequestDto)
+    {
+
+        return true;
     }
 }
