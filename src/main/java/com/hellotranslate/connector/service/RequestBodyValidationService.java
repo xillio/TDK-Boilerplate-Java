@@ -1,33 +1,73 @@
 package com.hellotranslate.connector.service;
 
-import lombok.RequiredArgsConstructor;
 import com.hellotranslate.connector.jsonrpc.request.RequestDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.hellotranslate.connector.jsonrpc.Method.METHODS;
+import static com.hellotranslate.connector.jsonrpc.Method.*;
 import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
 
 @Service
 @RequiredArgsConstructor
 public class RequestBodyValidationService {
 
-    public boolean validate(RequestDto boilerplateRequestDto)
+    public boolean validate(RequestDto requestDto)
     {
-        return hasBasicAttributes(boilerplateRequestDto)
-               && hasMethodAttributes(boilerplateRequestDto);
+        return hasBasicAttributes(requestDto)
+               && hasMethodAttributes(requestDto);
     }
 
-    private boolean hasBasicAttributes(RequestDto boilerplateRequestDto)
+    private boolean hasBasicAttributes(RequestDto requestDto)
     {
-        return boilerplateRequestDto.id() != null
-               && V2_0.equals(boilerplateRequestDto.jsonrpc())
-               && METHODS.contains(boilerplateRequestDto.method())
-               && boilerplateRequestDto.params() != null;
+        return requestDto.id() != null
+               && V2_0.equals(requestDto.jsonrpc())
+               && METHODS.contains(requestDto.method())
+               && requestDto.params() != null;
     }
 
-    private boolean hasMethodAttributes(RequestDto boilerplateRequestDto)
+    private boolean hasMethodAttributes(RequestDto requestDto)
     {
+        return switch (requestDto.method()) {
 
-        return true;
+            case ENTITY_GET -> validateConfig(requestDto)
+                               && validateXdip(requestDto)
+                               && validateRequestParameters(requestDto);
+
+            case ENTITY_CREATE -> validateConfig(requestDto)
+                                  && validateXdip(requestDto);
+
+            case ENTITY_GET_BINARY -> validateConfig(requestDto)
+                                      && validateRequestParameters(requestDto)
+                                      && validateEntity(requestDto)
+                                      && validateBinaryContents(requestDto);
+        };
+    }
+
+    //todo enhance
+    private boolean validateBinaryContents(RequestDto requestDto)
+    {
+        return requestDto.params().getBinaryContents() != null;
+    }
+
+    private boolean validateEntity(RequestDto requestDto)
+    {
+        return requestDto.params().getEntity() != null;
+    }
+
+    private boolean validateRequestParameters(RequestDto requestDto)
+    {
+        return requestDto.params().getRequestParameters() != null;
+    }
+
+    private boolean validateXdip(RequestDto requestDto)
+    {
+        return requestDto.params().getXdip() != null
+               && !requestDto.params().getXdip().isEmpty();
+    }
+
+    private boolean validateConfig(RequestDto requestDto)
+    {
+        return requestDto.params().getConfig() != null
+               && requestDto.params().getConfig().configMap() != null;
     }
 }

@@ -6,10 +6,9 @@ import lombok.Getter;
 @Getter
 public class ParamsDto {
 
-    private ConfigDto config;
+    private final ConfigDto config;
     private String xdip;
     private RequestParametersDto requestParameters;
-
     private EntityDto entity;
     private String binaryContents;
 
