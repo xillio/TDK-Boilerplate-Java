@@ -1,8 +1,8 @@
 package com.hellotranslate.connector.jsonrpc.request.dtos;
 
-import com.hellotranslate.connector.model.decorators.dtos.LanguageDto;
-import com.hellotranslate.connector.model.decorators.dtos.NameDto;
+import com.hellotranslate.connector.model.decorators.Language;
+import com.hellotranslate.connector.model.decorators.Name;
 
-public record OriginalDto(NameDto name, LanguageDto language) {
+public record OriginalDto(Name name, Language language) {
 
 }
