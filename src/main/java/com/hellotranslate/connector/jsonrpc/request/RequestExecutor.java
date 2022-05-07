@@ -30,6 +30,7 @@ public class RequestExecutor {
                 try {
                     yield metadataService.parseProjectionScopes(requestDto)
                                          .getReferences(
+                                                 requestDto.id(),
                                                  requestDto.params().getConfig(),
                                                  requestDto.params().getXdip());
                 } catch (MethodNotImplementedException e) {

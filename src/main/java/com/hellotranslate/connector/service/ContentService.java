@@ -5,6 +5,7 @@ import com.hellotranslate.connector.jsonrpc.request.dtos.EntityDto;
 import com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDto;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
+import com.hellotranslate.connector.model.XDIP;
 import com.hellotranslate.connector.repository.content.ContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class ContentService {
     public ResponseDto getContent(
             String id,
             ConfigDto config,
-            String xdip)
+            XDIP xdip)
     {
         try {
             var binaryContent = contentRepository.downloadContent(xdip);
@@ -38,7 +39,7 @@ public class ContentService {
 
     public ResponseDto upload(
             String id,
-            String xdip,
+            XDIP xdip,
             ConfigDto config,
             EntityDto entity,
             String binaryContents)

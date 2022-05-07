@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.exception;
 
-public class ClassInstantiationForbiddenException extends IllegalAccessException {
+public class ClassInstantiationForbiddenException extends InstantiationException {
 
     public ClassInstantiationForbiddenException(Class<?> thisClass)
     {

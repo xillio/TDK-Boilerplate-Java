@@ -1,13 +1,14 @@
 package com.hellotranslate.connector.jsonrpc.request.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.hellotranslate.connector.model.XDIP;
 import lombok.Getter;
 
 @Getter
 public class ParamsDto {
 
     private final ConfigDto config;
-    private String xdip;
+    private XDIP xdip;
     private RequestParametersDto requestParameters;
     private EntityDto entity;
     private String binaryContents;
@@ -15,7 +16,7 @@ public class ParamsDto {
     @JsonCreator
     public ParamsDto(
             ConfigDto config,
-            String xdip,
+            XDIP xdip,
             RequestParametersDto requestParameters) // Navigation constructor
     {
         this.config = config;
@@ -25,7 +26,7 @@ public class ParamsDto {
 
     public ParamsDto(
             ConfigDto config,
-            String xdip) // Download constructor
+            XDIP xdip) // Download constructor
     {
         this.config = config;
         this.xdip = xdip;
