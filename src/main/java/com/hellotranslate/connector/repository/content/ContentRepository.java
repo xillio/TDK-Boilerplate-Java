@@ -11,7 +11,7 @@ public interface ContentRepository {
     InputStream downloadContent(String xdip)
             throws MethodNotImplementedException;
 
-    void uploadContent(
+    InputStream uploadContent(
             String xdip,
             ConfigDto config,
             EntityDto entity,

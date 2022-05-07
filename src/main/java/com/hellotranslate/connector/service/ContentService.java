@@ -1,12 +1,12 @@
 package com.hellotranslate.connector.service;
 
 import com.hellotranslate.connector.jsonrpc.request.dtos.ConfigDto;
+import com.hellotranslate.connector.jsonrpc.request.dtos.EntityDto;
 import com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes;
+import com.hellotranslate.connector.jsonrpc.response.ResponseDto;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import com.hellotranslate.connector.repository.content.ContentRepository;
 import lombok.RequiredArgsConstructor;
-import com.hellotranslate.connector.jsonrpc.request.dtos.EntityDto;
-import com.hellotranslate.connector.jsonrpc.response.ResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,31 +25,32 @@ public class ContentService {
     {
         try {
             var binaryContent = contentRepository.downloadContent(xdip);
-            return responseFactory.createSuccessResponse(
-                    id,
-                    binaryContent.readAllBytes());
+            return responseFactory.createSuccessResponse(id, config, binaryContent.readAllBytes());
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
                     id,
                     LocHubErrorCodes.NO_BINARY_CONTENT,
+                    config,
                     "Something went wrong during content download",
                     Optional.empty());
         }
     }
 
     public ResponseDto upload(
+            String id,
             String xdip,
             ConfigDto config,
             EntityDto entity,
-            String binaryContents) //todo change to input stream
+            String binaryContents)
     {
         try {
-            contentRepository.uploadContent(xdip, config, entity, binaryContents);
-            return null;
+            var inputStream = contentRepository.uploadContent(xdip, config, entity, binaryContents);
+            return responseFactory.createSuccessResponse(id, config, inputStream.readAllBytes());
         } catch (Exception e) {
             return responseFactory.createErrorResponse(
-                    xdip,
+                    id,
                     LocHubErrorCodes.CONNECTOR_OPERATION_FAILED,
+                    config,
                     "Failed to upload translation",
                     Optional.of(e.getMessage())
             );

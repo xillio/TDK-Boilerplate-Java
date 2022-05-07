@@ -18,7 +18,7 @@ public class ContentRepositoryImpl implements ContentRepository {
     }
 
     @Override
-    public void uploadContent(
+    public InputStream uploadContent(
             String xdip,
             ConfigDto config,
             EntityDto entity,

@@ -36,6 +36,7 @@ public class RequestExecutor {
                     yield responseFactory.createErrorResponse(
                             requestDto.id(),
                             NO_SUCH_ENTITY,
+                            requestDto.params().getConfig(),
                             e.getMessage(),
                             Optional.empty());
                 }
@@ -49,13 +50,17 @@ public class RequestExecutor {
                               .getXdip());
 
             case ENTITY_CREATE -> contentService.upload(
+                    requestDto.id(),
                     requestDto.params().getXdip(),
                     requestDto.params().getConfig(),
                     requestDto.params().getEntity(),
                     requestDto.params()
                               .getBinaryContents());
 
-            default -> responseFactory.createInvalidConfigurationResponse(requestDto.id());
+            default -> responseFactory.createInvalidConfigurationResponse(
+                    requestDto.id(),
+                    requestDto.params()
+                              .getConfig());
         };
     }
 }

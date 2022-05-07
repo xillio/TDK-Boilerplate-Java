@@ -17,6 +17,7 @@ public record UnsupportedScope(ResponseDtoFactory responseFactory) implements Pr
         return responseFactory.createErrorResponse(
                 id,
                 LocHubErrorCodes.NO_SUCH_SCOPE,
+                config,
                 "Scope is empty or does not exist",
                 Optional.empty());
     }

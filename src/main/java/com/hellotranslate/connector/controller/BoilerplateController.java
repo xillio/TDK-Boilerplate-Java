@@ -1,14 +1,14 @@
 package com.hellotranslate.connector.controller;
 
+import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.RequestExecutor;
+import com.hellotranslate.connector.jsonrpc.response.ResponseDto;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
+import com.hellotranslate.connector.service.RequestBodyValidationService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import com.hellotranslate.connector.jsonrpc.request.RequestDto;
-import com.hellotranslate.connector.jsonrpc.response.ResponseDto;
-import com.hellotranslate.connector.service.RequestBodyValidationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +33,8 @@ public class BoilerplateController {
     {
         return validator.validate(requestDto)
                ? requestExecutor.execute(requestDto)
-               : responseFactory.createInvalidConfigurationResponse(requestDto.id());
+               : responseFactory.createInvalidConfigurationResponse(requestDto.id(),
+                                                                    requestDto.params()
+                                                                              .getConfig());
     }
 }
