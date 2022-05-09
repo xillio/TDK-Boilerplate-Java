@@ -9,7 +9,8 @@ import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.*;
+import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
+import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
 
 @Service
 @RequiredArgsConstructor
