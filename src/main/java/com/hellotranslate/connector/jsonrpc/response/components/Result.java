@@ -4,6 +4,6 @@ import java.util.Map;
 
 public record Result(
         Map<String, Object> result)
-        implements NotMandatoryBoilerplateResponseClassMember {
+        implements ResponseClassMember {
 
 }

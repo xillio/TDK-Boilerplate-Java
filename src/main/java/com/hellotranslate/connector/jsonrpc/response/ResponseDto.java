@@ -1,12 +1,13 @@
 package com.hellotranslate.connector.jsonrpc.response;
 
-import com.hellotranslate.connector.jsonrpc.request.dtos.ConfigDto;
-import com.hellotranslate.connector.jsonrpc.response.components.NotMandatoryBoilerplateResponseClassMember;
+import com.hellotranslate.connector.jsonrpc.response.components.ResponseClassMember;
+
+import java.util.Map;
 
 public record ResponseDto(
         String id,
         String jsonrpc,
-        ConfigDto config,
-        NotMandatoryBoilerplateResponseClassMember object) {
+        Map<String, Object> config,
+        ResponseClassMember result) {
 
 }

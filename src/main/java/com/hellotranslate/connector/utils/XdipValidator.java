@@ -15,7 +15,7 @@ public final class XdipValidator {
             String parameter)
     {
         if (value == null) {
-            throw error("'" + parameter + "' cannot be null.");
+            throw error(String.format("'%s' cannot be null.", parameter));
         }
     }
 
@@ -25,7 +25,7 @@ public final class XdipValidator {
     {
         notNull(value, parameter);
         if (value.isEmpty()) {
-            throw error("'" + parameter + "' cannot be empty.");
+            throw error(String.format("'%s' cannot be empty.", parameter));
         }
         return value;
     }
@@ -37,7 +37,7 @@ public final class XdipValidator {
     {
         notNull(value, parameter);
         if (!value.startsWith(prefix)) {
-            throw error("'" + parameter + "' must start with '" + prefix + "'.", value);
+            throw error(String.format("'%s' must start with '%s'.", parameter, prefix), value);
         }
         return value;
     }

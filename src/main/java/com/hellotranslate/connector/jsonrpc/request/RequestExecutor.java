@@ -38,7 +38,7 @@ public class RequestExecutor {
                             requestDto.id(),
                             NO_SUCH_ENTITY,
                             requestDto.params().getConfig(),
-                            e.getMessage(),
+                            e,
                             Optional.empty());
                 }
             }

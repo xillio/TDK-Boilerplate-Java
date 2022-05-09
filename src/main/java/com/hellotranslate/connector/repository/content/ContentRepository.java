@@ -6,6 +6,7 @@ import com.hellotranslate.connector.jsonrpc.request.dtos.EntityDto;
 import com.hellotranslate.connector.model.XDIP;
 
 import java.io.InputStream;
+import java.util.Map;
 
 public interface ContentRepository {
 
@@ -14,7 +15,7 @@ public interface ContentRepository {
 
     InputStream uploadContent(
             XDIP xdip,
-            ConfigDto config,
+            Map<String, Object> config,
             EntityDto entity,
             String binaryContents)
             throws MethodNotImplementedException;

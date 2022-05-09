@@ -1,6 +1,5 @@
 package com.hellotranslate.connector.service;
 
-import com.hellotranslate.connector.jsonrpc.request.dtos.ConfigDto;
 import com.hellotranslate.connector.jsonrpc.request.dtos.EntityDto;
 import com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDto;
@@ -10,6 +9,7 @@ import com.hellotranslate.connector.repository.content.ContentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -21,7 +21,7 @@ public class ContentService {
 
     public ResponseDto getContent(
             String id,
-            ConfigDto config,
+            Map<String, Object> config,
             XDIP xdip)
     {
         try {
@@ -32,7 +32,7 @@ public class ContentService {
                     id,
                     LocHubErrorCodes.NO_BINARY_CONTENT,
                     config,
-                    "Something went wrong during content download",
+                    e,
                     Optional.empty());
         }
     }
@@ -40,7 +40,7 @@ public class ContentService {
     public ResponseDto upload(
             String id,
             XDIP xdip,
-            ConfigDto config,
+            Map<String, Object> config,
             EntityDto entity,
             String binaryContents)
     {
@@ -52,8 +52,8 @@ public class ContentService {
                     id,
                     LocHubErrorCodes.CONNECTOR_OPERATION_FAILED,
                     config,
-                    "Failed to upload translation",
-                    Optional.of(e.getMessage())
+                    e,
+                    Optional.of("Failed to upload translation")
             );
         }
     }

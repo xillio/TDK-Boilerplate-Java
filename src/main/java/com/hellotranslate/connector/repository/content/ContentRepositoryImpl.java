@@ -7,6 +7,7 @@ import com.hellotranslate.connector.model.XDIP;
 import org.springframework.stereotype.Repository;
 
 import java.io.InputStream;
+import java.util.Map;
 
 @Repository
 public class ContentRepositoryImpl implements ContentRepository {
@@ -21,7 +22,7 @@ public class ContentRepositoryImpl implements ContentRepository {
     @Override
     public InputStream uploadContent(
             XDIP xdip,
-            ConfigDto config,
+            Map<String, Object> config,
             EntityDto entity,
             String binaryContents)
             throws MethodNotImplementedException

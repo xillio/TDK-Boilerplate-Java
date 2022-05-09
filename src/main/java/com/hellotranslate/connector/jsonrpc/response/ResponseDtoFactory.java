@@ -1,6 +1,5 @@
 package com.hellotranslate.connector.jsonrpc.response;
 
-import com.hellotranslate.connector.jsonrpc.request.dtos.ConfigDto;
 import com.hellotranslate.connector.jsonrpc.response.components.Error;
 import com.hellotranslate.connector.jsonrpc.response.components.Result;
 import org.springframework.stereotype.Component;
@@ -17,17 +16,28 @@ public class ResponseDtoFactory {
     public ResponseDto createErrorResponse(
             String id,
             int errorCode,
-            ConfigDto config,
-            String message,
+            Map<String, Object> config,
+            Exception cause,
             Optional<String> data)
     {
+        var methodName = cause.getStackTrace()[0].getMethodName();
+        var className = cause.getStackTrace()[0].getClassName()
+                                                .substring(
+                                                        cause.getStackTrace()[0]
+                                                                .getClassName()
+                                                                .lastIndexOf(".") + 1
+                                                );
+
         return new ResponseDto(
                 id,
                 V2_0,
                 config,
                 new Error(
                         errorCode,
-                        message,
+                        String.format(
+                                "%s() method in %s is not implemented!",
+                                methodName,
+                                className),
                         data
                 )
         );
@@ -35,7 +45,7 @@ public class ResponseDtoFactory {
 
     public ResponseDto createSuccessResponse(
             String id,
-            ConfigDto config,
+            Map<String, Object> config,
             Object result)
     {
         return new ResponseDto(
@@ -50,7 +60,7 @@ public class ResponseDtoFactory {
 
     public ResponseDto createInvalidConfigurationResponse(
             String id,
-            ConfigDto config)
+            Map<String, Object> config)
 
     {
         return new ResponseDto(

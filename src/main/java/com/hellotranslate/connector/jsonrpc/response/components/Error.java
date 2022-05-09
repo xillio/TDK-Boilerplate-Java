@@ -6,6 +6,6 @@ public record Error(
         int code,
         String message,
         Optional<String> data)
-        implements NotMandatoryBoilerplateResponseClassMember {
+        implements ResponseClassMember {
 
 }

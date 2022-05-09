@@ -1,6 +1,8 @@
 package com.hellotranslate.connector.service;
 
 import com.hellotranslate.connector.jsonrpc.request.RequestDto;
+import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParametersDto;
+import com.hellotranslate.connector.model.XDIP;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,7 @@ public class RequestBodyValidationService {
                                       && validateRequestParameters(requestDto)
                                       && validateEntity(requestDto)
                                       && validateBinaryContents(requestDto);
+            default -> false;
         };
     }
 
@@ -56,18 +59,21 @@ public class RequestBodyValidationService {
 
     private boolean validateRequestParameters(RequestDto requestDto)
     {
-        return requestDto.params().getRequestParameters() != null;
+        return requestDto.params().getRequestParameters() != null
+               && requestDto.params()
+                            .getRequestParameters()
+                            .getClass()
+                            .equals(RequestParametersDto.class);
     }
 
     private boolean validateXdip(RequestDto requestDto)
     {
         return requestDto.params().getXdip() != null
-               && !requestDto.params().getXdip().isEmpty();
+               && requestDto.params().getXdip().getClass().equals(XDIP.class);
     }
 
     private boolean validateConfig(RequestDto requestDto)
     {
-        return requestDto.params().getConfig() != null
-               && requestDto.params().getConfig().configMap() != null;
+        return requestDto.params().getConfig() != null;
     }
 }

@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.hellotranslate.connector.model.XDIP;
 import lombok.Getter;
 
+import java.util.Map;
+
 @Getter
 public class ParamsDto {
 
-    private final ConfigDto config;
+    private final Map<String, Object> config;
     private XDIP xdip;
     private RequestParametersDto requestParameters;
     private EntityDto entity;
@@ -15,7 +17,7 @@ public class ParamsDto {
 
     @JsonCreator
     public ParamsDto(
-            ConfigDto config,
+            Map<String, Object> config,
             XDIP xdip,
             RequestParametersDto requestParameters) // Navigation constructor
     {
@@ -25,7 +27,7 @@ public class ParamsDto {
     }
 
     public ParamsDto(
-            ConfigDto config,
+            Map<String, Object> config,
             XDIP xdip) // Download constructor
     {
         this.config = config;
@@ -33,7 +35,7 @@ public class ParamsDto {
     }
 
     public ParamsDto(
-            ConfigDto config,
+            Map<String, Object> config,
             RequestParametersDto requestParameters,
             EntityDto entity,
             String binaryContents) // Upload constructor
