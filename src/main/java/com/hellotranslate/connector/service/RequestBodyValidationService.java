@@ -103,9 +103,9 @@ public class RequestBodyValidationService {
     private boolean basicAttributesInvalid(RequestDto requestDto)
     {
         return requestDto.id() == null
-               && !V2_0.equals(requestDto.jsonrpc())
-               && !METHODS.contains(requestDto.method())
-               && requestDto.params() == null;
+               || !V2_0.equals(requestDto.jsonrpc())
+               || !METHODS.contains(requestDto.method())
+               || requestDto.params() == null;
     }
 
     private boolean requestParametersInvalid(RequestDto requestDto)
