@@ -1,8 +1,6 @@
 package com.hellotranslate.connector.exception.bodyvalidation;
 
-import java.io.InvalidObjectException;
-
-public abstract class RequestBodyValidationException extends InvalidObjectException {
+public abstract class RequestBodyValidationException extends Exception {
 
     private final int errorCode;
 

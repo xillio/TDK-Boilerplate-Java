@@ -1,5 +1,7 @@
 package com.hellotranslate.connector.jsonrpc.request;
 
+import com.hellotranslate.connector.exception.bodyvalidation.InvalidMethodException;
+import com.hellotranslate.connector.exception.bodyvalidation.InvalidScopeException;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import com.hellotranslate.connector.service.ContentService;
@@ -11,7 +13,7 @@ import java.util.Optional;
 import static com.hellotranslate.connector.jsonrpc.Method.*;
 import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
 import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
-import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.NO_SUCH_SCOPE;
+import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.*;
 
 @Component
 public class RequestExecutor {
@@ -31,17 +33,19 @@ public class RequestExecutor {
     }
 
     public ResponseBody execute(RequestDto requestDto)
+            throws InvalidMethodException, InvalidScopeException
     {
         return switch (requestDto.method()) {
             case ENTITY_GET -> executeEntityGetRequest(requestDto);
             case ENTITY_GET_BINARY -> executeGetBinaryContentRequest(requestDto);
             case ENTITY_CREATE -> executeUploadTranslationRequest(requestDto);
 
-            default -> responseFactory.createRequestBodyResponse(requestDto.id(), null); //todo fix
+            default -> throw new InvalidMethodException("No such method", OPERATION_NOT_ALLOWED);
         };
     }
 
     private ResponseBody executeEntityGetRequest(RequestDto requestDto)
+            throws InvalidScopeException
     {
         var scope = requestDto.params().getRequestParameters().getProjectionScopes()[0];
         return switch (scope) {
@@ -55,11 +59,7 @@ public class RequestExecutor {
                     requestDto.params().getConfig(),
                     requestDto.params().getXdip());
 
-            default -> responseFactory.createErrorResponse(
-                    requestDto.id(),
-                    NO_SUCH_SCOPE,
-                    new Exception("No such scope"), //todo find a way to throw a specific exception
-                    Optional.empty());
+            default -> throw new InvalidScopeException("No such scope", NO_SUCH_SCOPE);
         };
     }
 
