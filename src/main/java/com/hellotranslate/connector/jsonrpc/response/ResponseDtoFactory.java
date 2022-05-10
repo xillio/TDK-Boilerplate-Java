@@ -1,11 +1,11 @@
 package com.hellotranslate.connector.jsonrpc.response;
 
+import com.hellotranslate.connector.exception.bodyvalidation.RequestBodyValidationException;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
-import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.INVALID_CONFIGURATION;
 
 @Component
 public class ResponseDtoFactory {
@@ -16,7 +16,10 @@ public class ResponseDtoFactory {
             Exception cause,
             Optional<String> data)
     {
-        return new ErrorResponseBodyDto(id, V2_0, new ErrorDto(errorCode, cause.getMessage(), data));
+        return new ErrorResponseBodyDto(
+                id,
+                V2_0,
+                new ErrorDto(errorCode, cause.getMessage(), data));
     }
 
     public ResponseBody createSuccessResponse(
@@ -26,8 +29,17 @@ public class ResponseDtoFactory {
         return new ResultResponseBodyDto(id, V2_0, new ResultDto(result));
     }
 
-    public ResponseBody createInvalidConfigurationResponse(String id)
+    public ResponseBody createRequestBodyResponse(
+            String id,
+            RequestBodyValidationException cause)
     {
-        return new ErrorResponseBodyDto(id, V2_0, new ErrorDto(INVALID_CONFIGURATION, "Invalid configuration")); //todo: add more details
+
+        return new ErrorResponseBodyDto(
+                id,
+                V2_0,
+                new ErrorDto(
+                        cause.getErrorCode(),
+                        cause.getMessage()));
     }
 }
+

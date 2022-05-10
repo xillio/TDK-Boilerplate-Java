@@ -1,7 +1,7 @@
 package com.hellotranslate.connector.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.hellotranslate.connector.exception.InvalidXdipException;
+import com.hellotranslate.connector.exception.bodyvalidation.InvalidXdipException;
 import com.hellotranslate.connector.utils.XdipValidator;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.maven.shared.utils.StringUtils;
@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.CONNECTOR_OPERATION_FAILED;
 import static org.apache.maven.shared.utils.StringUtils.split;
 
 public class XDIP {
@@ -140,7 +141,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (!SCHEME.equals(uri.getScheme())) {
-            throw new InvalidXdipException(uri, "XDIP URLs must use the " + SCHEME + " scheme.");
+            throw new InvalidXdipException(uri, "XDIP URLs must use the " + SCHEME + " scheme.", CONNECTOR_OPERATION_FAILED);
         }
     }
 
@@ -148,7 +149,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getRawFragment() != null) {
-            throw new InvalidXdipException(uri, "XDIP URLs cannot use fragment parameters");
+            throw new InvalidXdipException(uri, "XDIP URLs cannot use fragment parameters", CONNECTOR_OPERATION_FAILED);
         }
     }
 
@@ -156,7 +157,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getRawUserInfo() != null) {
-            throw new InvalidXdipException(uri, "XDIP URLs cannot use user information");
+            throw new InvalidXdipException(uri, "XDIP URLs cannot use user information", CONNECTOR_OPERATION_FAILED);
         }
     }
 
@@ -164,7 +165,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getPort() != -1) {
-            throw new InvalidXdipException(uri, "XDIP URLs cannot use port specifications");
+            throw new InvalidXdipException(uri, "XDIP URLs cannot use port specifications", CONNECTOR_OPERATION_FAILED);
         }
     }
 
@@ -180,7 +181,7 @@ public class XDIP {
         if (configurationId == null || !configurationId.matches(XDIP.CONFIGURATION_ID_PATTERN)) {
             throw new InvalidXdipException(
                     "Configuration ids can only contain alphanumerics and dashes, but the id cannot " +
-                    "start or end with a dash. The minimum length is 2 and maximum is 255.");
+                    "start or end with a dash. The minimum length is 2 and maximum is 255.", CONNECTOR_OPERATION_FAILED);
         }
     }
 
@@ -192,14 +193,14 @@ public class XDIP {
                 ""))) {
             throw new InvalidXdipException(
                     uri,
-                    "XDIP URLs can not contain flags as query parameters");
+                    "XDIP URLs can not contain flags as query parameters", CONNECTOR_OPERATION_FAILED);
         }
         if (hasDisallowedQueries()) {
             throw new InvalidXdipException(
                     uri,
                     "XDIP URL contains invalid query parameters. Valid parameters are [\"" + String.join(
                             "\", \"",
-                            ALLOWED_QUERY_PARAMETERS) + "\"]");
+                            ALLOWED_QUERY_PARAMETERS) + "\"]", CONNECTOR_OPERATION_FAILED);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.hellotranslate.connector.controller;
 
+import com.hellotranslate.connector.exception.bodyvalidation.RequestBodyValidationException;
 import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.RequestExecutor;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
@@ -32,8 +33,12 @@ public class ConnectorController {
     public ResponseBody handleJsonRpcRequest(
             @RequestBody RequestDto requestDto)
     {
-        return validator.validate(requestDto)
-               ? requestExecutor.execute(requestDto)
-               : responseFactory.createInvalidConfigurationResponse(requestDto.id());
+        try {
+            validator.validate(requestDto);
+            return requestExecutor.execute(requestDto);
+        } catch (RequestBodyValidationException e) {
+            return responseFactory.createRequestBodyResponse(requestDto.id(), e);
+        }
     }
 }
+

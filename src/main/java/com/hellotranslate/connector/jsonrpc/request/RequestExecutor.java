@@ -37,7 +37,7 @@ public class RequestExecutor {
             case ENTITY_GET_BINARY -> executeGetBinaryContentRequest(requestDto);
             case ENTITY_CREATE -> executeUploadTranslationRequest(requestDto);
 
-            default -> responseFactory.createInvalidConfigurationResponse(requestDto.id());
+            default -> responseFactory.createRequestBodyResponse(requestDto.id(), null); //todo fix
         };
     }
 
