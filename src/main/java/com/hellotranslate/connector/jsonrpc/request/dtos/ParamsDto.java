@@ -2,11 +2,9 @@ package com.hellotranslate.connector.jsonrpc.request.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.hellotranslate.connector.model.XDIP;
-import lombok.Getter;
 
 import java.util.Map;
 
-@Getter
 public class ParamsDto {
 
     private final Map<String, Object> config;
@@ -44,5 +42,30 @@ public class ParamsDto {
         this.requestParameters = requestParameters;
         this.entity = entity;
         this.binaryContents = binaryContents;
+    }
+
+    public Map<String, Object> getConfig()
+    {
+        return config;
+    }
+
+    public XDIP getXdip()
+    {
+        return xdip;
+    }
+
+    public RequestParametersDto getRequestParameters()
+    {
+        return requestParameters;
+    }
+
+    public EntityDto getEntity()
+    {
+        return entity;
+    }
+
+    public String getBinaryContents()
+    {
+        return binaryContents;
     }
 }

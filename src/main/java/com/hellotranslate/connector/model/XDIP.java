@@ -3,7 +3,6 @@ package com.hellotranslate.connector.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.hellotranslate.connector.exception.InvalidXdipException;
 import com.hellotranslate.connector.utils.XdipValidator;
-import lombok.SneakyThrows;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.maven.shared.utils.StringUtils;
 
@@ -185,8 +184,9 @@ public class XDIP {
         }
     }
 
-    @SneakyThrows
+
     private void canOnlyUseWhitelistedQueryParameters()
+            throws InvalidXdipException
     {
         if (encodedQueryParameters.size() > 0 && (encodedQueryParameters.containsValue(null) || encodedQueryParameters.containsValue(
                 ""))) {

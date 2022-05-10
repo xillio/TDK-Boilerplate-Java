@@ -1,31 +1,55 @@
 package com.hellotranslate.connector.service;
 
-import com.hellotranslate.connector.jsonrpc.request.RequestDto;
-import com.hellotranslate.connector.jsonrpc.request.scope.PathChildrenEntity;
-import com.hellotranslate.connector.jsonrpc.request.scope.PathChildrenReference;
-import com.hellotranslate.connector.jsonrpc.request.scope.ProjectionScope;
-import com.hellotranslate.connector.jsonrpc.request.scope.UnsupportedScope;
+import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
-import lombok.RequiredArgsConstructor;
+import com.hellotranslate.connector.model.XDIP;
+import com.hellotranslate.connector.repository.metadata.MetadataRepository;
 import org.springframework.stereotype.Service;
 
-import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
-import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
+import java.util.Map;
+import java.util.Optional;
+
+import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.CONNECTOR_OPERATION_FAILED;
 
 @Service
-@RequiredArgsConstructor
 public class MetadataService {
 
     private final ResponseDtoFactory responseFactory;
+    private final MetadataRepository metadataRepository;
 
-    public ProjectionScope parseProjectionScopes(RequestDto requestDto)
+    public MetadataService(
+            ResponseDtoFactory responseFactory,
+            MetadataRepository metadataRepository)
     {
-        var projectionScope = requestDto.params().getRequestParameters().getProjectionScopes();
+        this.responseFactory = responseFactory;
+        this.metadataRepository = metadataRepository;
+    }
 
-        return switch (projectionScope[0]) {
-            case PATH_CHILDREN_REFERENCE -> new PathChildrenReference();
-            case PATH_CHILDREN_ENTITY -> new PathChildrenEntity();
-            default -> new UnsupportedScope(responseFactory);
-        };
+    public ResponseBody getChildren(
+            String id,
+            Map<String, Object> config,
+            XDIP xdip)
+    {
+        try {
+            var children = metadataRepository.listChildren(xdip, config);
+            return responseFactory.createSuccessResponse(id, children);
+        } catch (Exception e) { //todo: catch specific exception
+            return responseFactory.createErrorResponse(id, CONNECTOR_OPERATION_FAILED, e,
+                                                       Optional.of("Failed to get children"));
+        }
+    }
+
+    public ResponseBody getReferences(
+            String id,
+            Map<String, Object> config,
+            XDIP xdip)
+    {
+        try {
+            var references = metadataRepository.listReferences(xdip, config);
+            return responseFactory.createSuccessResponse(id, references);
+        } catch (Exception e) { //todo: catch specific exception
+            return responseFactory.createErrorResponse(id, CONNECTOR_OPERATION_FAILED, e,
+                                                       Optional.of("Failed to get references"));
+        }
     }
 }

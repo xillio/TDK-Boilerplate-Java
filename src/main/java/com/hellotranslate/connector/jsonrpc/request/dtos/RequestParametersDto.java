@@ -1,9 +1,7 @@
 package com.hellotranslate.connector.jsonrpc.request.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.Getter;
 
-@Getter
 public class RequestParametersDto {
 
     private final String[] projectionScopes;
@@ -30,5 +28,30 @@ public class RequestParametersDto {
     public RequestParametersDto(String[] projectionScopes) // Request parameters for uploading
     {
         this.projectionScopes = projectionScopes;
+    }
+
+    public String[] getProjectionScopes()
+    {
+        return projectionScopes;
+    }
+
+    public String[] getProjectionIncludes()
+    {
+        return projectionIncludes;
+    }
+
+    public String[] getProjectionExcludes()
+    {
+        return projectionExcludes;
+    }
+
+    public int getOffset()
+    {
+        return offset;
+    }
+
+    public int getLimit()
+    {
+        return limit;
     }
 }

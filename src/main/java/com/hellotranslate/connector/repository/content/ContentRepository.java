@@ -7,13 +7,14 @@ import com.hellotranslate.connector.model.XDIP;
 import java.io.InputStream;
 import java.util.Map;
 
-// todo add javadoc
 public interface ContentRepository {
 
-    InputStream downloadContent(XDIP xdip)
+    InputStream downloadContent(
+            XDIP xdip,
+            Map<String, Object> config)
             throws MethodNotImplementedException;
 
-    InputStream uploadContent(
+    EntityDto uploadContent(
             XDIP xdip,
             Map<String, Object> config,
             EntityDto entity,

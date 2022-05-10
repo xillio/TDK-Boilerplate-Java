@@ -8,18 +8,28 @@ import org.springframework.stereotype.Repository;
 import java.io.InputStream;
 import java.util.Map;
 
+/**
+ * This class is an implementation of the {@link ContentRepository} interface.
+ *
+ * It is used to store and retrieve content.
+ *
+ * To make TDK work, you must write an implementation how to retrieve and
+ * upload the content to the place where it is stored.
+ */
 @Repository
 public class ContentRepositoryImpl implements ContentRepository {
 
     @Override
-    public InputStream downloadContent(XDIP xdip)
+    public InputStream downloadContent(
+            XDIP xdip,
+            Map<String, Object> config)
             throws MethodNotImplementedException
     {
         throw new MethodNotImplementedException();
     }
 
     @Override
-    public InputStream uploadContent(
+    public EntityDto uploadContent(
             XDIP xdip,
             Map<String, Object> config,
             EntityDto entity,

@@ -1,10 +1,7 @@
 package com.hellotranslate.connector.jsonrpc.response;
 
-import com.hellotranslate.connector.jsonrpc.response.components.Error;
-import com.hellotranslate.connector.jsonrpc.response.components.Result;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.Optional;
 
 import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
@@ -13,65 +10,24 @@ import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.INV
 @Component
 public class ResponseDtoFactory {
 
-    public ResponseDto createErrorResponse(
+    public ResponseBody createErrorResponse(
             String id,
             int errorCode,
-            Map<String, Object> config,
             Exception cause,
             Optional<String> data)
     {
-        var methodName = cause.getStackTrace()[0].getMethodName();
-        var className = cause.getStackTrace()[0].getClassName()
-                                                .substring(
-                                                        cause.getStackTrace()[0]
-                                                                .getClassName()
-                                                                .lastIndexOf(".") + 1
-                                                );
-
-        return new ResponseDto(
-                id,
-                V2_0,
-                config,
-                new Error(
-                        errorCode,
-                        String.format(
-                                "%s() method in %s is not implemented!",
-                                methodName,
-                                className),
-                        data
-                )
-        );
+        return new ErrorResponseBodyDto(id, V2_0, new ErrorDto(errorCode, cause.getMessage(), data));
     }
 
-    public ResponseDto createSuccessResponse(
+    public ResponseBody createSuccessResponse(
             String id,
-            Map<String, Object> config,
             Object result)
     {
-        return new ResponseDto(
-                id,
-                V2_0,
-                config,
-                new Result(
-                        Map.of("result", result)
-                )
-        );
+        return new ResultResponseBodyDto(id, V2_0, new ResultDto(result));
     }
 
-    public ResponseDto createInvalidConfigurationResponse(
-            String id,
-            Map<String, Object> config)
-
+    public ResponseBody createInvalidConfigurationResponse(String id)
     {
-        return new ResponseDto(
-                id,
-                V2_0,
-                config,
-                new Error(
-                        INVALID_CONFIGURATION,
-                        "Invalid request body",
-                        Optional.empty()
-                )
-        );
+        return new ErrorResponseBodyDto(id, V2_0, new ErrorDto(INVALID_CONFIGURATION, "Invalid configuration")); //todo: add more details
     }
 }
