@@ -139,7 +139,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (!SCHEME.equals(uri.getScheme())) {
-            throw new InvalidXdipException("uri", "XDIP URLs must use the " + SCHEME + " scheme.", CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(uri, "XDIP URLs must use the " + SCHEME + " scheme.", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
@@ -147,7 +147,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getRawFragment() != null) {
-            throw new InvalidXdipException("uri", "XDIP URLs cannot use fragment parameters", CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(uri, "XDIP URLs cannot use fragment parameters", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
@@ -155,7 +155,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getRawUserInfo() != null) {
-            throw new InvalidXdipException("uri", "XDIP URLs cannot use user information", CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(uri, "XDIP URLs cannot use user information", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
@@ -163,7 +163,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getPort() != -1) {
-            throw new InvalidXdipException("uri", "XDIP URLs cannot use port specifications", CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(uri, "XDIP URLs cannot use port specifications", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
