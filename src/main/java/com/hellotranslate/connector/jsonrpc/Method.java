@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.jsonrpc;
 
-import com.hellotranslate.connector.exception.ClassInstantiationForbiddenException;
+import com.hellotranslate.connector.exception.internal.ClassInstantiationForbiddenException;
 
 import java.util.List;
 

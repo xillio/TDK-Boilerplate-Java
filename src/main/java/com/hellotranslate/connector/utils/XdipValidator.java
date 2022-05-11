@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.utils;
 
-import com.hellotranslate.connector.exception.ClassInstantiationForbiddenException;
+import com.hellotranslate.connector.exception.internal.ClassInstantiationForbiddenException;
 
 public final class XdipValidator {
 

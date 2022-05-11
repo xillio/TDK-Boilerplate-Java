@@ -1,7 +1,7 @@
 package com.hellotranslate.connector.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.hellotranslate.connector.exception.bodyvalidation.InvalidXdipException;
+import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.InvalidXdipException;
 import com.hellotranslate.connector.utils.XdipValidator;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.maven.shared.utils.StringUtils;
@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.hellotranslate.connector.exception.response.LocHubErrorCodes.CONNECTOR_OPERATION_FAILED;
+import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECTOR_OPERATION_FAILED;
 import static org.apache.maven.shared.utils.StringUtils.split;
 
 public class XDIP {
@@ -25,9 +25,7 @@ public class XDIP {
     public static final String QUERY_PARAM_LANGUAGE = "language";
     public static final String QUERY_PARAM_VERSION = "version";
 
-    private static final Set<String> ALLOWED_QUERY_PARAMETERS = Set.of(
-            QUERY_PARAM_LANGUAGE,
-            QUERY_PARAM_VERSION);
+    private static final Set<String> ALLOWED_QUERY_PARAMETERS = Set.of(QUERY_PARAM_LANGUAGE, QUERY_PARAM_VERSION);
 
     private final Map<String, String> encodedQueryParameters;
     private final URI uri;
@@ -111,7 +109,7 @@ public class XDIP {
             // Replace character + with %20 in query and fragment parts
             if (uri.lastIndexOf('?') > 0) {
                 uri = uri.substring(0, uri.lastIndexOf('?')) +
-                      StringUtils.replace(uri.substring(uri.lastIndexOf('?')), "+", "%20");
+                        StringUtils.replace(uri.substring(uri.lastIndexOf('?')), "+", "%20");
             }
             // Replace character + with %2D in path part (it affects path part only because query and fragment parts were already encoded)
             uri = StringUtils.replace(uri, "+", "%2B");
@@ -131,17 +129,17 @@ public class XDIP {
         }
 
         return Arrays.stream(split(rawQuery, "&"))
-                     .map(query -> split(query, "="))
-                     .collect(Collectors.toMap(
-                             parts -> parts[0],
-                             parts -> (parts.length > 1) ? parts[1] : ""));
+                .map(query -> split(query, "="))
+                .collect(Collectors.toMap(
+                        parts -> parts[0],
+                        parts -> (parts.length > 1) ? parts[1] : ""));
     }
 
     private void schemeMustBeXdip()
             throws InvalidXdipException
     {
         if (!SCHEME.equals(uri.getScheme())) {
-            throw new InvalidXdipException(uri, "XDIP URLs must use the " + SCHEME + " scheme.", CONNECTOR_OPERATION_FAILED);
+            throw new InvalidXdipException("uri", "XDIP URLs must use the " + SCHEME + " scheme.", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
@@ -149,7 +147,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getRawFragment() != null) {
-            throw new InvalidXdipException(uri, "XDIP URLs cannot use fragment parameters", CONNECTOR_OPERATION_FAILED);
+            throw new InvalidXdipException("uri", "XDIP URLs cannot use fragment parameters", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
@@ -157,7 +155,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getRawUserInfo() != null) {
-            throw new InvalidXdipException(uri, "XDIP URLs cannot use user information", CONNECTOR_OPERATION_FAILED);
+            throw new InvalidXdipException("uri", "XDIP URLs cannot use user information", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
@@ -165,7 +163,7 @@ public class XDIP {
             throws InvalidXdipException
     {
         if (uri.getPort() != -1) {
-            throw new InvalidXdipException(uri, "XDIP URLs cannot use port specifications", CONNECTOR_OPERATION_FAILED);
+            throw new InvalidXdipException("uri", "XDIP URLs cannot use port specifications", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
@@ -181,7 +179,7 @@ public class XDIP {
         if (configurationId == null || !configurationId.matches(XDIP.CONFIGURATION_ID_PATTERN)) {
             throw new InvalidXdipException(
                     "Configuration ids can only contain alphanumerics and dashes, but the id cannot " +
-                    "start or end with a dash. The minimum length is 2 and maximum is 255.", CONNECTOR_OPERATION_FAILED);
+                    "start or end with a dash. The minimum length is 2 and maximum is 255.", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
@@ -189,25 +187,25 @@ public class XDIP {
     private void canOnlyUseWhitelistedQueryParameters()
             throws InvalidXdipException
     {
-        if (encodedQueryParameters.size() > 0 && (encodedQueryParameters.containsValue(null) || encodedQueryParameters.containsValue(
-                ""))) {
+        if (encodedQueryParameters.size() > 0
+                && (encodedQueryParameters.containsValue(null)
+                || encodedQueryParameters.containsValue(""))) {
             throw new InvalidXdipException(
                     uri,
-                    "XDIP URLs can not contain flags as query parameters", CONNECTOR_OPERATION_FAILED);
+                    "XDIP URLs can not contain flags as query parameters", CONNECTOR_OPERATION_FAILED.code());
         }
         if (hasDisallowedQueries()) {
             throw new InvalidXdipException(
                     uri,
                     "XDIP URL contains invalid query parameters. Valid parameters are [\"" + String.join(
                             "\", \"",
-                            ALLOWED_QUERY_PARAMETERS) + "\"]", CONNECTOR_OPERATION_FAILED);
+                            ALLOWED_QUERY_PARAMETERS) + "\"]", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
-    private boolean hasDisallowedQueries()
-    {
+    private boolean hasDisallowedQueries() {
         return encodedQueryParameters.keySet()
-                                     .stream()
-                                     .anyMatch(key -> !ALLOWED_QUERY_PARAMETERS.contains(key));
+                .stream()
+                .anyMatch(key -> !ALLOWED_QUERY_PARAMETERS.contains(key));
     }
 }

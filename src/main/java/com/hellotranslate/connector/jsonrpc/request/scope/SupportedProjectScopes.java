@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.jsonrpc.request.scope;
 
-import com.hellotranslate.connector.exception.ClassInstantiationForbiddenException;
+import com.hellotranslate.connector.exception.internal.ClassInstantiationForbiddenException;
 
 public final class SupportedProjectScopes {
 

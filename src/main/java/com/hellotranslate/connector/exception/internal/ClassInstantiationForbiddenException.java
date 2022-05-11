@@ -1,4 +1,4 @@
-package com.hellotranslate.connector.exception;
+package com.hellotranslate.connector.exception.internal;
 
 public final class ClassInstantiationForbiddenException extends InstantiationException {
 

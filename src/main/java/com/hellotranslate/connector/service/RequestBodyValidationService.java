@@ -1,16 +1,16 @@
 package com.hellotranslate.connector.service;
 
-import com.hellotranslate.connector.exception.bodyvalidation.*;
+import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.*;
 import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParametersDto;
 import com.hellotranslate.connector.model.XDIP;
 import com.hellotranslate.connector.model.decorators.OriginalDto;
 import org.springframework.stereotype.Service;
 
+import static com.hellotranslate.connector.exception.lochub.LocHubErrors.*;
 import static com.hellotranslate.connector.jsonrpc.Method.*;
 import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
-import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.ENTITY;
-import static com.hellotranslate.connector.exception.response.LocHubErrorCodes.*;
+import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors.*;
 
 @Service
 public class RequestBodyValidationService {
@@ -21,96 +21,86 @@ public class RequestBodyValidationService {
         this.configValidationService = configValidationService;
     }
 
-    public void validate(RequestDto requestDto)
-            throws InvalidRequestBodyException, InvalidXdipException,
-            InvalidRequestParameters, InvalidConfigException,
-            NoContentToUploadException, InvalidEntityException {
+    public void validate(RequestDto requestDto) {
         hasBasicAttributes(requestDto);
+        methodNotSupported(requestDto);
         hasMethodAttributes(requestDto);
     }
 
-    private void hasBasicAttributes(RequestDto requestDto)
-            throws InvalidRequestBodyException {
-        if (basicAttributesInvalid(requestDto)) {
-            throw new InvalidRequestBodyException("Invalid request body", -32600); //todo fix
+    private void methodNotSupported(RequestDto requestDto) {
+        if (!METHODS.contains(requestDto.method())) {
+            throw new InvalidMethodException(requestDto.id(), "Method is not supported", METHOD_NOT_FOUND.code());
         }
     }
 
-    private void hasMethodAttributes(RequestDto requestDto)
-            throws InvalidXdipException, InvalidConfigException,
-            InvalidRequestParameters, InvalidEntityException, NoContentToUploadException {
+    private void hasBasicAttributes(RequestDto requestDto) {
+        if (basicAttributesInvalid(requestDto)) {
+            throw new InvalidRequestBodyException(requestDto.id(), INVALID_REQUEST.message(), INVALID_REQUEST.code());
+        }
+    }
+
+    private void hasMethodAttributes(RequestDto requestDto) {
         switch (requestDto.method()) {
             case ENTITY_GET -> {
-                configValidationService.validate(requestDto.params().config());
+                configValidationService.validate(requestDto.id(), requestDto.params().config());
                 validateXdip(requestDto);
                 validateRequestParameters(requestDto);
             }
 
             case ENTITY_CREATE -> {
-                configValidationService.validate(requestDto.params().config());
+                configValidationService.validate(requestDto.id(), requestDto.params().config());
                 validateRequestParameters(requestDto);
                 validateEntity(requestDto);
                 validateBinaryContents(requestDto);
             }
 
             case ENTITY_GET_BINARY -> {
-                configValidationService.validate(requestDto.params().config());
+                configValidationService.validate(requestDto.id(), requestDto.params().config());
                 validateXdip(requestDto);
             }
 
-            default -> throw new InvalidRequestParameters("Scope is empty or not supported", NO_SUCH_SCOPE);
+            default -> throw new InvalidRequestParameters(requestDto.id(), "Scope is empty or not supported", NO_SUCH_SCOPE.code());
         }
     }
 
-    private void validateBinaryContents(RequestDto requestDto)
-            throws NoContentToUploadException {
+    private void validateBinaryContents(RequestDto requestDto) {
         if (contentIsNotPresent(requestDto)) {
-            throw new NoContentToUploadException("Binary content is not present", NO_BINARY_CONTENT);
+            throw new NoContentToUploadException(requestDto.id(), "Scope is empty or not supported", NO_BINARY_CONTENT.code());
         }
     }
 
-    private void validateEntity(RequestDto requestDto)
-            throws InvalidEntityException {
+    private void validateEntity(RequestDto requestDto) {
         if (entityIsInvalid(requestDto)) {
-            throw new InvalidEntityException("Entity is invalid", NO_SUCH_ENTITY);
+            throw new InvalidEntityException(requestDto.id(), "Entity is invalid", INVALID_PARAMS.code());
         }
     }
 
-    private void validateRequestParameters(RequestDto requestDto)
-            throws InvalidRequestParameters {
+    private void validateRequestParameters(RequestDto requestDto) {
         if (requestParametersInvalid(requestDto)) {
-            throw new InvalidRequestParameters("Request parameters are invalid", -32602); //todo fix
+            throw new InvalidRequestParameters(requestDto.id(), INVALID_PARAMS.message(), INVALID_PARAMS.code());
         }
     }
 
-    private void validateXdip(RequestDto requestDto)
-            throws InvalidXdipException {
+    private void validateXdip(RequestDto requestDto) {
         var xdip = requestDto.params().xdip();
         if (xdip == null || !xdip.getClass().equals(XDIP.class)) {
-            throw new InvalidXdipException("Xdip is invalid", CONNECTOR_OPERATION_FAILED);
+            throw new InvalidXdipException(requestDto.id(), "Xdip is empty or invalid", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
     private boolean basicAttributesInvalid(RequestDto requestDto) {
         return requestDto.id() == null
                 || !V2_0.equals(requestDto.jsonrpc())
-                || !METHODS.contains(requestDto.method()) // todo separate
+                || requestDto.method() == null
                 || requestDto.params() == null;
     }
 
     private boolean requestParametersInvalid(RequestDto requestDto) {
         var requestParameters = requestDto.params().requestParameters();
-
         return requestParameters == null
                 || requestParameters.getClass() != RequestParametersDto.class
-                || switch (requestDto.method()) {
-            case ENTITY_GET -> requestParameters.getProjectionScopes() == null
-                    || requestParameters.getProjectionScopes()[0].isEmpty();
-
-            case ENTITY_CREATE -> requestParameters.getProjectionScopes() == null
-                    || !requestParameters.getProjectionScopes()[0].equals(ENTITY); // todo refactor
-            default -> false;
-        };
+                || requestParameters.getProjectionScopes() == null
+                || requestParameters.getProjectionScopes()[0].isEmpty();
     }
 
     private boolean entityIsInvalid(RequestDto requestDto) {

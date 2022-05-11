@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.service;
 
-import com.hellotranslate.connector.exception.response.ContentDownloadingFailedException;
+import com.hellotranslate.connector.exception.jsonrpc.response.ContentConversionException;
 import com.hellotranslate.connector.jsonrpc.EntityDto;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
-import static com.hellotranslate.connector.exception.response.LocHubErrorCodes.CONNECTOR_OPERATION_FAILED;
+import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECTOR_OPERATION_FAILED;
 
 @Service
 public class ContentService {
@@ -27,27 +26,19 @@ public class ContentService {
         this.converterService = converterService;
     }
 
-    public ResponseBody getContent(String id, Map<String, Object> config, XDIP xdip) {
+    public ResponseBody getContent(String requestId, Map<String, Object> config, XDIP xdip) {
         try {
-            var binaryContent = contentRepository.downloadContent(xdip, config);
-            var base64String = converterService.inputStreamToBase64String(binaryContent);
-            return responseFactory.createSuccessResponse(id, base64String);
-        } catch (ContentDownloadingFailedException e) {
-            return responseFactory.createErrorResponse(id, e.getErrorCode(), e, Optional.empty());
+            var binaryContent = contentRepository.downloadContent(requestId, xdip, config);
+            String base64String = converterService.inputStreamToBase64String(requestId, binaryContent);
+            return responseFactory.createSuccessResponse(requestId, base64String);
         } catch (IOException e) {
-            return responseFactory.createErrorResponse(id, CONNECTOR_OPERATION_FAILED, e, Optional.empty());
+            throw new ContentConversionException(requestId, "Failed to convert content to base64 format", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
-    public ResponseBody upload(String id, XDIP xdip, Map<String, Object> config, EntityDto entity, String binaryContents) {
-        try {
-            var inputStream = converterService.stringToInputStream(binaryContents);
-            var entityDto = contentRepository.uploadContent(xdip, config, entity, inputStream);
-            return responseFactory.createSuccessResponse(id, entityDto);
-        } catch (Exception e) {
-            return responseFactory.createErrorResponse(
-                    id, CONNECTOR_OPERATION_FAILED, e, Optional.of("Failed to upload translation")
-            );//todo catch several specific exceptions
-        }
+    public ResponseBody upload(String requestId, XDIP xdip, Map<String, Object> config, EntityDto entity, String binaryContents) {
+        var inputStream = converterService.stringToInputStream(binaryContents);
+        var entityDto = contentRepository.uploadContent(requestId, xdip, config, entity, inputStream);
+        return responseFactory.createSuccessResponse(requestId, entityDto);
     }
 }

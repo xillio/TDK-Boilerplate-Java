@@ -1,16 +1,17 @@
 package com.hellotranslate.connector.jsonrpc.request;
 
-import com.hellotranslate.connector.exception.bodyvalidation.InvalidMethodException;
-import com.hellotranslate.connector.exception.bodyvalidation.InvalidScopeException;
+import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.InvalidMethodException;
+import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.InvalidScopeException;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.service.ContentService;
 import com.hellotranslate.connector.service.MetadataService;
 import org.springframework.stereotype.Component;
 
+import static com.hellotranslate.connector.exception.lochub.LocHubErrors.NO_SUCH_SCOPE;
 import static com.hellotranslate.connector.jsonrpc.Method.*;
 import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
 import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
-import static com.hellotranslate.connector.exception.response.LocHubErrorCodes.NO_SUCH_SCOPE;
+import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors.METHOD_NOT_FOUND;
 
 @Component
 public class RequestExecutor {
@@ -29,8 +30,7 @@ public class RequestExecutor {
             case ENTITY_GET -> executeEntityGetRequest(requestDto);
             case ENTITY_GET_BINARY -> executeGetBinaryContentRequest(requestDto);
             case ENTITY_CREATE -> executeUploadTranslationRequest(requestDto);
-
-            default -> throw new InvalidMethodException("No such method", -32601); // todo fix
+            default -> throw new InvalidMethodException(requestDto.id(), "No such method", METHOD_NOT_FOUND.code());
         };
     }
 
@@ -42,13 +42,11 @@ public class RequestExecutor {
                     requestDto.id(),
                     requestDto.params().config(),
                     requestDto.params().xdip());
-
             case PATH_CHILDREN_REFERENCE -> metadataService.getReferences(
                     requestDto.id(),
                     requestDto.params().config(),
                     requestDto.params().xdip());
-
-            default -> throw new InvalidScopeException("No such scope", NO_SUCH_SCOPE);
+            default -> throw new InvalidScopeException(requestDto.id(), "No such scope", NO_SUCH_SCOPE.code());
         };
     }
 
