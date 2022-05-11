@@ -1,10 +1,12 @@
 package com.hellotranslate.connector.exception.response;
 
-public abstract class ResponseBodyException extends Exception {
+public abstract sealed class ResponseBodyException
+        extends Exception
+        permits ContentDownloadingFailedException {
 
     private final int errorCode;
 
-    public ResponseBodyException(String message, int errorCode) {
+    protected ResponseBodyException(String message, int errorCode) {
         super(message);
         this.errorCode = errorCode;
     }

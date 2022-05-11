@@ -19,20 +19,14 @@ public class ConnectorController {
     private final ResponseDtoFactory responseFactory;
     private final RequestExecutor requestExecutor;
 
-    public ConnectorController(
-            RequestBodyValidationService validator,
-            ResponseDtoFactory responseFactory,
-            RequestExecutor requestExecutor)
-    {
+    public ConnectorController(RequestBodyValidationService validator, ResponseDtoFactory responseFactory, RequestExecutor requestExecutor) {
         this.validator = validator;
         this.responseFactory = responseFactory;
         this.requestExecutor = requestExecutor;
     }
 
     @PostMapping
-    public ResponseBody handleJsonRpcRequest(
-            @RequestBody RequestDto requestDto)
-    {
+    public ResponseBody handleJsonRpcRequest(@RequestBody RequestDto requestDto) {
         try {
             validator.validate(requestDto);
             return requestExecutor.execute(requestDto);

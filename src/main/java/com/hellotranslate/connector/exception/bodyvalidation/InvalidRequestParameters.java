@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.exception.bodyvalidation;
 
-public class InvalidRequestParameters extends RequestBodyValidationException {
+public final class InvalidRequestParameters extends RequestBodyValidationException {
 
     public InvalidRequestParameters(String message, int errorCode)
     {

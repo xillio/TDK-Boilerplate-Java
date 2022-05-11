@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.exception.bodyvalidation;
 
-public class InvalidMethodException extends RequestBodyValidationException {
+public final class InvalidMethodException extends RequestBodyValidationException {
 
     public InvalidMethodException(
             String message,

@@ -1,4 +1,4 @@
-package com.hellotranslate.connector.jsonrpc.response;
+package com.hellotranslate.connector.exception.response;
 
 import com.hellotranslate.connector.exception.ClassInstantiationForbiddenException;
 
@@ -14,8 +14,7 @@ public final class LocHubErrorCodes {
     public static final int INVALID_CONFIGURATION = 150;
 
     private LocHubErrorCodes()
-            throws ClassInstantiationForbiddenException
-    {
+            throws ClassInstantiationForbiddenException {
         throw new ClassInstantiationForbiddenException(LocHubErrorCodes.class);
     }
 }

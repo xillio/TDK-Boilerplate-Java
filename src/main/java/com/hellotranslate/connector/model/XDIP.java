@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.CONNECTOR_OPERATION_FAILED;
+import static com.hellotranslate.connector.exception.response.LocHubErrorCodes.CONNECTOR_OPERATION_FAILED;
 import static org.apache.maven.shared.utils.StringUtils.split;
 
 public class XDIP {

@@ -1,13 +1,16 @@
 package com.hellotranslate.connector.exception.bodyvalidation;
 
-public abstract class RequestBodyValidationException extends Exception {
+public abstract sealed class RequestBodyValidationException
+        extends Exception
+        permits InvalidConfigException, InvalidEntityException,
+        InvalidMethodException, InvalidRequestBodyException, InvalidRequestParameters,
+        InvalidScopeException, InvalidXdipException, NoContentToUploadException {
 
     private final int errorCode;
 
     protected RequestBodyValidationException(
             String message,
-            int errorCode)
-    {
+            int errorCode) {
 
         super(message);
         this.errorCode = errorCode;
@@ -16,14 +19,12 @@ public abstract class RequestBodyValidationException extends Exception {
     protected RequestBodyValidationException(
             String message,
             Throwable cause,
-            int errorCode)
-    {
+            int errorCode) {
         super(String.format("%s cause: %s", message, cause));
         this.errorCode = errorCode;
     }
 
-    public int getErrorCode()
-    {
+    public int getErrorCode() {
         return errorCode;
     }
 }

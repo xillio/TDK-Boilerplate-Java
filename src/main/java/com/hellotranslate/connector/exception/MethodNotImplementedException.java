@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.exception;
 
-public class MethodNotImplementedException extends IllegalStateException {
+public final class MethodNotImplementedException extends IllegalStateException {
 
     private static final String DEFAULT_MESSAGE = "Method not implemented";
 

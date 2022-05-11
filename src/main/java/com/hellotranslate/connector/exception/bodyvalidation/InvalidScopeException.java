@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.exception.bodyvalidation;
 
-public class InvalidScopeException extends RequestBodyValidationException {
+public final class InvalidScopeException extends RequestBodyValidationException {
 
     public InvalidScopeException(
             String message,

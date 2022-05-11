@@ -2,7 +2,7 @@ package com.hellotranslate.connector.exception.bodyvalidation;
 
 import java.net.URI;
 
-public class InvalidXdipException extends RequestBodyValidationException {
+public final class InvalidXdipException extends RequestBodyValidationException {
 
     public InvalidXdipException(
             String reason,

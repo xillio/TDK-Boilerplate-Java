@@ -1,5 +1,5 @@
 package com.hellotranslate.connector.jsonrpc.response;
 
-public interface ResponseBody {
+public sealed interface ResponseBody permits ErrorResponseBodyDto, ResultResponseBodyDto {
 
 }

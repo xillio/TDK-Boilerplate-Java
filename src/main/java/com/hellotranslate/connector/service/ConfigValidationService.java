@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.INVALID_CONFIGURATION;
+import static com.hellotranslate.connector.exception.response.LocHubErrorCodes.INVALID_CONFIGURATION;
 
 @Service
 public class ConfigValidationService {

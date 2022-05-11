@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.exception.bodyvalidation;
 
-public class InvalidEntityException extends RequestBodyValidationException{
+public final class InvalidEntityException extends RequestBodyValidationException{
 
     public InvalidEntityException(String message, int errorCode)
     {

@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.exception.bodyvalidation;
 
-public class NoContentToUploadException extends RequestBodyValidationException{
+public final class NoContentToUploadException extends RequestBodyValidationException{
 
     public NoContentToUploadException(String message, int errorCode)
     {

@@ -1,5 +1,8 @@
-package com.hellotranslate.connector.jsonrpc.response;
+package com.hellotranslate.connector.jsonrpc.response.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorDto {
 
     private final int code;

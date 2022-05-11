@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.exception.bodyvalidation;
 
-public class InvalidConfigException extends RequestBodyValidationException{
+public final class InvalidConfigException extends RequestBodyValidationException{
 
     public InvalidConfigException(String message, int errorCode)
     {

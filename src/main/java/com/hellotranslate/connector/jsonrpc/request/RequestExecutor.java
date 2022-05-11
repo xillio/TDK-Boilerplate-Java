@@ -3,84 +3,65 @@ package com.hellotranslate.connector.jsonrpc.request;
 import com.hellotranslate.connector.exception.bodyvalidation.InvalidMethodException;
 import com.hellotranslate.connector.exception.bodyvalidation.InvalidScopeException;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
-import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import com.hellotranslate.connector.service.ContentService;
 import com.hellotranslate.connector.service.MetadataService;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 import static com.hellotranslate.connector.jsonrpc.Method.*;
 import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
 import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
-import static com.hellotranslate.connector.jsonrpc.response.LocHubErrorCodes.*;
+import static com.hellotranslate.connector.exception.response.LocHubErrorCodes.NO_SUCH_SCOPE;
 
 @Component
 public class RequestExecutor {
 
-    private final ResponseDtoFactory responseFactory;
     private final MetadataService metadataService;
     private final ContentService contentService;
 
-    public RequestExecutor(
-            ResponseDtoFactory responseFactory,
-            MetadataService metadataService,
-            ContentService contentService)
-    {
-        this.responseFactory = responseFactory;
+    public RequestExecutor(MetadataService metadataService, ContentService contentService) {
         this.metadataService = metadataService;
         this.contentService = contentService;
     }
 
     public ResponseBody execute(RequestDto requestDto)
-            throws InvalidMethodException, InvalidScopeException
-    {
+            throws InvalidMethodException, InvalidScopeException {
         return switch (requestDto.method()) {
             case ENTITY_GET -> executeEntityGetRequest(requestDto);
             case ENTITY_GET_BINARY -> executeGetBinaryContentRequest(requestDto);
             case ENTITY_CREATE -> executeUploadTranslationRequest(requestDto);
 
-            default -> throw new InvalidMethodException("No such method", OPERATION_NOT_ALLOWED);
+            default -> throw new InvalidMethodException("No such method", -32601); // todo fix
         };
     }
 
     private ResponseBody executeEntityGetRequest(RequestDto requestDto)
-            throws InvalidScopeException
-    {
-        var scope = requestDto.params().getRequestParameters().getProjectionScopes()[0];
+            throws InvalidScopeException {
+        var scope = requestDto.params().requestParameters().getProjectionScopes()[0];
         return switch (scope) {
             case PATH_CHILDREN_ENTITY -> metadataService.getChildren(
                     requestDto.id(),
-                    requestDto.params().getConfig(),
-                    requestDto.params().getXdip());
+                    requestDto.params().config(),
+                    requestDto.params().xdip());
 
             case PATH_CHILDREN_REFERENCE -> metadataService.getReferences(
                     requestDto.id(),
-                    requestDto.params().getConfig(),
-                    requestDto.params().getXdip());
+                    requestDto.params().config(),
+                    requestDto.params().xdip());
 
             default -> throw new InvalidScopeException("No such scope", NO_SUCH_SCOPE);
         };
     }
 
-    private ResponseBody executeGetBinaryContentRequest(RequestDto requestDto)
-    {
-        return contentService.getContent(
-                requestDto.id(),
-                requestDto.params()
-                          .getConfig(),
-                requestDto.params()
-                          .getXdip());
+    private ResponseBody executeGetBinaryContentRequest(RequestDto requestDto) {
+        return contentService.getContent(requestDto.id(), requestDto.params().config(), requestDto.params().xdip());
     }
 
-    private ResponseBody executeUploadTranslationRequest(RequestDto requestDto)
-    {
+    private ResponseBody executeUploadTranslationRequest(RequestDto requestDto) {
         return contentService.upload(
                 requestDto.id(),
-                requestDto.params().getXdip(),
-                requestDto.params().getConfig(),
-                requestDto.params().getEntity(),
-                requestDto.params()
-                          .getBinaryContents());
+                requestDto.params().xdip(),
+                requestDto.params().config(),
+                requestDto.params().entity(),
+                requestDto.params().binaryContents());
     }
 }
