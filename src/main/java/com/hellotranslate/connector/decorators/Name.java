@@ -1,4 +1,4 @@
-package com.hellotranslate.connector.model.decorators;
+package com.hellotranslate.connector.decorators;
 
 public record Name(String systemName, String displayName) {
 

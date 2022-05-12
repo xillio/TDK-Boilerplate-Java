@@ -3,7 +3,7 @@ package com.hellotranslate.connector.service;
 import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.*;
 import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParametersDto;
-import com.hellotranslate.connector.model.decorators.OriginalDto;
+import com.hellotranslate.connector.decorators.OriginalDto;
 import org.springframework.stereotype.Service;
 
 import static com.hellotranslate.connector.exception.lochub.LocHubErrors.*;

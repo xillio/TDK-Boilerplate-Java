@@ -1,4 +1,4 @@
-package com.hellotranslate.connector.model.decorators;
+package com.hellotranslate.connector.decorators;
 
 import java.util.Date;
 

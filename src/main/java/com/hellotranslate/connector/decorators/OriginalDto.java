@@ -1,4 +1,4 @@
-package com.hellotranslate.connector.model.decorators;
+package com.hellotranslate.connector.decorators;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
