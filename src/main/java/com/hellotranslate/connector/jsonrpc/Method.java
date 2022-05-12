@@ -9,12 +9,12 @@ public final class Method {
     public static final String ENTITY_GET = "entity.get";
     public static final String ENTITY_GET_BINARY = "entity.get-binary";
     public static final String ENTITY_CREATE = "entity.create";
+    public static final String ENTITY = "entity";
 
-    public static final List<String> METHODS = List.of(ENTITY_GET, ENTITY_GET_BINARY, ENTITY_CREATE);
+    public static final List<String> METHODS = List.of(ENTITY, ENTITY_GET, ENTITY_GET_BINARY, ENTITY_CREATE);
 
     private Method()
-            throws ClassInstantiationForbiddenException
-    {
+            throws ClassInstantiationForbiddenException {
         throw new ClassInstantiationForbiddenException(Method.class);
     }
 }

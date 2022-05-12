@@ -27,4 +27,9 @@ public class MetadataService {
         var references = metadataRepository.listReferences(requestId, xdip, config);
         return responseFactory.createSuccessResponse(requestId, references);
     }
+
+    public ResponseBody getEntity(String requestId, Map<String, Object> config, String xdip) {
+        var entity = metadataRepository.getEntityByXdip(requestId, xdip, config);
+        return responseFactory.createSuccessResponse(requestId, entity);
+    }
 }

@@ -3,7 +3,7 @@ package com.hellotranslate.connector.service;
 import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.*;
 import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParametersDto;
-import com.hellotranslate.connector.decorators.OriginalDto;
+import com.hellotranslate.connector.decorators.Original;
 import org.springframework.stereotype.Service;
 
 import static com.hellotranslate.connector.exception.lochub.LocHubErrors.*;
@@ -71,7 +71,7 @@ public class RequestBodyValidationService {
 
     private void validateBinaryContents(RequestDto requestDto) {
         if (contentIsNotPresent(requestDto)) {
-            throw new NoContentToUploadException(requestDto.id(), "Scope is empty or not supported", NO_BINARY_CONTENT.code());
+            throw new NoContentToUploadException(requestDto.id(), "No content to upload", NO_BINARY_CONTENT.code());
         }
     }
 
@@ -116,21 +116,21 @@ public class RequestBodyValidationService {
                 || originalIsInvalid(entity.original());
     }
 
-    private boolean originalIsInvalid(OriginalDto original) {
+    private boolean originalIsInvalid(Original original) {
         return original.name() == null
                 || original.language() == null
                 || originalNameIsInvalid(original)
                 || originalLanguageInvalid(original);
     }
 
-    private boolean originalLanguageInvalid(OriginalDto original) {
+    private boolean originalLanguageInvalid(Original original) {
         return original.language().tag() == null
                 || original.language().translationOf() == null
                 || original.language().tag().isEmpty()
                 || original.language().translationOf().isEmpty();
     }
 
-    private boolean originalNameIsInvalid(OriginalDto original) {
+    private boolean originalNameIsInvalid(Original original) {
         return original.name().systemName() == null
                 || original.name().displayName() == null
                 || original.name().systemName().isEmpty();

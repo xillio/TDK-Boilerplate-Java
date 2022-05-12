@@ -46,6 +46,10 @@ public class RequestExecutor {
                     requestDto.id(),
                     requestDto.params().config(),
                     requestDto.params().xdip());
+            case ENTITY -> metadataService.getEntity(
+                    requestDto.id(),
+                    requestDto.params().config(),
+                    requestDto.params().xdip());
             default -> throw new InvalidScopeException(requestDto.id(), "No such scope", NO_SUCH_SCOPE.code());
         };
     }

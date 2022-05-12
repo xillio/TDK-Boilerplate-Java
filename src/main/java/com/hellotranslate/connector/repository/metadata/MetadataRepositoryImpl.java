@@ -26,4 +26,9 @@ public final class MetadataRepositoryImpl implements MetadataRepository {
     public List<String> listReferences(String requestId, String xdip, Map<String, Object> config) {
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
+
+    @Override
+    public EntityDto getEntityByXdip(String requestId, String xdip, Map<String, Object> config) {
+        throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
+    }
 }

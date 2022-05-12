@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.OK)
 public abstract sealed class ResponseBodyException
         extends RuntimeException
-        permits AuthorizationFailedException, ConnectorOperationFailedException, ContentConversionException, ContentDownloadingFailedException, InvalidConfigurationException, MethodNotImplementedException, NoBinaryContentException, NoSuchEntityException, OperationNotAllowedException {
+        permits AuthorizationFailedException, ConnectorOperationFailedException,
+        ContentConversionException, ContentDownloadingFailedException,
+        InvalidConfigurationException, MethodNotImplementedException,
+        NoBinaryContentException, NoSuchEntityException, OperationNotAllowedException {
 
     private final String requestId;
     private final int errorCode;
