@@ -9,6 +9,11 @@ import java.util.Map;
 
 import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECTOR_OPERATION_FAILED;
 
+/**
+ * This class is an implementation of the {@link MetadataRepository} interface.
+ * <p>
+ * To make TDK work, you must write an implementation how to get child entities and entity's metadata from your datastore.
+ */
 @Repository
 public final class MetadataRepositoryImpl implements MetadataRepository {
 
