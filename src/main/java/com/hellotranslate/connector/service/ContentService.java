@@ -4,7 +4,6 @@ import com.hellotranslate.connector.exception.jsonrpc.response.ContentConversion
 import com.hellotranslate.connector.jsonrpc.EntityDto;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
-import com.hellotranslate.connector.model.XDIP;
 import com.hellotranslate.connector.repository.content.ContentRepository;
 import org.springframework.stereotype.Service;
 

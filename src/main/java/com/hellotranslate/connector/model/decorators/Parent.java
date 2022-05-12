@@ -1,7 +1,5 @@
 package com.hellotranslate.connector.model.decorators;
 
-import com.hellotranslate.connector.model.XDIP;
-
-public record Parent(XDIP id) {
+public record Parent(String id) {
 
 }

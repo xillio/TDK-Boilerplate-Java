@@ -2,7 +2,6 @@ package com.hellotranslate.connector.service;
 
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
-import com.hellotranslate.connector.model.XDIP;
 import com.hellotranslate.connector.repository.metadata.MetadataRepository;
 import org.springframework.stereotype.Service;
 

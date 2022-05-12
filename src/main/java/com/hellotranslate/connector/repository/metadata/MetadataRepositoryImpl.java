@@ -2,7 +2,6 @@ package com.hellotranslate.connector.repository.metadata;
 
 import com.hellotranslate.connector.exception.jsonrpc.response.MethodNotImplementedException;
 import com.hellotranslate.connector.jsonrpc.EntityDto;
-import com.hellotranslate.connector.model.XDIP;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
