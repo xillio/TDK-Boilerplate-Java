@@ -7,7 +7,7 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ParamsDto(Map<String, Object> config,
-                        String xdip,
+                        String xdip, //todo rolllback to XDIP
                         RequestParametersDto requestParameters,
                         EntityDto entity,
                         String binaryContents) {

@@ -15,11 +15,11 @@ public class ConfigValidationService {
     public void validate(String requestId, Map<String, Object> config)
             throws InvalidConfigException {
         if (configIsInvalid(config)) {
-            throw new InvalidConfigException(requestId, "Config is invalid", INVALID_CONFIGURATION.code());
+            throw new InvalidConfigException(requestId, INVALID_CONFIGURATION.message(), INVALID_CONFIGURATION.code());
         }
 
         if (failedToAuthorize(config)) {
-            throw new AuthorizationFailedException(requestId, "Failed to authorize", AUTHORIZATION_FAILED.code());
+            throw new AuthorizationFailedException(requestId, AUTHORIZATION_FAILED.message(), AUTHORIZATION_FAILED.code());
         }
     }
 

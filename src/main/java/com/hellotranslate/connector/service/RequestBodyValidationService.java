@@ -35,7 +35,7 @@ public class RequestBodyValidationService {
 
     private void methodSupported(RequestDto requestDto) {
         if (!METHODS.contains(requestDto.method())) {
-            throw new InvalidMethodException(requestDto.id(), "Method is not supported", METHOD_NOT_FOUND.code());
+            throw new InvalidMethodException(requestDto.id(), METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
         }
     }
 
@@ -65,7 +65,7 @@ public class RequestBodyValidationService {
                 xdipIsPresent(requestDto);
             }
 
-            default -> throw new InvalidRequestParameters(requestDto.id(), "Scope is empty or not supported", NO_SUCH_SCOPE.code());
+            default -> throw new InvalidRequestParameters(requestDto.id(), METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
         }
     }
 
@@ -90,7 +90,7 @@ public class RequestBodyValidationService {
     private void xdipIsPresent(RequestDto requestDto) {
         var xdip = requestDto.params().xdip();
         if (xdip == null) {
-            throw new InvalidXdipException(requestDto.id(), "Xdip is empty or invalid", CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(requestDto.id(), "Xdip is empty", CONNECTOR_OPERATION_FAILED.code());
         }
     }
 
