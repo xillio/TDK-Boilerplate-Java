@@ -26,7 +26,7 @@ public class ContentService {
         this.converterService = converterService;
     }
 
-    public ResponseBody getContent(String requestId, Map<String, Object> config, XDIP xdip) {
+    public ResponseBody getContent(String requestId, Map<String, Object> config, String xdip) {
         try {
             var binaryContent = contentRepository.downloadContent(requestId, xdip, config);
             String base64String = converterService.inputStreamToBase64String(requestId, binaryContent);
@@ -36,7 +36,7 @@ public class ContentService {
         }
     }
 
-    public ResponseBody upload(String requestId, XDIP xdip, Map<String, Object> config, EntityDto entity, String binaryContents) {
+    public ResponseBody upload(String requestId, String xdip, Map<String, Object> config, EntityDto entity, String binaryContents) {
         var inputStream = converterService.stringToInputStream(binaryContents);
         var entityDto = contentRepository.uploadContent(requestId, xdip, config, entity, inputStream);
         return responseFactory.createSuccessResponse(requestId, entityDto);

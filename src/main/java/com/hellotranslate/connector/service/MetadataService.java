@@ -19,12 +19,12 @@ public class MetadataService {
         this.metadataRepository = metadataRepository;
     }
 
-    public ResponseBody getChildren(String requestId, Map<String, Object> config, XDIP xdip) {
+    public ResponseBody getChildren(String requestId, Map<String, Object> config, String xdip) {
         var children = metadataRepository.listChildren(requestId, xdip, config);
         return responseFactory.createSuccessResponse(requestId, children);
     }
 
-    public ResponseBody getReferences(String requestId, Map<String, Object> config, XDIP xdip) {
+    public ResponseBody getReferences(String requestId, Map<String, Object> config, String xdip) {
         var references = metadataRepository.listReferences(requestId, xdip, config);
         return responseFactory.createSuccessResponse(requestId, references);
     }

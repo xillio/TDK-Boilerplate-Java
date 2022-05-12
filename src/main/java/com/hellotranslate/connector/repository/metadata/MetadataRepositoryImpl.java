@@ -14,12 +14,12 @@ import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECT
 public final class MetadataRepositoryImpl implements MetadataRepository {
 
     @Override
-    public List<EntityDto> listChildren(String requestId, XDIP xdip, Map<String, Object> config) {
+    public List<EntityDto> listChildren(String requestId, String xdip, Map<String, Object> config) {
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
 
     @Override
-    public List<XDIP> listReferences(String requestId, XDIP xdip, Map<String, Object> config) {
+    public List<String> listReferences(String requestId, String xdip, Map<String, Object> config) {
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
 }

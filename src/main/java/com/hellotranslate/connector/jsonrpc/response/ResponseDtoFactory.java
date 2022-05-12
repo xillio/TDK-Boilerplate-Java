@@ -11,6 +11,10 @@ import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
 @Component
 public class ResponseDtoFactory {
 
+    public ResponseBody createErrorResponse(String requestId, int errorCode, String message) {
+        return new ErrorResponseBodyDto(requestId, V2_0, new ErrorDto(errorCode, message));
+    }
+
     public ResponseBody createErrorResponse(String requestId, int errorCode, String message, Optional<String> data) {
         return new ErrorResponseBodyDto(requestId, V2_0, new ErrorDto(errorCode, message, data));
     }

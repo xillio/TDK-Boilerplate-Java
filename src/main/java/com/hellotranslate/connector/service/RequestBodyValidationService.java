@@ -3,7 +3,6 @@ package com.hellotranslate.connector.service;
 import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.*;
 import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParametersDto;
-import com.hellotranslate.connector.model.XDIP;
 import com.hellotranslate.connector.model.decorators.OriginalDto;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +15,25 @@ import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors
 public class RequestBodyValidationService {
 
     private final ConfigValidationService configValidationService;
+    private final XdipValidationService xdipValidationService;
 
-    public RequestBodyValidationService(ConfigValidationService configValidationService) {
+    public RequestBodyValidationService(ConfigValidationService configValidationService, XdipValidationService xdipValidationService) {
         this.configValidationService = configValidationService;
+        this.xdipValidationService = xdipValidationService;
     }
 
     public void validate(RequestDto requestDto) {
         hasBasicAttributes(requestDto);
-        methodNotSupported(requestDto);
         hasMethodAttributes(requestDto);
+        xdipIsValid(requestDto);
+        methodSupported(requestDto);
     }
 
-    private void methodNotSupported(RequestDto requestDto) {
+    private void xdipIsValid(RequestDto requestDto) {
+        xdipValidationService.validate(requestDto);
+    }
+
+    private void methodSupported(RequestDto requestDto) {
         if (!METHODS.contains(requestDto.method())) {
             throw new InvalidMethodException(requestDto.id(), "Method is not supported", METHOD_NOT_FOUND.code());
         }
@@ -43,7 +49,7 @@ public class RequestBodyValidationService {
         switch (requestDto.method()) {
             case ENTITY_GET -> {
                 configValidationService.validate(requestDto.id(), requestDto.params().config());
-                validateXdip(requestDto);
+                xdipIsPresent(requestDto);
                 validateRequestParameters(requestDto);
             }
 
@@ -56,7 +62,7 @@ public class RequestBodyValidationService {
 
             case ENTITY_GET_BINARY -> {
                 configValidationService.validate(requestDto.id(), requestDto.params().config());
-                validateXdip(requestDto);
+                xdipIsPresent(requestDto);
             }
 
             default -> throw new InvalidRequestParameters(requestDto.id(), "Scope is empty or not supported", NO_SUCH_SCOPE.code());
@@ -81,9 +87,9 @@ public class RequestBodyValidationService {
         }
     }
 
-    private void validateXdip(RequestDto requestDto) {
+    private void xdipIsPresent(RequestDto requestDto) {
         var xdip = requestDto.params().xdip();
-        if (xdip == null || !xdip.getClass().equals(XDIP.class)) {
+        if (xdip == null) {
             throw new InvalidXdipException(requestDto.id(), "Xdip is empty or invalid", CONNECTOR_OPERATION_FAILED.code());
         }
     }

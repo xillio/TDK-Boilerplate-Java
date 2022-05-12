@@ -8,7 +8,7 @@ import java.util.Map;
 
 public sealed interface MetadataRepository permits MetadataRepositoryImpl {
 
-    List<EntityDto> listChildren(String requestId, XDIP xdip, Map<String, Object> config);
+    List<EntityDto> listChildren(String requestId, String xdip, Map<String, Object> config);
 
-    List<XDIP> listReferences(String requestId, XDIP xdip, Map<String, Object> config);
+    List<String> listReferences(String requestId, String xdip, Map<String, Object> config);
 }

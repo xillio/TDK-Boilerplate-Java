@@ -9,7 +9,7 @@ import java.util.Map;
 
 public sealed interface ContentRepository permits ContentRepositoryImpl {
 
-    InputStream downloadContent(String requestId, XDIP xdip, Map<String, Object> config) throws MethodNotImplementedException;
+    InputStream downloadContent(String requestId, String xdip, Map<String, Object> config) throws MethodNotImplementedException;
 
-    EntityDto uploadContent(String requestId, XDIP xdip, Map<String, Object> config, EntityDto entity, InputStream binaryContents) throws MethodNotImplementedException;
+    EntityDto uploadContent(String requestId, String xdip, Map<String, Object> config, EntityDto entity, InputStream binaryContents) throws MethodNotImplementedException;
 }

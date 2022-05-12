@@ -1,13 +1,14 @@
 package com.hellotranslate.connector.handler;
 
 import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.RequestBodyValidationException;
-import com.hellotranslate.connector.exception.jsonrpc.response.ResponseBodyException;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
+import java.util.Optional;
+
+@RestControllerAdvice
 public class RequestExceptionHandler {
 
     private final ResponseDtoFactory responseFactory;
@@ -17,9 +18,9 @@ public class RequestExceptionHandler {
     }
 
     @ExceptionHandler(value = RequestBodyValidationException.class)
-    public void handleResponseBodyException(ResponseBodyException e) {
-        System.out.println(e.getErrorCode());
-        System.out.println(e.getMessage());
-        System.out.println(e.getStackTrace());
+    public ResponseBody handleResponseBodyException(RequestBodyValidationException e) {
+        return responseFactory.createErrorResponse(
+                e.getRequestId(), e.getErrorCode(), e.getMessage()
+        );
     }
 }
