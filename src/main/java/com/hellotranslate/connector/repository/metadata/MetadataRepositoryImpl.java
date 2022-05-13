@@ -20,16 +20,19 @@ public final class MetadataRepositoryImpl implements MetadataRepository {
 
     @Override
     public List<EntityDto> listChildren(String requestId, XDIP xdip, Map<String, Object> config) {
+        // TODO: implement
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
 
     @Override
     public List<String> listReferences(String requestId, XDIP xdip, Map<String, Object> config) {
+        // TODO: implement
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
 
     @Override
     public EntityDto getEntityByXdip(String requestId, XDIP xdip, Map<String, Object> config) {
+        // TODO: implement
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
 }

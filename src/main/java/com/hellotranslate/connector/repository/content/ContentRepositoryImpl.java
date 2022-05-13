@@ -23,6 +23,7 @@ public final class ContentRepositoryImpl implements ContentRepository {
     public InputStream downloadContent(String requestId,
                                        XDIP xdip,
                                        Map<String, Object> config) throws MethodNotImplementedException {
+        // TODO: implement
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
 
@@ -33,6 +34,7 @@ public final class ContentRepositoryImpl implements ContentRepository {
             Map<String, Object> config,
             EntityDto entity,
             InputStream binaryContents) throws MethodNotImplementedException {
+        // TODO: implement
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
 }

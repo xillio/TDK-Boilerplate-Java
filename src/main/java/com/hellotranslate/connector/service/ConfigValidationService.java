@@ -24,12 +24,12 @@ public class ConfigValidationService {
     }
 
     private boolean configIsInvalid(Map<String, Object> config) {
-        //todo: implement config validation
+        //TODO: implement config validation (optional)
         return false;
     }
 
     private boolean failedToAuthorize(Map<String, Object> config) {
-        //todo: implement authorization
+        //TODO: implement authorization (optional)
         return false;
     }
 }
