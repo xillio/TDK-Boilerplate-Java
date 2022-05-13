@@ -1,5 +1,6 @@
 package com.hellotranslate.connector.service;
 
+import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperationFailedException;
 import com.hellotranslate.connector.exception.jsonrpc.response.ContentConversionException;
 import com.hellotranslate.connector.jsonrpc.EntityDto;
 import com.hellotranslate.connector.jsonrpc.request.XDIP;
@@ -39,6 +40,9 @@ public class ContentService {
     public ResponseBody upload(String requestId, XDIP xdip, Map<String, Object> config, EntityDto entity, String binaryContents) {
         var inputStream = converterService.stringToInputStream(binaryContents);
         var entityDto = contentRepository.uploadContent(requestId, xdip, config, entity, inputStream);
+        if (entityDto == null) {
+            throw new ConnectorOperationFailedException(requestId, "Failed to upload content", CONNECTOR_OPERATION_FAILED.code());
+        }
         return responseFactory.createSuccessResponse(requestId, entityDto);
     }
 }
