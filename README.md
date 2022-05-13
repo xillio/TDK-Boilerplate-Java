@@ -8,7 +8,7 @@ Along with enabling anyone to write his own connector, this architecture allows 
 
 You can read more regarding this connector in the [Xillio API documentation](https://docs.xill.io/#connector-json-rpc).
 
-This TDK is available also in [C#]() and [Node.js](https://github.com/xillio/TDK-Boilerplate-Node)
+This TDK is available also in [C#](https://github.com/xillio/TDK-Boilerplate-CSharp) and [Node.js](https://github.com/xillio/TDK-Boilerplate-Node)
 
 ## What is the purpose of the TDK?
 Configuring JSON RPC connector via dashboard is a complicated task.
