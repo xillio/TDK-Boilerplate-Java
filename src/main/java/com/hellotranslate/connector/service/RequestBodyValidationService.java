@@ -1,12 +1,13 @@
 package com.hellotranslate.connector.service;
 
+import com.hellotranslate.connector.decorators.Original;
 import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.*;
 import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParametersDto;
-import com.hellotranslate.connector.decorators.Original;
 import org.springframework.stereotype.Service;
 
-import static com.hellotranslate.connector.exception.lochub.LocHubErrors.*;
+import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECTOR_OPERATION_FAILED;
+import static com.hellotranslate.connector.exception.lochub.LocHubErrors.NO_BINARY_CONTENT;
 import static com.hellotranslate.connector.jsonrpc.Method.*;
 import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
 import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors.*;
@@ -15,22 +16,15 @@ import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors
 public class RequestBodyValidationService {
 
     private final ConfigValidationService configValidationService;
-    private final XdipValidationService xdipValidationService;
 
-    public RequestBodyValidationService(ConfigValidationService configValidationService, XdipValidationService xdipValidationService) {
+    public RequestBodyValidationService(ConfigValidationService configValidationService) {
         this.configValidationService = configValidationService;
-        this.xdipValidationService = xdipValidationService;
     }
 
     public void validate(RequestDto requestDto) {
         hasBasicAttributes(requestDto);
         hasMethodAttributes(requestDto);
-        xdipIsValid(requestDto);
         methodSupported(requestDto);
-    }
-
-    private void xdipIsValid(RequestDto requestDto) {
-        xdipValidationService.validate(requestDto);
     }
 
     private void methodSupported(RequestDto requestDto) {

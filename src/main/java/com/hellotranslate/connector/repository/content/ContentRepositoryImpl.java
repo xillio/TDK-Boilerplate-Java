@@ -2,6 +2,7 @@ package com.hellotranslate.connector.repository.content;
 
 import com.hellotranslate.connector.exception.jsonrpc.response.MethodNotImplementedException;
 import com.hellotranslate.connector.jsonrpc.EntityDto;
+import com.hellotranslate.connector.jsonrpc.request.XDIP;
 import org.springframework.stereotype.Repository;
 
 import java.io.InputStream;
@@ -20,7 +21,7 @@ public final class ContentRepositoryImpl implements ContentRepository {
 
     @Override
     public InputStream downloadContent(String requestId,
-                                       String xdip,
+                                       XDIP xdip,
                                        Map<String, Object> config) throws MethodNotImplementedException {
         throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
     }
@@ -28,7 +29,7 @@ public final class ContentRepositoryImpl implements ContentRepository {
     @Override
     public EntityDto uploadContent(
             String requestId,
-            String xdip,
+            XDIP xdip,
             Map<String, Object> config,
             EntityDto entity,
             InputStream binaryContents) throws MethodNotImplementedException {

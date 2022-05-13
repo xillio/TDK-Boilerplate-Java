@@ -12,8 +12,8 @@ import static com.hellotranslate.connector.exception.lochub.LocHubErrors.INVALID
 @Service
 public class ConfigValidationService {
 
-    public void validate(String requestId, Map<String, Object> config)
-            throws InvalidConfigException {
+    public void validate(String requestId, Map<String, Object> config) throws InvalidConfigException {
+
         if (configIsInvalid(config)) {
             throw new InvalidConfigException(requestId, INVALID_CONFIGURATION.message(), INVALID_CONFIGURATION.code());
         }

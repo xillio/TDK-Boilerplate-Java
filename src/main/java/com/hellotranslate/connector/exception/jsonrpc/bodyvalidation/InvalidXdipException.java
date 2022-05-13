@@ -8,4 +8,8 @@ public final class InvalidXdipException extends RequestBodyValidationException {
             int errorCode) {
         super(requestId, message, errorCode);
     }
+
+    public InvalidXdipException(String message, int errorCode) {
+        super(null, message, errorCode);
+    }
 }
