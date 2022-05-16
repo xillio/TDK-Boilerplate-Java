@@ -11,17 +11,11 @@ public abstract sealed class ResponseBodyException
         InvalidConfigurationException, MethodNotImplementedException,
         NoBinaryContentException, NoSuchEntityException, OperationNotAllowedException {
 
-    private final String requestId;
     private final int errorCode;
 
-    protected ResponseBodyException(String requestId, String message, int errorCode) {
+    protected ResponseBodyException(String message, int errorCode) {
         super(message);
-        this.requestId = requestId;
         this.errorCode = errorCode;
-    }
-
-    public String getRequestId() {
-        return requestId;
     }
 
     public int getErrorCode() {

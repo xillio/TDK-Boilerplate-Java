@@ -19,20 +19,20 @@ import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECT
 public final class MetadataRepositoryImpl implements MetadataRepository {
 
     @Override
-    public List<EntityDto> listChildren(String requestId, XDIP xdip, Map<String, Object> config) {
+    public List<EntityDto> listChildren(XDIP xdip, Map<String, Object> config) {
         // TODO: implement
-        throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
+        throw new MethodNotImplementedException(CONNECTOR_OPERATION_FAILED.code());
     }
 
     @Override
-    public List<String> listReferences(String requestId, XDIP xdip, Map<String, Object> config) {
+    public List<String> listReferences(XDIP xdip, Map<String, Object> config) {
         // TODO: implement
-        throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
+        throw new MethodNotImplementedException(CONNECTOR_OPERATION_FAILED.code());
     }
 
     @Override
-    public EntityDto getEntityByXdip(String requestId, XDIP xdip, Map<String, Object> config) {
+    public EntityDto getEntityByXdip(XDIP xdip, Map<String, Object> config) {
         // TODO: implement
-        throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
+        throw new MethodNotImplementedException(CONNECTOR_OPERATION_FAILED.code());
     }
 }

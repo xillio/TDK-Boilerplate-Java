@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 
 import static com.hellotranslate.connector.exception.lochub.LocHubErrors.NO_SUCH_SCOPE;
 import static com.hellotranslate.connector.jsonrpc.Method.*;
-import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_ENTITY;
-import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.PATH_CHILDREN_REFERENCE;
+import static com.hellotranslate.connector.jsonrpc.request.scope.SupportedProjectScopes.*;
 import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors.METHOD_NOT_FOUND;
 
 @Component
@@ -24,18 +23,16 @@ public class RequestExecutor {
         this.contentService = contentService;
     }
 
-    public ResponseBody execute(RequestDto requestDto)
-            throws InvalidMethodException, InvalidScopeException {
+    public ResponseBody execute(RequestDto requestDto) {
         return switch (requestDto.method()) {
             case ENTITY_GET -> executeEntityGetRequest(requestDto);
             case ENTITY_GET_BINARY -> executeGetBinaryContentRequest(requestDto);
             case ENTITY_CREATE -> executeUploadTranslationRequest(requestDto);
-            default -> throw new InvalidMethodException(requestDto.id(), METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
+            default -> throw new InvalidMethodException(METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
         };
     }
 
-    private ResponseBody executeEntityGetRequest(RequestDto requestDto)
-            throws InvalidScopeException {
+    private ResponseBody executeEntityGetRequest(RequestDto requestDto) {
         var scope = requestDto.params().requestParameters().getProjectionScopes()[0];
         return switch (scope) {
             case PATH_CHILDREN_ENTITY -> metadataService.getChildren(
@@ -50,7 +47,7 @@ public class RequestExecutor {
                     requestDto.id(),
                     requestDto.params().config(),
                     requestDto.params().xdip());
-            default -> throw new InvalidScopeException(requestDto.id(), NO_SUCH_SCOPE.message(), NO_SUCH_SCOPE.code());
+            default -> throw new InvalidScopeException(NO_SUCH_SCOPE.message(), NO_SUCH_SCOPE.code());
         };
     }
 

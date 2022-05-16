@@ -10,18 +10,11 @@ public abstract sealed class RequestBodyValidationException
         InvalidMethodException, InvalidRequestBodyException, InvalidRequestParameters,
         InvalidScopeException, InvalidXdipException, NoContentToUploadException {
 
-    private final String requestId;
     private final int errorCode;
 
-    protected RequestBodyValidationException(String requestId, String message, int errorCode) {
-
+    protected RequestBodyValidationException(String message, int errorCode) {
         super(message);
-        this.requestId = requestId;
         this.errorCode = errorCode;
-    }
-
-    public String getRequestId() {
-        return requestId;
     }
 
     public int getErrorCode() {

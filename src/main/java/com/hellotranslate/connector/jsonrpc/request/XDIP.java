@@ -14,48 +14,43 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECTOR_OPERATION_FAILED;
+import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors.PARSE_ERROR;
 import static org.apache.maven.shared.utils.StringUtils.split;
 
 public class XDIP {
 
-    public static final String SCHEME = "xdip";
-    public static final String CONFIGURATION_ID_PATTERN = "[a-zA-Z0-9][a-zA-Z0-9-]{0,253}[a-zA-Z0-9]";
+    private static final String SCHEME = "xdip";
+    private static final String CONFIGURATION_ID_PATTERN = "[a-zA-Z0-9][a-zA-Z0-9-]{0,253}[a-zA-Z0-9]";
 
-    public static final String QUERY_PARAM_LANGUAGE = "language";
-    public static final String QUERY_PARAM_VERSION = "version";
+    private static final String QUERY_PARAM_LANGUAGE = "language";
+    private static final String QUERY_PARAM_VERSION = "version";
 
     private static final Set<String> ALLOWED_QUERY_PARAMETERS = Set.of(QUERY_PARAM_LANGUAGE, QUERY_PARAM_VERSION);
 
     private final Map<String, String> encodedQueryParameters;
     private final URI uri;
 
-    public XDIP(@Nonnull String encodedPath)
-            throws InvalidXdipException {
+    public XDIP(@Nonnull String encodedPath) {
         this("PLACEHOLDER", encodedPath);
     }
 
     public XDIP(
             @Nonnull String configurationId,
-            @Nonnull String encodedPath)
-            throws InvalidXdipException {
-        this(
-                new URIBuilder()
-                        .setScheme("xdip")
-                        .setHost(XdipValidator.notNullOrEmpty(
-                                configurationId,
-                                "configurationId"))
-                        .setPath(decode(XdipValidator.startsWith(encodedPath, "/", "path")))
+            @Nonnull String encodedPath) {
+        this(new URIBuilder()
+                .setScheme("xdip")
+                .setHost(XdipValidator.notNullOrEmpty(
+                        configurationId,
+                        "configurationId"))
+                .setPath(decode(XdipValidator.startsWith(encodedPath, "/", "path")))
         );
     }
 
-    public XDIP(URIBuilder uriBuilder)
-            throws InvalidXdipException {
+    public XDIP(URIBuilder uriBuilder) {
         this(build(uriBuilder));
     }
 
-    XDIP(URI uri)
-            throws InvalidXdipException {
+    XDIP(URI uri) {
         this.uri = uri;
         this.encodedQueryParameters = parseQueryParameters(uri.getRawQuery());
 
@@ -68,8 +63,7 @@ public class XDIP {
     }
 
     @JsonCreator
-    private static XDIP buildXdip(String uri)
-            throws InvalidXdipException {
+    private static XDIP buildXdip(String uri) {
         return new XDIP(URI.create(uri));
     }
 
@@ -109,9 +103,7 @@ public class XDIP {
 
             return URI.create(uri);
         } catch (URISyntaxException e) {
-            throw new IllegalArgumentException(
-                    "Could not parse a new URI from the given values.",
-                    e);
+            throw new InvalidXdipException("Could not parse a new URI from the given values.", PARSE_ERROR.code());
         }
     }
 
@@ -122,64 +114,55 @@ public class XDIP {
 
         return Arrays.stream(split(rawQuery, "&"))
                 .map(query -> split(query, "="))
-                .collect(Collectors.toMap(
-                        parts -> parts[0],
-                        parts -> (parts.length > 1) ? parts[1] : ""));
+                .collect(Collectors.toMap(parts -> parts[0], parts -> (parts.length > 1) ? parts[1] : ""));
     }
 
-    private void schemeMustBeXdip()
-            throws InvalidXdipException {
+    private void schemeMustBeXdip() {
         if (!SCHEME.equals(uri.getScheme())) {
-            throw new InvalidXdipException(String.format("%s - XDIP URLs must use the " + SCHEME + " scheme.", uri), CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(String.format("%s - XDIP URLs must use the %s scheme.", uri, SCHEME), PARSE_ERROR.code());
         }
     }
 
-    private void cannotUseFragment()
-            throws InvalidXdipException {
+    private void cannotUseFragment() {
         if (uri.getRawFragment() != null) {
-            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use fragment parameters", uri), CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use fragment parameters", uri), PARSE_ERROR.code());
         }
     }
 
-    private void cannotUseUserInfo()
-            throws InvalidXdipException {
+    private void cannotUseUserInfo() {
         if (uri.getRawUserInfo() != null) {
-            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use user information", uri), CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use user information", uri), PARSE_ERROR.code());
         }
     }
 
-    private void cannotUsePort()
-            throws InvalidXdipException {
+    private void cannotUsePort() {
         if (uri.getPort() != -1) {
-            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use port specifications", uri), CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use port specifications", uri), PARSE_ERROR.code());
         }
     }
 
-    private void configurationIdMustMatchPattern()
-            throws InvalidXdipException {
+    private void configurationIdMustMatchPattern() {
         validateConfigurationId(uri.getHost());
     }
 
-    private void validateConfigurationId(String configurationId)
-            throws InvalidXdipException {
+    private void validateConfigurationId(String configurationId) {
         if (configurationId == null || !configurationId.matches(XDIP.CONFIGURATION_ID_PATTERN)) {
             throw new InvalidXdipException(
                     "Configuration ids can only contain alphanumerics and dashes, but the id cannot " +
-                            "start or end with a dash. The minimum length is 2 and maximum is 255.", CONNECTOR_OPERATION_FAILED.code());
+                            "start or end with a dash. The minimum length is 2 and maximum is 255.", PARSE_ERROR.code());
         }
     }
 
     private void canOnlyUseWhitelistedQueryParameters() {
         if (encodedQueryParameters.size() > 0 && (encodedQueryParameters.containsValue(null) || encodedQueryParameters.containsValue(""))) {
             throw new InvalidXdipException(
-                    String.format("%s - XDIP URLs can not contain flags as query parameters", uri), CONNECTOR_OPERATION_FAILED.code());
+                    String.format("%s - XDIP URLs can not contain flags as query parameters", uri), PARSE_ERROR.code());
         }
 
         if (hasDisallowedQueries()) {
             throw new InvalidXdipException(
-                    String.format("%s - XDIP URL contains invalid query parameters. Valid parameters are [\"%s\"] ", uri, String.join(
-                            "\", \"",
-                            ALLOWED_QUERY_PARAMETERS)), CONNECTOR_OPERATION_FAILED.code());
+                    String.format("%s - XDIP URL contains invalid query parameters. Valid parameters are [\"%s\"] ", uri,
+                            String.join("\", \"", ALLOWED_QUERY_PARAMETERS)), PARSE_ERROR.code());
         }
     }
 

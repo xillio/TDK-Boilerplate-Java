@@ -14,7 +14,7 @@ import com.hellotranslate.connector.service.ConfigValidationService;
  */
 public final class AuthorizationFailedException extends ResponseBodyException {
 
-    public AuthorizationFailedException(String requestId, String message, int errorCode) {
-        super(requestId, message, errorCode);
+    public AuthorizationFailedException(String message, int errorCode) {
+        super(message, errorCode);
     }
 }

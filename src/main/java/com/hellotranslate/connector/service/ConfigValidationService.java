@@ -12,14 +12,14 @@ import static com.hellotranslate.connector.exception.lochub.LocHubErrors.INVALID
 @Service
 public class ConfigValidationService {
 
-    public void validate(String requestId, Map<String, Object> config) throws InvalidConfigException {
+    public void validate(Map<String, Object> config) {
 
         if (configIsInvalid(config)) {
-            throw new InvalidConfigException(requestId, INVALID_CONFIGURATION.message(), INVALID_CONFIGURATION.code());
+            throw new InvalidConfigException(INVALID_CONFIGURATION.message(), INVALID_CONFIGURATION.code());
         }
 
         if (failedToAuthorize(config)) {
-            throw new AuthorizationFailedException(requestId, AUTHORIZATION_FAILED.message(), AUTHORIZATION_FAILED.code());
+            throw new AuthorizationFailedException(AUTHORIZATION_FAILED.message(), AUTHORIZATION_FAILED.code());
         }
     }
 

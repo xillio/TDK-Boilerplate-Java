@@ -6,7 +6,6 @@ import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParametersDto;
 import org.springframework.stereotype.Service;
 
-import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECTOR_OPERATION_FAILED;
 import static com.hellotranslate.connector.exception.lochub.LocHubErrors.NO_BINARY_CONTENT;
 import static com.hellotranslate.connector.jsonrpc.Method.*;
 import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
@@ -29,62 +28,62 @@ public class RequestBodyValidationService {
 
     private void methodSupported(RequestDto requestDto) {
         if (!METHODS.contains(requestDto.method())) {
-            throw new InvalidMethodException(requestDto.id(), METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
+            throw new InvalidMethodException(METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
         }
     }
 
     private void hasBasicAttributes(RequestDto requestDto) {
         if (basicAttributesInvalid(requestDto)) {
-            throw new InvalidRequestBodyException(requestDto.id(), INVALID_REQUEST.message(), INVALID_REQUEST.code());
+            throw new InvalidRequestBodyException(INVALID_REQUEST.message(), INVALID_REQUEST.code());
         }
     }
 
     private void hasMethodAttributes(RequestDto requestDto) {
         switch (requestDto.method()) {
             case ENTITY_GET -> {
-                configValidationService.validate(requestDto.id(), requestDto.params().config());
+                configValidationService.validate(requestDto.params().config());
                 xdipIsPresent(requestDto);
                 validateRequestParameters(requestDto);
             }
 
             case ENTITY_CREATE -> {
-                configValidationService.validate(requestDto.id(), requestDto.params().config());
+                configValidationService.validate(requestDto.params().config());
                 validateRequestParameters(requestDto);
                 validateEntity(requestDto);
                 validateBinaryContents(requestDto);
             }
 
             case ENTITY_GET_BINARY -> {
-                configValidationService.validate(requestDto.id(), requestDto.params().config());
+                configValidationService.validate(requestDto.params().config());
                 xdipIsPresent(requestDto);
             }
 
-            default -> throw new InvalidRequestParameters(requestDto.id(), METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
+            default -> throw new InvalidRequestParameters(METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
         }
     }
 
     private void validateBinaryContents(RequestDto requestDto) {
         if (contentIsNotPresent(requestDto)) {
-            throw new NoContentToUploadException(requestDto.id(), "No content to upload", NO_BINARY_CONTENT.code());
+            throw new NoContentToUploadException("No content to upload", NO_BINARY_CONTENT.code());
         }
     }
 
     private void validateEntity(RequestDto requestDto) {
         if (entityIsInvalid(requestDto)) {
-            throw new InvalidEntityException(requestDto.id(), "Entity is invalid", INVALID_PARAMS.code());
+            throw new InvalidEntityException("Entity is invalid", INVALID_PARAMS.code());
         }
     }
 
     private void validateRequestParameters(RequestDto requestDto) {
         if (requestParametersInvalid(requestDto)) {
-            throw new InvalidRequestParameters(requestDto.id(), INVALID_PARAMS.message(), INVALID_PARAMS.code());
+            throw new InvalidRequestParameters(INVALID_PARAMS.message(), INVALID_PARAMS.code());
         }
     }
 
     private void xdipIsPresent(RequestDto requestDto) {
         var xdip = requestDto.params().xdip();
         if (xdip == null) {
-            throw new InvalidXdipException(requestDto.id(), "Xdip is empty", CONNECTOR_OPERATION_FAILED.code());
+            throw new InvalidXdipException("Xdip is empty", PARSE_ERROR.code());
         }
     }
 
@@ -100,7 +99,8 @@ public class RequestBodyValidationService {
         return requestParameters == null
                 || requestParameters.getClass() != RequestParametersDto.class
                 || requestParameters.getProjectionScopes() == null
-                || requestParameters.getProjectionScopes()[0].isEmpty();
+                || requestParameters.getProjectionScopes().length != 1
+                || requestParameters.getProjectionScopes()[0].trim().isEmpty();
     }
 
     private boolean entityIsInvalid(RequestDto requestDto) {

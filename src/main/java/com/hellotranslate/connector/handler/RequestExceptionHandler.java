@@ -17,8 +17,6 @@ public class RequestExceptionHandler {
 
     @ExceptionHandler(value = RequestBodyValidationException.class)
     public ResponseBody handleResponseBodyException(RequestBodyValidationException e) {
-        return responseFactory.createErrorResponse(
-                e.getRequestId(), e.getErrorCode(), e.getMessage()
-        );
+        return responseFactory.createErrorResponse(e.getErrorCode(), e.getMessage());
     }
 }

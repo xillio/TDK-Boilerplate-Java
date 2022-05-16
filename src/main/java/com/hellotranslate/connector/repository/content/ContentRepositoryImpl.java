@@ -20,21 +20,17 @@ import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECT
 public final class ContentRepositoryImpl implements ContentRepository {
 
     @Override
-    public InputStream downloadContent(String requestId,
-                                       XDIP xdip,
-                                       Map<String, Object> config) throws MethodNotImplementedException {
+    public InputStream downloadContent(XDIP xdip, Map<String, Object> config) {
         // TODO: implement
-        throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
+        throw new MethodNotImplementedException(CONNECTOR_OPERATION_FAILED.code());
     }
 
     @Override
-    public EntityDto uploadContent(
-            String requestId,
-            XDIP xdip,
-            Map<String, Object> config,
-            EntityDto entity,
-            InputStream binaryContents) throws MethodNotImplementedException {
+    public EntityDto uploadContent(XDIP xdip,
+                                   Map<String, Object> config,
+                                   EntityDto entity,
+                                   InputStream binaryContents) {
         // TODO: implement
-        throw new MethodNotImplementedException(requestId, CONNECTOR_OPERATION_FAILED.code());
+        throw new MethodNotImplementedException(CONNECTOR_OPERATION_FAILED.code());
     }
 }

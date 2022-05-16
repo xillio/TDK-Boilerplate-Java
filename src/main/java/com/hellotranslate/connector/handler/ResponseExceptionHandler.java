@@ -19,8 +19,6 @@ public class ResponseExceptionHandler {
 
     @ExceptionHandler(value = ResponseBodyException.class)
     public ResponseBody handleResponseBodyException(ResponseBodyException e) {
-        return responseFactory.createErrorResponse(
-                e.getRequestId(), e.getErrorCode(), e.getMessage(), Optional.of(e.getStackTrace()[0].getMethodName())
-        );
+        return responseFactory.createErrorResponse(e.getErrorCode(), e.getMessage(), Optional.of(e.getStackTrace()[0].getMethodName()));
     }
 }

@@ -13,8 +13,7 @@ public class ErrorDto {
 
     public ErrorDto(
             int code,
-            String message)
-    {
+            String message) {
         this.code = code;
         this.message = message;
     }
@@ -22,25 +21,21 @@ public class ErrorDto {
     public ErrorDto(
             int code,
             String message,
-            Object data)
-    {
+            Object data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public int getCode()
-    {
+    public int getCode() {
         return code;
     }
 
-    public String getMessage()
-    {
+    public String getMessage() {
         return message;
     }
 
-    public Object getData()
-    {
+    public Object getData() {
         return data;
     }
 }

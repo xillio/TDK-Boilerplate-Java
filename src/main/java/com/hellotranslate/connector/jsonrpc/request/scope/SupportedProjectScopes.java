@@ -8,9 +8,7 @@ public final class SupportedProjectScopes {
     public static final String PATH_CHILDREN_ENTITY = "path_children_entity";
     public static final String ENTITY = "entity";
 
-    private SupportedProjectScopes()
-            throws ClassInstantiationForbiddenException
-    {
+    private SupportedProjectScopes() throws ClassInstantiationForbiddenException {
         throw new ClassInstantiationForbiddenException(SupportedProjectScopes.class);
     }
 }

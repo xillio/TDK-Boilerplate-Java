@@ -30,28 +30,23 @@ public class RequestParametersDto {
         this.projectionScopes = projectionScopes;
     }
 
-    public String[] getProjectionScopes()
-    {
+    public String[] getProjectionScopes() {
         return projectionScopes;
     }
 
-    public String[] getProjectionIncludes()
-    {
+    public String[] getProjectionIncludes() {
         return projectionIncludes;
     }
 
-    public String[] getProjectionExcludes()
-    {
+    public String[] getProjectionExcludes() {
         return projectionExcludes;
     }
 
-    public int getOffset()
-    {
+    public int getOffset() {
         return offset;
     }
 
-    public int getLimit()
-    {
+    public int getLimit() {
         return limit;
     }
 }
