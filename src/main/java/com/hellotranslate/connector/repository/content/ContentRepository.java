@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.repository.content;
 
-import com.hellotranslate.connector.jsonrpc.EntityDto;
+import com.hellotranslate.connector.jsonrpc.response.dtos.EntityDto;
 import com.hellotranslate.connector.jsonrpc.request.XDIP;
 
 import java.io.InputStream;

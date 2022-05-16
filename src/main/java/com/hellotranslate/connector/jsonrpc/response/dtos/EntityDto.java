@@ -1,4 +1,4 @@
-package com.hellotranslate.connector.jsonrpc;
+package com.hellotranslate.connector.jsonrpc.response.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

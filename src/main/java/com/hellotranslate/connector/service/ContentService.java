@@ -1,7 +1,7 @@
 package com.hellotranslate.connector.service;
 
 import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperationFailedException;
-import com.hellotranslate.connector.jsonrpc.EntityDto;
+import com.hellotranslate.connector.jsonrpc.response.dtos.EntityDto;
 import com.hellotranslate.connector.jsonrpc.request.XDIP;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;

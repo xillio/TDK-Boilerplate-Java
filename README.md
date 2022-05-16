@@ -1,14 +1,6 @@
 # TDK-Boilerplate-Java
 
-TDK Boilerplate is an addition to the JSON RPC connector of the Xillio API.
 
-JSON RPC connector allows using third-party connector implementations running as HTTP(S) services independent of the
-Engine.
-
-Along with enabling anyone to write his own connector, this architecture allows a quicker release for experimental
-connectors outside the stringent quality bounds of the Engine.
-
-You can read more regarding this connector in the [Xillio API documentation](https://docs.xill.io/#connector-json-rpc).
 
 This TDK is available also in [C#](https://github.com/xillio/TDK-Boilerplate-CSharp)
 and [Node.js](https://github.com/xillio/TDK-Boilerplate-Node)

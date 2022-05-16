@@ -1,8 +1,8 @@
 package com.hellotranslate.connector.jsonrpc.request.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hellotranslate.connector.jsonrpc.EntityDto;
 import com.hellotranslate.connector.jsonrpc.request.XDIP;
+import com.hellotranslate.connector.jsonrpc.response.dtos.EntityDto;
 
 import java.util.Map;
 
