@@ -1,9 +1,7 @@
 package com.hellotranslate.connector.jsonrpc.request;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.InvalidXdipException;
-import com.hellotranslate.connector.utils.XdipValidator;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
