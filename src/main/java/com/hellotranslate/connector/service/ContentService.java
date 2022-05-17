@@ -1,16 +1,14 @@
 package com.hellotranslate.connector.service;
 
 import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperationFailedException;
-import com.hellotranslate.connector.jsonrpc.response.dtos.EntityDto;
 import com.hellotranslate.connector.jsonrpc.request.XDIP;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
+import com.hellotranslate.connector.jsonrpc.response.dtos.EntityDto;
 import com.hellotranslate.connector.repository.content.ContentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-
-import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECTOR_OPERATION_FAILED;
 
 @Service
 public class ContentService {
@@ -35,7 +33,7 @@ public class ContentService {
         var inputStream = conversionService.stringToInputStream(binaryContents);
         var entityDto = contentRepository.uploadContent(xdip, config, entity, inputStream);
         if (entityDto == null) {
-            throw new ConnectorOperationFailedException("Failed to upload content", CONNECTOR_OPERATION_FAILED.code());
+            throw new ConnectorOperationFailedException("Failed to upload content");
         }
         return responseFactory.createSuccessResponse(requestId, entityDto);
     }

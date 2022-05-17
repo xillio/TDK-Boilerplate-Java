@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
-import static com.hellotranslate.connector.exception.lochub.LocHubErrors.CONNECTOR_OPERATION_FAILED;
-import static com.hellotranslate.connector.exception.lochub.LocHubErrors.NO_SUCH_ENTITY;
-
 @Service
 public class MetadataService {
 
@@ -26,7 +23,7 @@ public class MetadataService {
     public ResponseBody getChildren(String requestId, Map<String, Object> config, XDIP xdip) {
         var children = metadataRepository.listChildren(xdip, config);
         if (children == null) {
-            throw new ConnectorOperationFailedException("No children found", CONNECTOR_OPERATION_FAILED.code());
+            throw new ConnectorOperationFailedException("No children found");
         }
         return responseFactory.createSuccessResponse(requestId, children);
     }
@@ -34,7 +31,7 @@ public class MetadataService {
     public ResponseBody getReferences(String requestId, Map<String, Object> config, XDIP xdip) {
         var references = metadataRepository.listReferences(xdip, config);
         if (references == null) {
-            throw new ConnectorOperationFailedException("Could not obtain references", CONNECTOR_OPERATION_FAILED.code());
+            throw new ConnectorOperationFailedException("Could not obtain references");
         }
         return responseFactory.createSuccessResponse(requestId, references);
     }
@@ -42,7 +39,7 @@ public class MetadataService {
     public ResponseBody getEntity(String requestId, Map<String, Object> config, XDIP xdip) {
         var entity = metadataRepository.getEntityByXdip(xdip, config);
         if (entity == null) {
-            throw new ConnectorOperationFailedException("Entity not found", NO_SUCH_ENTITY.code());
+            throw new ConnectorOperationFailedException("Entity not found");
         }
         return responseFactory.createSuccessResponse(requestId, entity);
     }

@@ -4,11 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.OK)
-public abstract sealed class RequestBodyValidationException
-        extends RuntimeException
-        permits InvalidConfigException, InvalidEntityException,
-        InvalidMethodException, InvalidRequestBodyException, InvalidRequestParameters,
-        InvalidScopeException, InvalidXdipException, NoContentToUploadException {
+public abstract class RequestBodyValidationException extends RuntimeException {
 
     private final int errorCode;
 

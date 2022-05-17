@@ -28,7 +28,7 @@ public class RequestExecutor {
             case ENTITY_GET -> executeEntityGetRequest(requestDto);
             case ENTITY_GET_BINARY -> executeGetBinaryContentRequest(requestDto);
             case ENTITY_CREATE -> executeUploadTranslationRequest(requestDto);
-            default -> throw new InvalidMethodException(METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
+            default -> throw new InvalidMethodException(METHOD_NOT_FOUND.message());
         };
     }
 
@@ -47,7 +47,7 @@ public class RequestExecutor {
                     requestDto.id(),
                     requestDto.params().config(),
                     requestDto.params().xdip());
-            default -> throw new InvalidScopeException(NO_SUCH_SCOPE.message(), NO_SUCH_SCOPE.code());
+            default -> throw new InvalidScopeException(NO_SUCH_SCOPE.message());
         };
     }
 

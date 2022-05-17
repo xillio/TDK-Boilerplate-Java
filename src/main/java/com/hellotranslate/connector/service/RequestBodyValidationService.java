@@ -6,7 +6,6 @@ import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParametersDto;
 import org.springframework.stereotype.Service;
 
-import static com.hellotranslate.connector.exception.lochub.LocHubErrors.NO_BINARY_CONTENT;
 import static com.hellotranslate.connector.jsonrpc.Method.*;
 import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
 import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors.*;
@@ -28,13 +27,13 @@ public class RequestBodyValidationService {
 
     private void methodSupported(RequestDto requestDto) {
         if (!METHODS.contains(requestDto.method())) {
-            throw new InvalidMethodException(METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
+            throw new InvalidMethodException(METHOD_NOT_FOUND.message());
         }
     }
 
     private void hasBasicAttributes(RequestDto requestDto) {
         if (basicAttributesInvalid(requestDto)) {
-            throw new InvalidRequestBodyException(INVALID_REQUEST.message(), INVALID_REQUEST.code());
+            throw new InvalidRequestBodyException(INVALID_REQUEST.message());
         }
     }
 
@@ -58,32 +57,32 @@ public class RequestBodyValidationService {
                 xdipIsPresent(requestDto);
             }
 
-            default -> throw new InvalidRequestParameters(METHOD_NOT_FOUND.message(), METHOD_NOT_FOUND.code());
+            default -> throw new InvalidRequestParameters(METHOD_NOT_FOUND.message());
         }
     }
 
     private void validateBinaryContents(RequestDto requestDto) {
         if (contentIsNotPresent(requestDto)) {
-            throw new NoContentToUploadException("No content to upload", NO_BINARY_CONTENT.code());
+            throw new NoContentToUploadException("No content to upload");
         }
     }
 
     private void validateEntity(RequestDto requestDto) {
         if (entityIsInvalid(requestDto)) {
-            throw new InvalidEntityException("Entity is invalid", INVALID_PARAMS.code());
+            throw new InvalidEntityException("Entity is invalid");
         }
     }
 
     private void validateRequestParameters(RequestDto requestDto) {
         if (requestParametersInvalid(requestDto)) {
-            throw new InvalidRequestParameters(INVALID_PARAMS.message(), INVALID_PARAMS.code());
+            throw new InvalidRequestParameters(INVALID_PARAMS.message());
         }
     }
 
     private void xdipIsPresent(RequestDto requestDto) {
         var xdip = requestDto.params().xdip();
         if (xdip == null) {
-            throw new InvalidXdipException("Xdip is empty", PARSE_ERROR.code());
+            throw new InvalidXdipException("Xdip is empty");
         }
     }
 

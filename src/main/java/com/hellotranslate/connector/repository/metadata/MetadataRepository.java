@@ -10,7 +10,7 @@ public sealed interface MetadataRepository permits MetadataRepositoryImpl {
 
     List<EntityDto> listChildren(XDIP xdip, Map<String, Object> config);
 
-    List<String> listReferences(XDIP xdip, Map<String, Object> config);
+    List<XDIP> listReferences(XDIP xdip, Map<String, Object> config);
 
     EntityDto getEntityByXdip(XDIP xdip, Map<String, Object> config);
 }

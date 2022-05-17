@@ -4,12 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.OK)
-public abstract sealed class ResponseBodyException
-        extends RuntimeException
-        permits AuthorizationFailedException, ConnectorOperationFailedException,
-        ContentConversionException, ContentDownloadingFailedException,
-        InvalidConfigurationException, MethodNotImplementedException,
-        NoBinaryContentException, NoSuchEntityException, OperationNotAllowedException {
+public abstract class ResponseBodyException extends RuntimeException {
 
     private final int errorCode;
 

@@ -1,6 +1,9 @@
-package com.hellotranslate.connector.exception.jsonrpc.response;
+package com.hellotranslate.connector.exception.jsonrpc.bodyvalidation;
 
+import com.hellotranslate.connector.exception.jsonrpc.response.ResponseBodyException;
 import com.hellotranslate.connector.service.ConfigValidationService;
+
+import static com.hellotranslate.connector.exception.lochub.LocHubErrors.AUTHORIZATION_FAILED;
 
 /**
  * AuthorizationFailedException is optional to throw.
@@ -14,7 +17,11 @@ import com.hellotranslate.connector.service.ConfigValidationService;
  */
 public final class AuthorizationFailedException extends ResponseBodyException {
 
-    public AuthorizationFailedException(String message, int errorCode) {
-        super(message, errorCode);
+    public AuthorizationFailedException() {
+        super(AUTHORIZATION_FAILED.message(), AUTHORIZATION_FAILED.code());
+    }
+
+    public AuthorizationFailedException(String message) {
+        super(message, AUTHORIZATION_FAILED.code());
     }
 }
