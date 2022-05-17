@@ -1,11 +1,13 @@
 package com.hellotranslate.connector.handler;
 
 import com.hellotranslate.connector.exception.jsonrpc.response.ResponseBodyException;
+import com.hellotranslate.connector.jsonrpc.request.RequestDto;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @RestControllerAdvice
@@ -18,7 +20,8 @@ public class ResponseExceptionHandler {
     }
 
     @ExceptionHandler(value = ResponseBodyException.class)
-    public ResponseBody handleResponseBodyException(ResponseBodyException e) {
-        return responseFactory.createErrorResponse(e.getErrorCode(), e.getMessage(), Optional.of(e.getStackTrace()[0].getMethodName()));
+    public ResponseBody handleResponseBodyException(ResponseBodyException e, HttpServletRequest request) {
+        var requestDto = (RequestDto) request.getAttribute("requestDto");
+        return responseFactory.createErrorResponse(requestDto.id(), e.getErrorCode(), e.getMessage(), Optional.of(e.getStackTrace()[0].getMethodName()));
     }
 }
