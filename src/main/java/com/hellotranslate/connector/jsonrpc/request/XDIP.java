@@ -29,22 +29,6 @@ public class XDIP {
     private final Map<String, String> encodedQueryParameters;
     private final URI uri;
 
-    public XDIP(@Nonnull String encodedPath) {
-        this("PLACEHOLDER", encodedPath);
-    }
-
-    public XDIP(
-            @Nonnull String configurationId,
-            @Nonnull String encodedPath) {
-        this(new URIBuilder()
-                .setScheme("xdip")
-                .setHost(notNullOrEmpty(
-                        configurationId,
-                        "configurationId"))
-                .setPath(decode(XdipValidator.startsWith(encodedPath, "/", "path")))
-        );
-    }
-
     public XDIP(URIBuilder uriBuilder) {
         this(build(uriBuilder));
     }
@@ -58,11 +42,6 @@ public class XDIP {
         cannotUseUserInfo();
         cannotUsePort();
         configurationIdMustMatchPattern();
-    }
-
-    @JsonCreator
-    private static XDIP buildXdip(String uri) {
-        return new XDIP(URI.create(uri));
     }
 
     private static String decode(String part) {
@@ -103,6 +82,118 @@ public class XDIP {
         } catch (URISyntaxException e) {
             throw new InvalidXdipException("Could not parse a new URI from the given values.", PARSE_ERROR.code());
         }
+    }
+
+    public String getDecodedQueryParameters() {
+        return uri.getQuery();
+    }
+
+    public String getEncodedQueryParameters() {
+        return uri.getRawQuery();
+    }
+
+    public String getEncodedPath() {
+        return uri.getRawPath();
+    }
+
+    public String[] getEncodedPathParts() {
+        return split(getEncodedPath(), "/");
+    }
+
+    public String getDecodedPath() {
+        return uri.getPath();
+    }
+
+    public String[] getDecodedPathParts() {
+        return split(getDecodedPath(), "/");
+    }
+
+    public boolean isRoot() {
+        return "/".equals(getDecodedPath());
+    }
+
+    public String getConfigurationId() {
+        return uri.getHost();
+    }
+
+    /**
+     * Construct a new XDIP URL by parsing the given string with the current configuration id
+     *
+     * @param encodedPath the URL encoded path
+     * @return the resulting XDIP URL
+     */
+    public XDIP withPath(@Nonnull String encodedPath) {
+        return new XDIP(new URIBuilder(uri).setPath(decode(encodedPath)));
+    }
+
+    /**
+     * Construct a new XDIP URL by parsing the given string with the current configuration id
+     *
+     * @param decodedPath the URL path
+     * @return the resulting XDIP URL
+     */
+    public XDIP withDecodedPath(@Nonnull String decodedPath) {
+        return new XDIP(new URIBuilder(uri).setPath(decodedPath));
+    }
+
+    public XDIP withParam(String parameterName, String encodedValue) {
+        notNullOrEmpty(encodedValue, parameterName);
+
+        // Get the old parameters without the given one, add it.
+        List<NameValuePair> newQueries = getParamsExcept(parameterName);
+        newQueries.add(new BasicNameValuePair(parameterName, decode(encodedValue)));
+
+        return new XDIP(new URIBuilder(uri).setParameters(newQueries));
+    }
+
+    public XDIP withoutParam(String parameterName) {
+        List<NameValuePair> newQueries = getParamsExcept(parameterName);
+        return new XDIP(new URIBuilder(uri).setParameters(newQueries));
+    }
+
+    /**
+     * Construct a new XDIP URL from the current XDIP with the given configuration id
+     *
+     * @param configurationId the configuration id
+     * @return the resulting XDIP URL
+     */
+    public XDIP withConfigurationId(@Nonnull String configurationId) {
+        return new XDIP(new URIBuilder(uri).setHost(configurationId));
+    }
+
+    /**
+     * Constructs a new XDIP URL by parsing the given string and then resolving it against the current XDIP URL.
+     *
+     * @param encodedPath the URL encoded path
+     * @return the resulting XDIP URL
+     */
+    public XDIP resolve(@Nonnull String encodedPath) {
+        return new XDIP(this.uri.resolve(encodedPath));
+    }
+
+    @JsonValue
+    @Override
+    public String toString() {
+        return uri.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        if (o == this) {
+            return true;
+        }
+        if (o.getClass() == getClass()) {
+            return ((XDIP) o).uri.equals(uri);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return uri.hashCode();
     }
 
     private Map<String, String> parseQueryParameters(String rawQuery) {
@@ -151,125 +242,11 @@ public class XDIP {
         }
     }
 
-    public String getDecodedQueryParameters() {
-        return uri.getQuery();
-    }
-
-    public String getEncodedQueryParameters() {
-        return uri.getRawQuery();
-    }
-
-    public String getEncodedPath() {
-        return uri.getRawPath();
-    }
-
-    public String[] getEncodedPathParts() {
-        return split(getEncodedPath(), "/");
-    }
-
-    public String getDecodedPath() {
-        return uri.getPath();
-    }
-
-    public String[] getDecodedPathParts() {
-        return split(getDecodedPath(), "/");
-    }
-
-    public boolean isRoot() {
-        return "/".equals(getDecodedPath());
-    }
-
-    public String getConfigurationId() {
-        return uri.getHost();
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return uri.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (o == this) {
-            return true;
-        }
-        if (o.getClass() == getClass()) {
-            return ((XDIP) o).uri.equals(uri);
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return uri.hashCode();
-    }
-
-    /**
-     * Construct a new XDIP URL by parsing the given string with the current configuration id
-     *
-     * @param encodedPath the URL encoded path
-     * @return the resulting XDIP URL
-     */
-    public XDIP withPath(@Nonnull String encodedPath) {
-        return new XDIP(new URIBuilder(uri).setPath(decode(encodedPath))
-        );
-    }
-
-    /**
-     * Construct a new XDIP URL by parsing the given string with the current configuration id
-     *
-     * @param decodedPath the URL path
-     * @return the resulting XDIP URL
-     */
-    public XDIP withDecodedPath(@Nonnull String decodedPath) {
-        return new XDIP(new URIBuilder(uri).setPath(decodedPath)
-        );
-    }
-
-    public XDIP withParam(String parameterName, String encodedValue) {
-        notNullOrEmpty(encodedValue, parameterName);
-
-        // Get the old parameters without the given one, add it.
-        List<NameValuePair> newQueries = getParamsExcept(parameterName);
-        newQueries.add(new BasicNameValuePair(parameterName, decode(encodedValue)));
-
-        return new XDIP(new URIBuilder(uri).setParameters(newQueries));
-    }
-
-    public XDIP withoutParam(String parameterName) {
-        List<NameValuePair> newQueries = getParamsExcept(parameterName);
-        return new XDIP(new URIBuilder(uri).setParameters(newQueries));
-    }
-
     private List<NameValuePair> getParamsExcept(String parameterName) {
         return encodedQueryParameters.entrySet()
                 .stream()
                 .filter(set -> !parameterName.equals(set.getKey()))
                 .map(set -> new BasicNameValuePair(decode(set.getKey()), decode(set.getValue())))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Construct a new XDIP URL from the current XDIP with the given configuration id
-     *
-     * @param configurationId the configuration id
-     * @return the resulting XDIP URL
-     */
-    public XDIP withConfigurationId(@Nonnull String configurationId) {
-        return new XDIP(new URIBuilder(uri).setHost(configurationId));
-    }
-
-    /**
-     * Constructs a new XDIP URL by parsing the given string and then resolving it against the current XDIP URL.
-     *
-     * @param encodedPath the URL encoded path
-     * @return the resulting XDIP URL
-     */
-    public XDIP resolve(@Nonnull String encodedPath) {
-        return new XDIP(this.uri.resolve(encodedPath));
     }
 }
