@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.hellotranslate.connector.jsonrpc.response.errors.JsonRpcErrors.PARSE_ERROR;
 import static com.hellotranslate.connector.utils.XdipValidator.notNullOrEmpty;
 import static org.apache.maven.shared.utils.StringUtils.split;
 
@@ -78,7 +77,7 @@ public class XDIP {
 
             return URI.create(uri);
         } catch (URISyntaxException e) {
-            throw new InvalidXdipException("Could not parse a new URI from the given values.", PARSE_ERROR.code());
+            throw new InvalidXdipException("Could not parse a new URI from the given values.");
         }
     }
 
@@ -206,25 +205,25 @@ public class XDIP {
 
     private void schemeMustBeXdip() {
         if (!SCHEME.equals(uri.getScheme())) {
-            throw new InvalidXdipException(String.format("%s - XDIP URLs must use the %s scheme.", uri, SCHEME), PARSE_ERROR.code());
+            throw new InvalidXdipException(String.format("%s - XDIP URLs must use the %s scheme.", uri, SCHEME));
         }
     }
 
     private void cannotUseFragment() {
         if (uri.getRawFragment() != null) {
-            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use fragment parameters", uri), PARSE_ERROR.code());
+            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use fragment parameters", uri));
         }
     }
 
     private void cannotUseUserInfo() {
         if (uri.getRawUserInfo() != null) {
-            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use user information", uri), PARSE_ERROR.code());
+            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use user information", uri));
         }
     }
 
     private void cannotUsePort() {
         if (uri.getPort() != -1) {
-            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use port specifications", uri), PARSE_ERROR.code());
+            throw new InvalidXdipException(String.format("%s - XDIP URLs cannot use port specifications", uri));
         }
     }
 
@@ -236,7 +235,7 @@ public class XDIP {
         if (configurationId == null || !configurationId.matches(XDIP.CONFIGURATION_ID_PATTERN)) {
             throw new InvalidXdipException(
                     "Configuration ids can only contain alphanumerics and dashes, but the id cannot " +
-                            "start or end with a dash. The minimum length is 2 and maximum is 255.", PARSE_ERROR.code());
+                            "start or end with a dash. The minimum length is 2 and maximum is 255.");
         }
     }
 
