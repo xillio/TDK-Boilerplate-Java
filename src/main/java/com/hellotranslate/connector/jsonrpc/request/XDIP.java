@@ -239,11 +239,11 @@ public class XDIP {
         }
     }
 
-    private List<? extends NameValuePair> getParamsExcept(String parameterName) {
+    private List<NameValuePair> getParamsExcept(String parameterName) {
         return encodedQueryParameters.entrySet()
                 .stream()
                 .filter(set -> !parameterName.equals(set.getKey()))
                 .map(set -> new BasicNameValuePair(decode(set.getKey()), decode(set.getValue())))
-                .toList();
+                .collect(Collectors.toList());
     }
 }
