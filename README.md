@@ -7,25 +7,18 @@ and [Node.js](https://github.com/xillio/TDK-Boilerplate-Node)
 
 Configuring JSON RPC connector via the dashboard of LocHub is a complicated task.
 
-The connector has lots of parameters. Many of then optional but some are mandatory.
+The connector has lots of parameters. Many of then are optional.
 
-It is frequently confusing which parameter has to be provided and which can be ignored because it will not affect user's
-workflow with JSON RPC connector in your specific case.
+It is frequently confusing which parameter has to be provided and which can be ignored because it will not affect your workflow with JSON RPC connector in a specific case.
 
-TDK solves this inconvenience by restricting the amount of parameters that can be provided and operations that can be
-performed.
+TDK solves this inconvenience by restricting the amount of parameters that can be provided and for limited amount of operations that can be performed.
 
-TDK provides only basic functionality needed in 9 of 10 cases.
-
-### Supported operations
-
-TDK allows to perform the following operations:
+## Supported operations
 
 1. Delivering the metadata of your content
-2. Delivering the metadata of a specific content
-3. Navigating your content repository
-4. Downloading binary content
-5. Uploading translations
+2. Navigating your content repository
+3. Downloading binary content of a file
+4. Uploading files
 
 ## How to make the TDK work?
 
@@ -36,8 +29,6 @@ All you need to do is implement:
 3. How to upload content
 4. How to validate the configuration parameters (optional)
 5. How to authenticate (optional)
-
-After that, the TDK will be ready to use.
 
 ## How to implement the described functionality?
 
@@ -55,7 +46,7 @@ If you cannot quickly look up the marked methods, go to:
 
 ## Config field and its validation
 
-The `config` field, in the request body, provides additional parameters, e.g. credentials for the account where content is stored, that could be needed.
+The `config` field, in the request body, provides additional parameters, e.g. credentials for the account where your content is stored.
 
 The value of `config` is defined by you and sent in body of the request.
 
@@ -95,7 +86,7 @@ All of them are having the same parameters in their signatures - `XDIP xdip, Map
 
 `xdip` is the identifier of your content.
 
-We talked about `config` before. Depending on your specific business logic, you can have a need to use some values form `config`. It's completely up to you how to extract these values from it.
+We talked about `config` before. Depending on your specific business logic, you can have a need to use some values form it. It's completely up to you how to extract these values.
 
 Implement the methods.
 
