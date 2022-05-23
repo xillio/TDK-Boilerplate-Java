@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.service;
 
-import com.hellotranslate.connector.model.DecoratorsContainer;
+import com.hellotranslate.connector.model.decorators.DecoratorsContainer;
 import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.*;
 import com.hellotranslate.connector.jsonrpc.request.Request;
 import com.hellotranslate.connector.jsonrpc.request.dtos.RequestParameters;

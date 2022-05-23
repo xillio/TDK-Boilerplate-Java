@@ -2,6 +2,7 @@ package com.hellotranslate.connector.filesystemconnector;
 
 import com.hellotranslate.connector.exception.internal.ClassInstantiationForbiddenException;
 import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperationFailedException;
+import com.hellotranslate.connector.exception.jsonrpc.response.NoSuchEntityException;
 import com.hellotranslate.connector.model.XDIP;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class Utils {
         try {
             return Files.getFileAttributeView(entityPath, BasicFileAttributeView.class).readAttributes();
         } catch (IOException e) {
-            throw new ConnectorOperationFailedException("Couldn't read attributes of an entity, " + e.getMessage());
+            throw new NoSuchEntityException("Couldn't read attributes of an entity, " + e.getMessage());
         }
     }
 

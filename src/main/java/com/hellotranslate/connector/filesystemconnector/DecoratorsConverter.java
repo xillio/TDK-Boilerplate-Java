@@ -2,7 +2,7 @@ package com.hellotranslate.connector.filesystemconnector;
 
 import com.hellotranslate.connector.exception.internal.ClassInstantiationForbiddenException;
 import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperationFailedException;
-import com.hellotranslate.connector.model.DecoratorsContainer;
+import com.hellotranslate.connector.model.decorators.DecoratorsContainer;
 import com.hellotranslate.connector.model.XDIP;
 import com.hellotranslate.connector.model.decorators.*;
 

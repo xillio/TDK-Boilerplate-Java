@@ -1,6 +1,7 @@
 package com.hellotranslate.connector.service;
 
 import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperationFailedException;
+import com.hellotranslate.connector.exception.jsonrpc.response.NoSuchEntityException;
 import com.hellotranslate.connector.jsonrpc.response.dtos.EntityResult;
 import com.hellotranslate.connector.model.EntityReference;
 import com.hellotranslate.connector.model.XDIP;
@@ -53,7 +54,7 @@ public class MetadataService {
     public ResponseBody getEntity(String requestId, Map<String, Object> config, XDIP xdip) {
         var entity = metadataRepository.getEntityByXdip(xdip, config);
         if (entity == null) {
-            throw new ConnectorOperationFailedException("Entity not found");
+            throw new NoSuchEntityException(String.format("Entity %s not found", xdip.toString()));
         }
         return responseFactory.createSuccessResponse(
                 requestId,
