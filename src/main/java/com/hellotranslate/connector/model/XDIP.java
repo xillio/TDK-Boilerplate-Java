@@ -82,14 +82,6 @@ public class XDIP {
         }
     }
 
-    public String getDecodedQueryParameters() {
-        return uri.getQuery();
-    }
-
-    public String getEncodedQueryParameters() {
-        return uri.getRawQuery();
-    }
-
     public String getEncodedPath() {
         return uri.getRawPath();
     }

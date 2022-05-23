@@ -12,11 +12,9 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import static com.hellotranslate.connector.filesystemconnector.XdipProvider.getKind;
+
 public class DecoratorsConverter {
-
-    private static final String KIND_FILE = "File";
-    private static final String KIND_FOLDER = "Folder";
-
     private DecoratorsConverter() throws ClassInstantiationForbiddenException {
         throw new ClassInstantiationForbiddenException(DecoratorsConverter.class);
     }
@@ -35,10 +33,6 @@ public class DecoratorsConverter {
         );
     }
 
-    public static String kindByAttributes(BasicFileAttributes attributes) {
-        return attributes.isDirectory() ? KIND_FOLDER : KIND_FILE;
-    }
-
     public static ContainerDecorator convertToContainer(BasicFileAttributes attributes) {
         if (attributes.isDirectory())
             return new ContainerDecorator(true);
@@ -48,7 +42,7 @@ public class DecoratorsConverter {
 
     public static ContentTypeDecorator convertToContentType(BasicFileAttributes attributes) {
         return new ContentTypeDecorator(
-                kindByAttributes(attributes),
+                getKind(attributes),
                 null
         );
     }
