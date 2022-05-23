@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.hellotranslate.connector.filesystemconnector.DecoratorsConverter.*;
 import static com.hellotranslate.connector.filesystemconnector.Utils.readAttributesOfAnEntity;
@@ -62,7 +63,11 @@ public final class MetadataRepositoryImpl implements MetadataRepository {
     @Override
     public List<XDIP> listReferences(XDIP xdip, Map<String, Object> config) {
         // TODO: re-implement
-        throw new MethodNotImplementedException();
+
+        return listChildren(xdip, config)
+                .stream()
+                .map(Entity::xdip)
+                .collect(Collectors.toList());
     }
 
     @Override
