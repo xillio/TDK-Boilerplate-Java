@@ -1,8 +1,7 @@
-package com.hellotranslate.connector.utils;
+package com.hellotranslate.connector.filesystemconnector;
 
 import com.hellotranslate.connector.exception.internal.ClassInstantiationForbiddenException;
 import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperationFailedException;
-import com.hellotranslate.connector.filesystemconnector.Configuration;
 import com.hellotranslate.connector.model.DecoratorsContainer;
 import com.hellotranslate.connector.model.XDIP;
 import com.hellotranslate.connector.model.decorators.*;
@@ -19,7 +18,7 @@ public class DecoratorsConverter {
     private static final String KIND_FOLDER = "Folder";
 
     private DecoratorsConverter() throws ClassInstantiationForbiddenException {
-        throw new ClassInstantiationForbiddenException(XdipValidator.class);
+        throw new ClassInstantiationForbiddenException(DecoratorsConverter.class);
     }
 
     public static DecoratorsContainer convertToDecorators(Configuration configuration, XDIP xdip, Path entityPath, BasicFileAttributes attributes) {
@@ -110,6 +109,9 @@ public class DecoratorsConverter {
     }
 
     public static ParentDecorator convertToParent(Configuration configuration, XDIP xdip, Path entityPath) {
+        if (xdip.isRoot())
+            return null;
+
         Path baseFolder = configuration.getBaseFolder();
 
         if (!entityPath.startsWith(baseFolder))
@@ -117,9 +119,12 @@ public class DecoratorsConverter {
                     String.format("Connector error, entity oath %s mismatch the base folder %s", entityPath, baseFolder)
             );
 
-        return new ParentDecorator(
-                xdip.withConfigurationId(xdip.getConfigurationId())
-                        .withDecodedPath(entityPath.relativize(baseFolder).toString())
-        );
+        XDIP parentXdip = xdip.withDecodedPath("/");
+
+        Path parent = baseFolder.relativize(entityPath).getParent();
+        if (parent != null)
+            parentXdip = parentXdip.withDecodedPath(parent.toString());
+
+        return new ParentDecorator(parentXdip);
     }
 }
