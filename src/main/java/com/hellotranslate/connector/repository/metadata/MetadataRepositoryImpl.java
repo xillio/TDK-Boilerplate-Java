@@ -20,8 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.hellotranslate.connector.filesystemconnector.DecoratorsConverter.*;
-import static com.hellotranslate.connector.filesystemconnector.Utils.readAttributesOfAnEntity;
-import static com.hellotranslate.connector.filesystemconnector.Utils.relativePathFromXdip;
+import static com.hellotranslate.connector.filesystemconnector.Utils.*;
 import static com.hellotranslate.connector.filesystemconnector.XdipProvider.buildXdip;
 import static com.hellotranslate.connector.filesystemconnector.XdipProvider.getKind;
 
@@ -38,8 +37,7 @@ public final class MetadataRepositoryImpl implements MetadataRepository {
         // TODO: re-implement
 
         Configuration configuration = new Configuration(config);
-        String relativeXdipPath = relativePathFromXdip(xdip);
-        Path parentPath = configuration.getBaseFolder().resolve(relativeXdipPath);
+        var parentPath = toPath(configuration, xdip);
         BasicFileAttributes attributes = readAttributesOfAnEntity(parentPath);
 
         if (!attributes.isDirectory()) {

@@ -5,6 +5,7 @@ import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperatio
 import com.hellotranslate.connector.model.XDIP;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributeView;
@@ -30,5 +31,18 @@ public class Utils {
             return "";
 
         return xdip.getDecodedPath().substring(1);
+    }
+
+    public static Path toPath(Configuration configuration, XDIP xdip) {
+        String relativeXdipPath = relativePathFromXdip(xdip);
+        return configuration.getBaseFolder().resolve(relativeXdipPath);
+    }
+
+    public static InputStream readFileContent(Path path) {
+        try {
+            return Files.newInputStream(path);
+        } catch (IOException e) {
+            throw new ConnectorOperationFailedException("Failed to read content of a file, " + e.getMessage());
+        }
     }
 }
