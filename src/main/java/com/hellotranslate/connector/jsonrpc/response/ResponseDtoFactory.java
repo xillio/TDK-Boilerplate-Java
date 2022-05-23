@@ -1,7 +1,7 @@
 package com.hellotranslate.connector.jsonrpc.response;
 
-import com.hellotranslate.connector.jsonrpc.response.dtos.ErrorDto;
-import com.hellotranslate.connector.jsonrpc.response.dtos.ResultDto;
+import com.hellotranslate.connector.jsonrpc.response.dtos.Error;
+import com.hellotranslate.connector.jsonrpc.response.dtos.Result;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -12,15 +12,15 @@ import static com.hellotranslate.connector.jsonrpc.ProtocolVersion.V2_0;
 public class ResponseDtoFactory {
 
     public ResponseBody createErrorResponse(String requestId, int errorCode, String message) {
-        return new ErrorResponseBodyDto(requestId, V2_0, new ErrorDto(errorCode, message));
+        return new ErrorResponseBody(requestId, V2_0, new Error(errorCode, message));
     }
 
     public ResponseBody createErrorResponse(String requestId, int errorCode, String message, Optional<String> data) {
-        return new ErrorResponseBodyDto(requestId, V2_0, new ErrorDto(errorCode, message, data));
+        return new ErrorResponseBody(requestId, V2_0, new Error(errorCode, message, data));
     }
 
     public ResponseBody createSuccessResponse(String requestId, Object result) {
-        return new ResultResponseBodyDto(requestId, V2_0, new ResultDto(result));
+        return new ResultResponseBody(requestId, V2_0, new Result(result));
     }
 }
 

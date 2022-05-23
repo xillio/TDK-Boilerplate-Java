@@ -2,7 +2,7 @@ package com.hellotranslate.connector.jsonrpc.request.dtos;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-public class RequestParametersDto {
+public class RequestParameters {
 
     private final String[] projectionScopes;
     private String[] projectionIncludes;
@@ -11,7 +11,7 @@ public class RequestParametersDto {
     private int limit;
 
     @JsonCreator
-    public RequestParametersDto(
+    public RequestParameters(
             String[] projectionScopes,
             String[] projectionIncludes,
             String[] projectionExcludes,
@@ -25,7 +25,7 @@ public class RequestParametersDto {
         this.limit = limit;
     }
 
-    public RequestParametersDto(String[] projectionScopes) // Request parameters for uploading
+    public RequestParameters(String[] projectionScopes) // Request parameters for uploading
     {
         this.projectionScopes = projectionScopes;
     }

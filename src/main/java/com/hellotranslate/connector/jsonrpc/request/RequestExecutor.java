@@ -23,44 +23,44 @@ public class RequestExecutor {
         this.contentService = contentService;
     }
 
-    public ResponseBody execute(RequestDto requestDto) {
-        return switch (requestDto.method()) {
-            case ENTITY_GET -> executeEntityGetRequest(requestDto);
-            case ENTITY_GET_BINARY -> executeGetBinaryContentRequest(requestDto);
-            case ENTITY_CREATE -> executeUploadTranslationRequest(requestDto);
+    public ResponseBody execute(Request request) {
+        return switch (request.method()) {
+            case ENTITY_GET -> executeEntityGetRequest(request);
+            case ENTITY_GET_BINARY -> executeGetBinaryContentRequest(request);
+            case ENTITY_CREATE -> executeUploadTranslationRequest(request);
             default -> throw new InvalidMethodException(METHOD_NOT_FOUND.message());
         };
     }
 
-    private ResponseBody executeEntityGetRequest(RequestDto requestDto) {
-        var scope = requestDto.params().requestParameters().getProjectionScopes()[0];
+    private ResponseBody executeEntityGetRequest(Request request) {
+        var scope = request.params().requestParameters().getProjectionScopes()[0];
         return switch (scope) {
             case PATH_CHILDREN_ENTITY -> metadataService.getChildren(
-                    requestDto.id(),
-                    requestDto.params().config(),
-                    requestDto.params().xdip());
+                    request.id(),
+                    request.params().config(),
+                    request.params().xdip());
             case PATH_CHILDREN_REFERENCE -> metadataService.getReferences(
-                    requestDto.id(),
-                    requestDto.params().config(),
-                    requestDto.params().xdip());
+                    request.id(),
+                    request.params().config(),
+                    request.params().xdip());
             case ENTITY -> metadataService.getEntity(
-                    requestDto.id(),
-                    requestDto.params().config(),
-                    requestDto.params().xdip());
+                    request.id(),
+                    request.params().config(),
+                    request.params().xdip());
             default -> throw new InvalidScopeException(NO_SUCH_SCOPE.message());
         };
     }
 
-    private ResponseBody executeGetBinaryContentRequest(RequestDto requestDto) {
-        return contentService.getContent(requestDto.id(), requestDto.params().config(), requestDto.params().xdip());
+    private ResponseBody executeGetBinaryContentRequest(Request request) {
+        return contentService.getContent(request.id(), request.params().config(), request.params().xdip());
     }
 
-    private ResponseBody executeUploadTranslationRequest(RequestDto requestDto) {
+    private ResponseBody executeUploadTranslationRequest(Request request) {
         return contentService.upload(
-                requestDto.id(),
-                requestDto.params().xdip(),
-                requestDto.params().config(),
-                requestDto.params().entity(),
-                requestDto.params().binaryContents());
+                request.id(),
+                request.params().xdip(),
+                request.params().config(),
+                request.params().entity(),
+                request.params().binaryContents());
     }
 }

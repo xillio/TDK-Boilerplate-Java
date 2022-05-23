@@ -5,20 +5,20 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ErrorDto {
+public class Error {
 
     private final int code;
     private final String message;
     private Object data;
 
-    public ErrorDto(
+    public Error(
             int code,
             String message) {
         this.code = code;
         this.message = message;
     }
 
-    public ErrorDto(
+    public Error(
             int code,
             String message,
             Object data) {

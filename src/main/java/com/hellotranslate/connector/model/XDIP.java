@@ -1,10 +1,9 @@
-package com.hellotranslate.connector.jsonrpc.request;
+package com.hellotranslate.connector.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.InvalidXdipException;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.maven.shared.utils.StringUtils;
 
 import javax.annotation.Nonnull;
@@ -15,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.hellotranslate.connector.utils.XdipValidator.notNullOrEmpty;
 import static org.apache.maven.shared.utils.StringUtils.split;
 
 public class XDIP {
@@ -23,7 +21,6 @@ public class XDIP {
     private static final String SCHEME = "xdip";
     private static final String CONFIGURATION_ID_PATTERN = "[a-zA-Z0-9][a-zA-Z0-9-]{0,253}[a-zA-Z0-9]";
 
-    private final Map<String, String> encodedQueryParameters;
     private final URI uri;
 
     public XDIP(URIBuilder uriBuilder) {
@@ -32,13 +29,17 @@ public class XDIP {
 
     XDIP(URI uri) {
         this.uri = uri;
-        this.encodedQueryParameters = parseQueryParameters(uri.getRawQuery());
 
         schemeMustBeXdip();
         cannotUseFragment();
         cannotUseUserInfo();
         cannotUsePort();
         configurationIdMustMatchPattern();
+    }
+
+    @JsonCreator
+    private static XDIP buildXdip(String uri) {
+        return new XDIP(URI.create(uri));
     }
 
     private static String decode(String part) {
@@ -133,21 +134,6 @@ public class XDIP {
         return new XDIP(new URIBuilder(uri).setPath(decodedPath));
     }
 
-    public XDIP withParam(String parameterName, String encodedValue) {
-        notNullOrEmpty(encodedValue, parameterName);
-
-        // Get the old parameters without the given one, add it.
-        List<NameValuePair> newQueries = getParamsExcept(parameterName);
-        newQueries.add(new BasicNameValuePair(parameterName, decode(encodedValue)));
-
-        return new XDIP(new URIBuilder(uri).setParameters(newQueries));
-    }
-
-    public XDIP withoutParam(String parameterName) {
-        List<NameValuePair> newQueries = getParamsExcept(parameterName);
-        return new XDIP(new URIBuilder(uri).setParameters(newQueries));
-    }
-
     /**
      * Construct a new XDIP URL from the current XDIP with the given configuration id
      *
@@ -237,13 +223,5 @@ public class XDIP {
                     "Configuration ids can only contain alphanumerics and dashes, but the id cannot " +
                             "start or end with a dash. The minimum length is 2 and maximum is 255.");
         }
-    }
-
-    private List<NameValuePair> getParamsExcept(String parameterName) {
-        return encodedQueryParameters.entrySet()
-                .stream()
-                .filter(set -> !parameterName.equals(set.getKey()))
-                .map(set -> new BasicNameValuePair(decode(set.getKey()), decode(set.getValue())))
-                .collect(Collectors.toList());
     }
 }

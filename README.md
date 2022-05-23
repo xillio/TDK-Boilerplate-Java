@@ -1,40 +1,48 @@
-# TDK-Boilerplate-Java
+# LocHub/HelloTranslate TDK Boilerplate project for Java
 
-This TDK is also available in [C#](https://github.com/xillio/TDK-Boilerplate-CSharp)
+[LocHub](https://lochub.com) and [HelloTranslate](https://hellotranslate.com) are translation middleware platforms by [Xillio](https://xillio.com) connecting content owners and the translation providers as seamlessly as possible.
+
+The platforms come with a content framework built by Xillio. After initial definition of a connection to your content, you can navigate the repositories with content browser and pickup content for translation manually or automate the selection based on metadata.
+
+Translation Development Kit (aka TDK) is a way how to integrate your content into this content framework and use all the described features with your content. To integrate your content you can choose your favorite technology and you need to build a web service capable of
+
+* delivering the metadata of your content
+* navigating your content repository
+* downloading binary content
+* uploading translations
+
+Your web service will expose an endpoint and the framework will send requests to this endpoint with JSON payload to specify the operation to perform and its parameters. The web service will respond with a JSON response describing the metadata of the content, deliver the binary content or simply confirm the translation creation.
+
+This repository contains a boilerplate project of such a web service build with Java, Spring Boot and Maven.
+
+Similar boilerplate projects are available also for [C#](https://github.com/xillio/TDK-Boilerplate-CSharp)
 and [Node.js](https://github.com/xillio/TDK-Boilerplate-Node)
 
-## What is the purpose of the TDK?
+## How to use TDK?
 
-Configuring JSON RPC connector via the dashboard of LocHub is a complicated task.
+We recommend reading our [TDK documentation](https://www.hellotranslate.com/translation-development-kit/) first. You will learn the overall design and how to build a custom connector from scratch.
 
-The connector has lots of parameters. Many of then are optional.
+But using the boilerplate project like this is much easier. You need to implement only the communication with your repository and optionally also validation of your custom configuration and the boilerplate takes care about the rest (error handling, parsing the JSON RPC requests, building the JSON RPC responses, etc.) 
 
-It is frequently confusing which parameter has to be provided and which can be ignored because it will not affect your workflow with JSON RPC connector in a specific case.
+### Custom configuration and validation of such a configuration
 
-TDK solves this inconvenience by restricting the amount of parameters that can be provided and for limited amount of operations that can be performed.
+To point LocHub/HelloTranslate to your custom connector you will need to define a connection where you specify the URL of the endpoint where you listen for delegated requests. Each such a definition can also contain any custom JSON object with configuration for your connector. This can contain for example some authentication values, area of the repository that you want to expose, etc.
 
-## Supported operations
+The content framework will then copy this custom JSON object to every delegated request. It is recommended to use some authentication mechanism and to validate also other configuration values.
 
-1. Delivering the metadata of your content
-2. Navigating your content repository
-3. Downloading binary content of a file
-4. Uploading files
+To do this validation implement `ConfigValidationService#validateConfig` method and in case the validation fails, throw the `InvalidConfigException` exception with an error message why it failed. The boilerplate will build the JSON RPC response for you and respond to the content framework.
 
-## How to make the TDK work?
+To authorize the request implement `ConfigValidationService#authorize` (processing your custom authorization values in the custom configuration object) and throw `AuthorizationFailedException` should the authorization failed. 
 
-All you need to do is implement:
+### Delivering metadata of one entity
 
-1. How to access the metadata of your content
-2. How to access content itself
-3. How to upload content
-4. How to validate the configuration parameters (optional)
-5. How to authenticate (optional)
 
-## How to implement the described functionality?
 
-With probability of 99% your IDEA will have a functionality to look up **TODO**s.
+### Listing children entities of a container
 
-Go to this tab and see places where you have to implement how to perform these operations with your content system.
+### Delivering content of an entity
+
+### Uploading a translation of an entity
 
 If you cannot quickly look up the marked methods, go to:
 

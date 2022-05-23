@@ -1,5 +1,5 @@
 package com.hellotranslate.connector.jsonrpc.response.dtos;
 
-public record ResultDto(Object result) {
+public record Result(Object result) {
 
 }

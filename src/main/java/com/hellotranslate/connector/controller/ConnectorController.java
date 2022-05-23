@@ -1,6 +1,6 @@
 package com.hellotranslate.connector.controller;
 
-import com.hellotranslate.connector.jsonrpc.request.RequestDto;
+import com.hellotranslate.connector.jsonrpc.request.Request;
 import com.hellotranslate.connector.jsonrpc.request.RequestExecutor;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.service.RequestBodyValidationService;
@@ -24,7 +24,7 @@ public class ConnectorController {
     }
 
     @PostMapping
-    public ResponseBody handleJsonRpcRequest(@RequestBody RequestDto requestDto, HttpServletRequest request) {
+    public ResponseBody handleJsonRpcRequest(@RequestBody Request requestDto, HttpServletRequest request) {
         validator.validate(requestDto);
         request.setAttribute("requestDto", requestDto);
         return requestExecutor.execute(requestDto);

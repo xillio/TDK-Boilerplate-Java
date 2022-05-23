@@ -1,5 +1,6 @@
 package com.hellotranslate.connector.service;
 
+import com.hellotranslate.connector.filesystemconnector.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -13,7 +14,9 @@ public class ConfigValidationService {
     }
 
     private void validateConfig(Map<String, Object> config) {
-        //TODO: implement config validation (optional)
+        //TODO: implement config validation
+
+        Configuration.validateConfiguration(config);
 
         // throw new InvalidConfigException("Invalid configuration");
     }
