@@ -21,6 +21,7 @@ public class RequestExceptionHandler {
     @ExceptionHandler(value = RequestBodyValidationException.class)
     public ResponseBody handleResponseBodyException(RequestBodyValidationException e, HttpServletRequest request) {
         var requestDto = (Request) request.getAttribute("requestDto");
-        return responseFactory.createErrorResponse(requestDto.id(), e.getErrorCode(), e.getMessage());
+        String requestId = requestDto == null ? "unknown" : requestDto.id();
+        return responseFactory.createErrorResponse(requestId, e.getErrorCode(), e.getMessage());
     }
 }
