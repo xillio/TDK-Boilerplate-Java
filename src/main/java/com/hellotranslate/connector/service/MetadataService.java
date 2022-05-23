@@ -1,6 +1,8 @@
 package com.hellotranslate.connector.service;
 
 import com.hellotranslate.connector.exception.jsonrpc.response.ConnectorOperationFailedException;
+import com.hellotranslate.connector.jsonrpc.response.dtos.EntityResult;
+import com.hellotranslate.connector.model.EntityReference;
 import com.hellotranslate.connector.model.XDIP;
 import com.hellotranslate.connector.jsonrpc.response.ResponseBody;
 import com.hellotranslate.connector.jsonrpc.response.ResponseDtoFactory;
@@ -8,6 +10,7 @@ import com.hellotranslate.connector.repository.metadata.MetadataRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MetadataService {
@@ -25,15 +28,26 @@ public class MetadataService {
         if (children == null) {
             throw new ConnectorOperationFailedException("No children found");
         }
-        return responseFactory.createSuccessResponse(requestId, children);
+        return responseFactory.createSuccessResponse(
+                requestId,
+                new EntityResult(null, children, null)
+        );
     }
 
     public ResponseBody getReferences(String requestId, Map<String, Object> config, XDIP xdip) {
-        var references = metadataRepository.listReferences(xdip, config);
-        if (references == null) {
+        var xdips = metadataRepository.listReferences(xdip, config);
+        if (xdips == null) {
             throw new ConnectorOperationFailedException("Could not obtain references");
         }
-        return responseFactory.createSuccessResponse(requestId, references);
+
+        var references = xdips.stream()
+                .map(EntityReference::new)
+                .collect(Collectors.toList());
+
+        return responseFactory.createSuccessResponse(
+                requestId,
+                new EntityResult(null, null, references)
+        );
     }
 
     public ResponseBody getEntity(String requestId, Map<String, Object> config, XDIP xdip) {
@@ -41,6 +55,9 @@ public class MetadataService {
         if (entity == null) {
             throw new ConnectorOperationFailedException("Entity not found");
         }
-        return responseFactory.createSuccessResponse(requestId, entity);
+        return responseFactory.createSuccessResponse(
+                requestId,
+                new EntityResult(entity, null, null)
+        );
     }
 }

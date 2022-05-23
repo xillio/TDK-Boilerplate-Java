@@ -1,7 +1,6 @@
 package com.hellotranslate.connector.jsonrpc.response;
 
 import com.hellotranslate.connector.jsonrpc.response.dtos.Error;
-import com.hellotranslate.connector.jsonrpc.response.dtos.Result;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -20,7 +19,7 @@ public class ResponseDtoFactory {
     }
 
     public ResponseBody createSuccessResponse(String requestId, Object result) {
-        return new ResultResponseBody(requestId, V2_0, new Result(result));
+        return new ResultResponseBody(requestId, V2_0, result);
     }
 }
 
