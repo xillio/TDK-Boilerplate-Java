@@ -47,8 +47,10 @@ public class DecoratorsConverter {
     }
 
     public static ContentTypeDecorator convertToContentType(BasicFileAttributes attributes) {
-        String kind = kindByAttributes(attributes);
-        return new ContentTypeDecorator(kind, kind);
+        return new ContentTypeDecorator(
+                kindByAttributes(attributes),
+                null
+        );
     }
 
     public static CreatedDecorator convertToCreated(BasicFileAttributes attributes) {
@@ -104,7 +106,7 @@ public class DecoratorsConverter {
     public static NameDecorator convertToName(Path entityPath) {
         return new NameDecorator(
                 entityPath.getFileName().toString(),
-                entityPath.getFileName().toString()
+                null
         );
     }
 
