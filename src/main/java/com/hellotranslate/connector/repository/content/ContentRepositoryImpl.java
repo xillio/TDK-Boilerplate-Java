@@ -22,7 +22,7 @@ public final class ContentRepositoryImpl implements ContentRepository {
 
     @Override
     public InputStream downloadContent(XDIP xdip, Map<String, Object> config) {
-        // TODO: implement
+        // TODO: re-implement
 
         var configuration = new Configuration(config);
         var path = toPath(configuration, xdip);
@@ -36,11 +36,11 @@ public final class ContentRepositoryImpl implements ContentRepository {
     }
 
     @Override
-    public Entity uploadContent(XDIP xdip,
+    public Entity uploadContent(XDIP parentXdip,
                                 Map<String, Object> config,
                                 Entity entity,
                                 InputStream binaryContents) {
-        // TODO: implement
+        // TODO: re-implement
 
         return entity;
     }
