@@ -1,10 +1,10 @@
-# LocHub/HelloTranslate TDK Boilerplate project for Java
+# LocHub TDK Boilerplate project for Java
 
-[LocHub](https://lochub.com) and [HelloTranslate](https://hellotranslate.com) are translation middleware platforms by [Xillio](https://xillio.com) connecting content owners and the translation providers as seamlessly as possible.
+[LocHub](https://lochub.com) is a translation middleware platform by [Xillio](https://xillio.com) connecting content owners and the translation providers as seamlessly as possible.
 
-The platforms come with a content framework built by Xillio. After initial definition of a connection to a content repository, user can navigate the repository with a content browser and pickup content for translation manually or automate the selection based on metadata.
+The platform comes with a content framework built by Xillio. After initial definition of a connection to a content repository, user can navigate the repository with a content browser and pickup content for translation manually or automate the selection based on metadata.
 
-Translation Development Kit (aka TDK) is a way how to integrate your content into this content framework and use all the described features with any of your content. To integrate your content repository you can choose your favorite technology, and build a web service capable of
+Translation Development Kit (aka TDK) is a way how to integrate any content into this content framework and use all the described features with the content. To integrate your content repository you can choose your favorite technology, and build a web service capable of
 
 * delivering the metadata of your content
 * navigating your content repository
@@ -20,7 +20,7 @@ and [Node.js](https://github.com/xillio/TDK-Boilerplate-Node)
 
 ## How to use TDK?
 
-We recommend reading our [TDK documentation](https://www.hellotranslate.com/translation-development-kit/) first. You will learn the overall design and how to build a custom connector from scratch.
+We recommend reading our TDK Documentation first. You will learn the overall design and how to build a custom connector from scratch.
 
 But using the boilerplate project like this is much easier. You need to implement only the communication with your repository and optionally also validation of your custom configuration and the boilerplate takes care about the rest (error handling, parsing the JSON RPC requests, building the JSON RPC responses, etc.) 
 
@@ -40,9 +40,9 @@ To expose the metadata of an entity implement the `com.hellotranslate.connector.
 
 The method has two parameters to receive the identification of the requested entity and your custom configuration object shall you need any values to finish the operation.
 
-To return the metadata we have modeled Entity class that you will return. This class encapsulates all the metadata as described here https://www.hellotranslate.com/translation-development-kit/. Fill in all possible decorators that make sense for your content.
+To return the metadata we have modeled Entity class that you will return. This class encapsulates all the metadata as described in the TDK Documentation. Fill in all possible decorators that make sense for your content.
 
-When building the XDIPs and IDs (they will be always equal in your use case) you can choose any strategy that fits your content repository. It might be ID base, path based, it might combine content type and ID. The choice is yours. The XDIPs use the URL schema so don't forget to URL-encode/decode it whenever necessary.
+When building the XDIPs (custom URLs to reference your content) you can choose any strategy that fits your content repository. It might be ID based, path based, it might combine content type and ID. The choice is yours. The XDIPs follow the URL standard so do not forget to URL-encode/decode it whenever necessary.
 
 We have also modeled a couple of exceptions you can use in case of expected or unexpected errors. The core of the connector will handle it and for corresponding response to our content framework. These are
 
@@ -76,7 +76,7 @@ Exceptions you can use in case of expected or unexpected errors are
 
 To upload the translation of an entity implement `com.hellotranslate.connector.repository.content.ContentRepositoryImpl.uploadContent`.
 
-As parameters you will receive
+As parameters, you will receive
 
 - XDIP of the parent container,
 - your custom configuration object,
