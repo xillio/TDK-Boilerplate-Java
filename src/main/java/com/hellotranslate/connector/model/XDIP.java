@@ -6,7 +6,6 @@ import com.hellotranslate.connector.exception.jsonrpc.bodyvalidation.InvalidXdip
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.maven.shared.utils.StringUtils;
 
-import javax.annotation.Nonnull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
@@ -112,7 +111,7 @@ public class XDIP {
      * @param encodedPath the URL encoded path
      * @return the resulting XDIP URL
      */
-    public XDIP withPath(@Nonnull String encodedPath) {
+    public XDIP withPath(String encodedPath) {
         return new XDIP(new URIBuilder(uri).setPath(decode(encodedPath)));
     }
 
@@ -122,7 +121,7 @@ public class XDIP {
      * @param decodedPath the URL path
      * @return the resulting XDIP URL
      */
-    public XDIP withDecodedPath(@Nonnull String decodedPath) {
+    public XDIP withDecodedPath(String decodedPath) {
         return new XDIP(new URIBuilder(uri).setPath(decodedPath));
     }
 
@@ -132,7 +131,7 @@ public class XDIP {
      * @param configurationId the configuration id
      * @return the resulting XDIP URL
      */
-    public XDIP withConfigurationId(@Nonnull String configurationId) {
+    public XDIP withConfigurationId(String configurationId) {
         return new XDIP(new URIBuilder(uri).setHost(configurationId));
     }
 
@@ -142,7 +141,7 @@ public class XDIP {
      * @param encodedPath the URL encoded path
      * @return the resulting XDIP URL
      */
-    public XDIP resolve(@Nonnull String encodedPath) {
+    public XDIP resolve(String encodedPath) {
         return new XDIP(this.uri.resolve(encodedPath));
     }
 
